@@ -2,10 +2,14 @@
 <html>
   <head>
     <title>Important Things</title>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/toastr.min.js"></script>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <link rel="stylesheet" href="/static/css/toastr.min.css">
     <link rel="stylesheet" href="/static/css/style.css?v=<%= DateTime.now.strftime('%Q') %>">
   </head>
 
