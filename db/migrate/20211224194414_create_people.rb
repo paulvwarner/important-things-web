@@ -1,9 +1,11 @@
 class CreatePeople < ActiveRecord::Migration[6.1]
   def change
     create_table :people do |t|
-      t.string "first_name", limit: 100, null: false
-      t.string "last_name", limit: 100, null: false
-      t.string "email", limit: 191, null: false
+      t.column :first_name, :string, null: false
+      t.column :last_name, :string, null: false
+
+      # 191 limit is necessary in order to have an index on a utf8mb4 string field
+      t.column :email, :string, limit: 191, null: false
 
       t.timestamps null: false
     end

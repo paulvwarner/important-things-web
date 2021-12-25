@@ -1,0 +1,2 @@
+class ImportantThingsController < ApplicationController
+end

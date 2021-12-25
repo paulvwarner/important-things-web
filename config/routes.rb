@@ -6,5 +6,8 @@ Rails.application.routes.draw do
 
   scope path: "/api" do
     post '/users/login', to: 'users#login'
+    resources :users
+
+    resources :important_things, :path => '/important-things'
   end
 end

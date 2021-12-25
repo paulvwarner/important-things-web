@@ -1,0 +1,2 @@
+class ImportantThing < ApplicationRecord
+end
