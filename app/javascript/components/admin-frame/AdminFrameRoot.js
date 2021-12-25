@@ -6,7 +6,6 @@ export class AdminFrameRoot extends React.Component {
     };
 
     goToDefaultPage = () => {
-        // pvw todo - route to default page for logged-in user based on role
         window.location.assign('/important-things');
     };
 

@@ -2,14 +2,14 @@ import React from "react";
 import {withRouter} from 'react-router-dom';
 import {CookieUtility} from "../common/CookieUtility";
 
-export var GlobalContext = React.createContext({});
+export let GlobalContext = React.createContext({});
 
-export var AdminFrame = withRouter(class extends React.Component {
+export let AdminFrame = withRouter(class extends React.Component {
     constructor(props) {
         super(props);
 
-        var redirectToLogin = false;
-        var token = CookieUtility.load("token");
+        let redirectToLogin = false;
+        let token = CookieUtility.load("token");
 
         // if no token, hard redirect to login page
         if (token === undefined) {

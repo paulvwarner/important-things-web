@@ -1,9 +1,129 @@
+@font-face {
+  font-family: "OxygenSansSansBold";
+  src: url("../fonts/OxygenSansBold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "OxygenSansSansBoldOblique";
+  src: url("../fonts/OxygenSansBoldOblique.otf") format("opentype");
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: "OxygenSansSansBook";
+  src: url("../fonts/OxygenSansBook.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "OxygenSansSansBookOblique";
+  src: url("../fonts/OxygenSansBookOblique.otf") format("opentype");
+  font-weight: normal;
+  font-style: italic;
+}
+body {
+  overflow-x: hidden;
+  font-family: OxygenSansSansBook, Verdana, Arial, Helvetica, sans-serif !important;
+  font-weight: 400;
+  color: #000000;
+  padding: 0;
+  margin: 0;
+}
+
+.common-form-input {
+  background-color: #ffffff;
+  height: 50px;
+  border-radius: 25px;
+  border: 1px solid #000000;
+  padding: 0 12px;
+  font-weight: 400;
+  color: #000000;
+  width: 100%;
+  -webkit-appearance: none;
+}
+
 #toast-container > .toast {
   background-image: none !important;
 }
 
 #toast-container > div {
   padding: 15px 15px 15px 15px;
+}
+
+.pill-button-container {
+  height: 50px;
+  margin: 0 auto;
+  display: flex;
+}
+.pill-button-container .pill-button {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  cursor: pointer;
+  color: #ffffff;
+  background-color: #000000;
+  min-width: 200px;
+}
+.pill-button-container .pill-button:hover {
+  opacity: 0.75 !important;
+}
+.pill-button-container .pill-button .pill-button-text {
+  font-size: 14px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.login-page .login-page-content {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+.login-page .login-page-content .login-form {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.login-page .login-page-content .login-form .login-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  padding: 40px;
+  margin: 0 auto;
+}
+.login-page .login-page-content .login-form .login-box .login-header {
+  font-weight: 700;
+  font-size: 40px;
+  margin-bottom: 40px;
+  transform: scale(1, 1.5);
+}
+.login-page .login-page-content .login-form .login-box .login-field {
+  width: 100%;
+}
+.login-page .login-page-content .login-form .login-box .login-field input {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.login-page .login-page-content .login-form .login-box .login-button {
+  border: 0;
+  background: 0;
+  display: inline-block;
+  padding: 0;
+  outline: 0;
+  margin-top: 10px;
+  height: 60px;
 }
 
 /*# sourceMappingURL=style.css.map */

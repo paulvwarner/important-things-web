@@ -1,3 +1,82 @@
+// colors
+$red: #bb342d;
+$lighter-red: #e13f36;
+$black: #000000;
+$white: #ffffff;
+$gray: #ececec;
+$border-gray: $gray;
+
+// font setup
+@font-face {
+  font-family: 'OxygenSansSansBold';
+  src: url('../fonts/OxygenSansBold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OxygenSansSansBoldOblique';
+  src: url('../fonts/OxygenSansBoldOblique.otf') format('opentype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'OxygenSansSansBook';
+  src: url('../fonts/OxygenSansBook.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OxygenSansSansBookOblique';
+  src: url('../fonts/OxygenSansBookOblique.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+$default-fonts: OxygenSansSansBook, Verdana, Arial, Helvetica, sans-serif;
+
+// numeric values
+$login-box-width: 400px;
+
+$common-form-input-height: 50px;
+$common-form-input-border-radius: 25px;
+
+$pill-button-height: 50px;
+
+$common-hover-opacity: 0.75;
+
+// font weights
+$light: 300;
+$normal: 400;
+$medium: 500;
+$semibold: 600;
+$bold: 700;
+
+
+body {
+  overflow-x: hidden;
+  font-family: $default-fonts !important;
+  font-weight: $normal;
+  color: $black;
+  padding: 0;
+  margin: 0;
+}
+
+.common-form-input {
+  background-color: $white;
+  height: $common-form-input-height;
+  border-radius: $common-form-input-border-radius;
+  border: 1px solid $black;
+  padding: 0 12px;
+  font-weight: $normal;
+  color: $black;
+  width: 100%;
+  -webkit-appearance: none;
+}
+
+// toast overrides
 #toast-container > .toast {
   background-image: none !important;
 }
@@ -5,3 +84,6 @@
 #toast-container > div {
   padding: 15px 15px 15px 15px;
 }
+
+@import "common/pill-button.scss";
+@import "login/login.scss";

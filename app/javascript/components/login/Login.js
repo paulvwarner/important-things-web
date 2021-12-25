@@ -3,10 +3,11 @@ import {withRouter} from 'react-router-dom';
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
 import {CookieUtility} from "../common/CookieUtility";
 import {Constants} from "../common/Constants";
+import {PillButton} from "../common/PillButton";
 
-var _ = require('underscore');
+let _ = require('underscore');
 
-export var Login = withRouter(class extends React.Component {
+export let Login = withRouter(class extends React.Component {
     constructor(props) {
         super(props);
 
@@ -42,10 +43,10 @@ export var Login = withRouter(class extends React.Component {
             }),
             success: function (data) {
                 if (data.user && data.user.authentication_token) {
-                    var permissionNames = _.pluck(data.permissions || [], 'name');
+                    let permissionNames = _.pluck(data.permissions || [], 'name');
 
                     if (_.includes(permissionNames, Constants.permissionNames.canAccessWebAdmin)) {
-                        var cookieParams = {
+                        let cookieParams = {
                             path: '/',
                             expires: new Date(2999, 1, 1, 0, 0, 1)
                         };
@@ -77,8 +78,7 @@ export var Login = withRouter(class extends React.Component {
     };
 
     handleTextFieldChange = (fieldName, event) => {
-        var stateChange = {[fieldName]: event.target.value};
-        this.setState(stateChange);
+        this.setState({[fieldName]: event.target.value});
     };
 
     render = () => {
@@ -87,6 +87,7 @@ export var Login = withRouter(class extends React.Component {
                 <div className="login-page-content">
                     <form className="login-form" onSubmit={this.login}>
                         <div className="login-box">
+                            <div className="login-header">IMPORTANT THINGS</div>
                             <div className="login-field">
                                 <input
                                     autoFocus={true}
@@ -106,8 +107,12 @@ export var Login = withRouter(class extends React.Component {
                                     value={this.state.password}
                                 />
                             </div>
-                            <button className="submit-button">LOGIN</button>
-                            {/* pvw todo common button */}
+                            <button className="login-button">
+                                <PillButton
+                                    onClick={this.login}
+                                    buttonText="LOGIN"
+                                />
+                            </button>
                         </div>
                     </form>
                 </div>

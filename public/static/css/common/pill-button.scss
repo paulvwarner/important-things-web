@@ -1,0 +1,30 @@
+.pill-button-container {
+  height: $pill-button-height;
+  margin: 0 auto;
+  display: flex;
+
+  .pill-button {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: $pill-button-height;
+    border-radius: $pill-button-height / 2;
+    cursor: pointer;
+    color: $white;
+    background-color: $black;
+    min-width: 200px;
+
+    &:hover {
+      opacity: $common-hover-opacity !important;
+    }
+
+    .pill-button-text {
+      font-size: 14px;
+      text-align: center;
+      font-weight: $bold;
+    }
+  }
+}

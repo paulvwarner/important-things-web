@@ -1,13 +1,13 @@
 'use strict';
 
-var path = require('path');
+let path = require('path');
 
 // set NODE_ENV=production on the environment to add asset fingerprints
-var production = process.env.NODE_ENV === 'production';
-var local = process.env.NODE_ENV === 'local';
-var development = process.env.NODE_ENV === 'development';
+let production = process.env.NODE_ENV === 'production';
+let local = process.env.NODE_ENV === 'local';
+let development = process.env.NODE_ENV === 'development';
 
-var config = {
+let config = {
     entry: {
         application: './app/javascript/application.js'
     },
