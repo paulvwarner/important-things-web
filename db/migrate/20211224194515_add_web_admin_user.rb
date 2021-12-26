@@ -1,4 +1,4 @@
-class AddInitialUser < ActiveRecord::Migration[6.1]
+class AddWebAdminUser < ActiveRecord::Migration[6.1]
   def change
     begin
       ActiveRecord::Base.transaction do
