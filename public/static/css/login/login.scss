@@ -20,11 +20,20 @@
         padding: 40px;
         margin: 0 auto;
 
+        .login-logo-container {
+          margin-bottom: 20px;
+
+          .login-logo {
+            width: 200px;
+            height: 200px;
+          }
+        }
+
         .login-header {
           font-weight: $bold;
           font-size: 40px;
           margin-bottom: 40px;
-          transform: scale(1, 1.5);
+          transform: $default-text-transform;
         }
 
         .login-field {

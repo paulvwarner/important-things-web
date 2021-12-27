@@ -51,6 +51,214 @@ body {
   padding: 15px 15px 15px 15px;
 }
 
+.admin-header {
+  display: flex;
+  width: 100%;
+  height: 70px;
+  box-sizing: border-box;
+  padding-left: 30px;
+  padding-right: 30px;
+  background-color: #000000;
+}
+.admin-header .admin-header-content {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+}
+.admin-header .admin-header-content .admin-header-logo-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: #ffffff;
+  border-radius: 25px;
+}
+.admin-header .admin-header-content .admin-header-logo-container .admin-header-logo {
+  width: 40px;
+  height: 40px;
+}
+.admin-header .admin-header-content .admin-header-title-container {
+  display: flex;
+  flex-direction: row;
+  height: 70px;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 20px;
+}
+.admin-header .admin-header-content .admin-header-title-container .admin-header-title {
+  text-align: left;
+  color: #ffffff;
+  transform: scale(1, 1.5);
+  font-size: 20px;
+  font-weight: 700;
+}
+.admin-header .admin-header-content .admin-header-tabs-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+}
+.admin-header .admin-header-content .admin-header-tabs-container .admin-header-tab {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  height: 70px;
+}
+.admin-header .admin-header-content .admin-header-tabs-container .admin-header-tab .admin-header-tab-text {
+  color: #ffffff;
+  transform: scale(1, 1.5);
+}
+.admin-header .admin-header-content .admin-header-tabs-container .admin-header-tab:hover {
+  opacity: 0.75;
+}
+.admin-header .admin-header-content .admin-header-tabs-container .admin-header-tab.selected {
+  background-color: #bb342d;
+}
+.admin-header .admin-header-content .admin-header-account-info-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 40px;
+  text-align: left;
+}
+.admin-header .admin-header-content .admin-header-account-info-container .admin-header-account-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-end;
+}
+.admin-header .admin-header-content .admin-header-account-info-container .admin-header-account-info .admin-header-username {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transform: scale(1, 1.5);
+  color: #ffffff;
+  font-size: 12px;
+}
+.admin-header .admin-header-content .admin-header-account-info-container .admin-header-account-info .logout-option-container {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.admin-header .admin-header-content .admin-header-account-info-container .admin-header-account-info .logout-option-container .logout-option {
+  display: flex;
+  flex: 0;
+  font-size: 10px;
+  font-weight: 700;
+  transform: scale(1, 1.5);
+  cursor: pointer;
+  color: #ffffff;
+}
+.admin-header .admin-header-content .admin-header-account-info-container .admin-header-account-info .logout-option-container .logout-option:hover {
+  opacity: 0.75;
+}
+
+.common-list-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+.common-list-page .common-list-page-header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1024px;
+  padding-top: 40px;
+}
+.common-list-page .common-list-page-header .common-list-page-header-content {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+.common-list-page .common-list-page-header .common-list-page-header-content .common-list-page-header-content-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+.common-list-page .common-list-page-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1024px;
+  padding-top: 40px;
+}
+.common-list-page .common-list-page-content .common-list-header {
+  margin-bottom: 10px;
+}
+.common-list-page .common-list-page-content .common-list-content {
+  margin-bottom: 40px;
+}
+.common-list-page .common-list-page-content .common-list-content, .common-list-page .common-list-page-content .common-list-header {
+  display: table;
+  width: 100%;
+}
+.common-list-page .common-list-page-content .common-list-content .common-list-row, .common-list-page .common-list-page-content .common-list-header .common-list-row {
+  display: table-row;
+}
+.common-list-page .common-list-page-content .common-list-content .common-list-row.common-list-values-row, .common-list-page .common-list-page-content .common-list-header .common-list-row.common-list-values-row {
+  height: 40px;
+  cursor: pointer;
+}
+.common-list-page .common-list-page-content .common-list-content .common-list-row.common-list-values-row:hover, .common-list-page .common-list-page-content .common-list-header .common-list-row.common-list-values-row:hover {
+  opacity: 0.75;
+}
+.common-list-page .common-list-page-content .common-list-content .common-list-row.common-list-values-row:nth-child(odd), .common-list-page .common-list-page-content .common-list-header .common-list-row.common-list-values-row:nth-child(odd) {
+  background-color: #ececec;
+}
+.common-list-page .common-list-page-content .common-list-content .common-list-row .common-list-row-cell, .common-list-page .common-list-page-content .common-list-header .common-list-row .common-list-row-cell {
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.common-list-page .common-list-page-content .common-list-content .common-list-row .common-list-row-cell.common-list-row-label-cell, .common-list-page .common-list-page-content .common-list-header .common-list-row .common-list-row-cell.common-list-row-label-cell {
+  font-size: 14px;
+  font-weight: 700;
+}
+.common-list-page .common-list-page-content .common-list-content .common-list-row .common-list-row-cell.common-list-row-value-cell, .common-list-page .common-list-page-content .common-list-header .common-list-row .common-list-row-cell.common-list-row-value-cell {
+  font-size: 12px;
+}
+
+.loading-indicator-overlay {
+  display: flex;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.6);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-indicator-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: #ffffff;
+  border-radius: 20px;
+}
+
 .pill-button-container {
   height: 50px;
   margin: 0 auto;
@@ -100,6 +308,13 @@ body {
   padding: 40px;
   margin: 0 auto;
 }
+.login-page .login-page-content .login-form .login-box .login-logo-container {
+  margin-bottom: 20px;
+}
+.login-page .login-page-content .login-form .login-box .login-logo-container .login-logo {
+  width: 200px;
+  height: 200px;
+}
 .login-page .login-page-content .login-form .login-box .login-header {
   font-weight: 700;
   font-size: 40px;
@@ -124,6 +339,10 @@ body {
   outline: 0;
   margin-top: 10px;
   height: 60px;
+}
+
+.important-things-list-page .important-things-list-row-cell.message {
+  width: 100%;
 }
 
 /*# sourceMappingURL=style.css.map */

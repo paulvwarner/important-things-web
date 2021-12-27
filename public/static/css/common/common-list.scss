@@ -1,0 +1,92 @@
+.common-list-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+
+  .common-list-page-header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: $max-admin-page-content-width;
+    padding-top: 40px;
+
+    .common-list-page-header-content {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+
+      .common-list-page-header-content-left {
+
+      }
+
+      .common-list-page-header-content-right {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+
+
+      }
+    }
+  }
+
+  .common-list-page-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: $max-admin-page-content-width;
+    padding-top: 40px;
+
+
+    .common-list-header {
+      margin-bottom: 10px;
+    }
+
+    .common-list-content {
+      margin-bottom: 40px;
+    }
+
+    .common-list-content, .common-list-header {
+      display: table;
+      width: 100%;
+
+      .common-list-row {
+        display: table-row;
+
+        &.common-list-labels-row {
+
+        }
+
+        &.common-list-values-row {
+          height: 40px;
+          cursor: pointer;
+
+          &:hover {
+            opacity: $common-hover-opacity;
+          }
+
+          &:nth-child(odd) {
+            background-color: $bg-alt-color;
+          }
+        }
+
+        .common-list-row-cell {
+          display: table-cell;
+          vertical-align: middle;
+          padding-left: 20px;
+          padding-right: 20px;
+
+          &.common-list-row-label-cell {
+            font-size: 14px;
+            font-weight: $bold;
+          }
+
+          &.common-list-row-value-cell {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}

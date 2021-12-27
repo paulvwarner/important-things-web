@@ -5,7 +5,7 @@ default: &default
 
 development:
   <<: *default
-  host: 127.0.0.1
+  host: localhost
   username: impthingsuser
   password: D0pP3|_G@|!ger
   database: impthingsdata

@@ -8,11 +8,12 @@ class AddMobileUser < ActiveRecord::Migration[6.1]
           {
             username: 'paul.vincent.warner+m1@gmail.com',
             password: BCrypt::Password.create("testuser1"),
-            person_id: Person.first_or_create(
+            person_id: Person.create(
               {
                 email: 'paul.vincent.warner+m1@gmail.com',
                 first_name: 'Paul',
-                last_name: 'Mobile 1'}
+                last_name: 'Mobile 1'
+              }
             ).id,
             authentication_token: ''
           }

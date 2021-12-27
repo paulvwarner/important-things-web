@@ -52,4 +52,18 @@ class UsersController < ApplicationController
       }, status: 200
     end
   end
+
+  def logout
+    begin
+      user = User.find_by(authentication_token: URI.unescape(params[:token]))
+      user.update({authentication_token: ''})
+
+    rescue Exception => e
+      Rails.logger.info "Error occurred while logging out: " + e.to_yaml
+      render json: {message: e.message}, status: 500
+      return
+    end
+
+    render json: {}, status: 200
+  end
 end

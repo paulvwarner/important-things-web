@@ -5,6 +5,7 @@ $black: #000000;
 $white: #ffffff;
 $gray: #ececec;
 $border-gray: $gray;
+$bg-alt-color: $gray;
 
 // font setup
 @font-face {
@@ -37,8 +38,16 @@ $border-gray: $gray;
 
 $default-fonts: OxygenSansSansBook, Verdana, Arial, Helvetica, sans-serif;
 
+$default-text-transform: scale(1, 1.5);
+
 // numeric values
 $login-box-width: 400px;
+
+$admin-header-height: 70px;
+$admin-header-left-padding: 30px;
+$admin-header-right-padding: 30px;
+
+$max-admin-page-content-width: 1024px;
 
 $common-form-input-height: 50px;
 $common-form-input-border-radius: 25px;
@@ -85,5 +94,10 @@ body {
   padding: 15px 15px 15px 15px;
 }
 
+@import "admin-frame/admin-frame.scss";
+@import "admin-frame/admin-header.scss";
+@import "common/common-list.scss";
+@import "common/loading-indicator.scss";
 @import "common/pill-button.scss";
 @import "login/login.scss";
+@import "important-things/important-things-list.scss";

@@ -15,7 +15,9 @@ module UsersHelper
   def user_full_json_includes
     {
       include: [
-        :person,
+        {:person => {:methods => [
+          :name
+        ]}},
         {:user_roles => {:include => [
           {:role => {:include => [
             {:role_permissions => {:include => [
