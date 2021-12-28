@@ -6,15 +6,41 @@ import {Login} from "./components/login/Login";
 import {ImportantThingsListPage} from "./components/important-things/ImportantThingsListPage";
 import {UsersListPage} from "./components/users/UsersListPage";
 
+// placeholder BrowserRouter confirmation function to be overwritten by AdminFrame
+var getUserConfirmationFunction = function (message, callback) {
+    const allowTransition = window.confirm(message);
+    callback(allowTransition);
+};
+
+// get the currently defined user confirmation function
+function getUserConfirmationFunctionWrapper(message, callback) {
+    return getUserConfirmationFunction(message, callback);
+}
+
 export default (
-    <BrowserRouter>
+    <BrowserRouter getUserConfirmation={getUserConfirmationFunctionWrapper}>
         <Switch>
             <Route exact path="/login" component={Login}/>
 
-            <AdminFrame>
+            <AdminFrame setUserConfirmationFunction={function (functionToUse) {
+                getUserConfirmationFunction = functionToUse
+            }}>
                 <Route exact path="/" component={AdminFrameRoot}/>
                 <Switch>
                     <Route exact path="/important-things" component={ImportantThingsListPage}/>
+                    <Route exact path="/important-things/add"
+                           render={
+                               function (props) {
+                                   return (
+                                       <ImportantThingsListPage
+                                           {...props}
+                                           showAddImportantThingModal={true}
+                                       />
+                                   );
+                               }
+                           }
+                    />
+
                     <Route exact path="/users" component={UsersListPage}/>
                 </Switch>
             </AdminFrame>

@@ -6,6 +6,8 @@ $white: #ffffff;
 $gray: #ececec;
 $border-gray: $gray;
 $bg-alt-color: $gray;
+$cancel-gray: #bbbbbb;
+
 
 // font setup
 @font-face {
@@ -47,6 +49,10 @@ $admin-header-height: 70px;
 $admin-header-left-padding: 30px;
 $admin-header-right-padding: 30px;
 
+$default-modal-width: 800px;
+$common-modal-header-height: 60px;
+$common-modal-close-option-dim: $common-modal-header-height;
+
 $max-admin-page-content-width: 1024px;
 
 $common-form-input-height: 50px;
@@ -83,6 +89,82 @@ body {
   color: $black;
   width: 100%;
   -webkit-appearance: none;
+  box-sizing: border-box;
+}
+
+.common-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+
+  .common-form-header {
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+  }
+
+  .common-form-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .common-form-body-row {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding-bottom: 20px;
+
+      .common-form-field {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        align-items: center;
+        justify-content: flex-start;
+
+        .common-form-field-label {
+          display: flex;
+          flex-direction: row;
+          font-size: 16px;
+          color: $black;
+          font-weight: $bold;
+          width: 200px;
+        }
+
+        .common-form-field-input-container {
+          display: flex;
+          width: 100%;
+          flex-direction: row;
+          flex: 1;
+        }
+      }
+    }
+  }
+
+  .common-form-options {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+
+    .common-form-button-container {
+      margin-left: 10px;
+      margin-right: 10px;
+
+      .common-form-button {
+        &.cancel-button {
+          background-color: $cancel-gray;
+        }
+
+        &.save-button {
+          background-color: $black;
+        }
+      }
+    }
+  }
 }
 
 // toast overrides
@@ -92,12 +174,15 @@ body {
 
 #toast-container > div {
   padding: 15px 15px 15px 15px;
+  opacity: 1;
 }
 
 @import "admin-frame/admin-frame.scss";
 @import "admin-frame/admin-header.scss";
 @import "common/common-list.scss";
+@import "common/leave-without-saving-warning-modal.scss";
 @import "common/loading-indicator.scss";
+@import "common/modal.scss";
 @import "common/pill-button.scss";
 @import "login/login.scss";
 @import "important-things/important-things-list.scss";

@@ -41,6 +41,70 @@ body {
   color: #000000;
   width: 100%;
   -webkit-appearance: none;
+  box-sizing: border-box;
+}
+
+.common-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+.common-form .common-form-header {
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+}
+.common-form .common-form-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.common-form .common-form-body .common-form-body-row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 20px;
+}
+.common-form .common-form-body .common-form-body-row .common-form-field {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+}
+.common-form .common-form-body .common-form-body-row .common-form-field .common-form-field-label {
+  display: flex;
+  flex-direction: row;
+  font-size: 16px;
+  color: #000000;
+  font-weight: 700;
+  width: 200px;
+}
+.common-form .common-form-body .common-form-body-row .common-form-field .common-form-field-input-container {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex: 1;
+}
+.common-form .common-form-options {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+.common-form .common-form-options .common-form-button-container {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.common-form .common-form-options .common-form-button-container .common-form-button.cancel-button {
+  background-color: #bbbbbb;
+}
+.common-form .common-form-options .common-form-button-container .common-form-button.save-button {
+  background-color: #000000;
 }
 
 #toast-container > .toast {
@@ -49,6 +113,7 @@ body {
 
 #toast-container > div {
   padding: 15px 15px 15px 15px;
+  opacity: 1;
 }
 
 .admin-header {
@@ -236,6 +301,40 @@ body {
   font-size: 12px;
 }
 
+.leave-without-saving-warning-modal {
+  width: 600px !important;
+  text-align: left;
+}
+.leave-without-saving-warning-modal .leave-without-saving-warning-modal-header .leave-without-saving-warning-modal-header-text {
+  font-size: 24px;
+  font-weight: 700;
+}
+.leave-without-saving-warning-modal .leave-without-saving-warning-modal-body {
+  font-size: 16px;
+}
+.leave-without-saving-warning-modal .leave-without-saving-warning-modal-options {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+.leave-without-saving-warning-modal-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.leave-without-saving-warning-modal-button.leave-without-saving-warning-modal-cancel-button {
+  background-color: #bbbbbb !important;
+}
+.leave-without-saving-warning-modal-button.leave-without-saving-warning-modal-leave-button {
+  background-color: #000000;
+}
+
 .loading-indicator-overlay {
   display: flex;
   position: fixed;
@@ -257,6 +356,102 @@ body {
   height: 60px;
   background-color: #ffffff;
   border-radius: 20px;
+}
+
+.common-modal {
+  z-index: 800;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  -webkit-transition: 0.6s;
+  -moz-transition: 0.6s;
+  -o-transition: 0.6s;
+  transition: 0.6s;
+}
+.common-modal .common-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  max-height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.common-modal .common-modal-overlay .common-modal-box {
+  margin: 0 auto;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  flex: 0;
+}
+.common-modal .common-modal-overlay .common-modal-box .common-modal-header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 60px;
+  justify-content: center;
+}
+.common-modal .common-modal-overlay .common-modal-box .common-modal-header .common-modal-header-content {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  width: 100%;
+  height: 60px;
+}
+.common-modal .common-modal-overlay .common-modal-box .common-modal-header .common-modal-header-content .common-modal-header-text-container {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 20px;
+}
+.common-modal .common-modal-overlay .common-modal-box .common-modal-header .common-modal-header-content .common-modal-header-text-container .common-modal-header-text {
+  font-size: 30px;
+  font-weight: 700;
+}
+.common-modal .common-modal-overlay .common-modal-box .common-modal-header .common-modal-header-content .common-modal-close-option-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+.common-modal .common-modal-overlay .common-modal-box .common-modal-header .common-modal-header-content .common-modal-close-option-container .common-modal-close-option {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.common-modal .common-modal-overlay .common-modal-box .common-modal-header .common-modal-header-content .common-modal-close-option-container .common-modal-close-option:hover {
+  opacity: 0.75;
+}
+.common-modal .common-modal-overlay .common-modal-box .common-modal-header .common-modal-header-content .common-modal-close-option-container .common-modal-close-option .common-modal-close-option-icon {
+  width: 20px;
+  height: 20px;
+}
+.common-modal .common-modal-overlay .common-modal-box .common-modal-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .pill-button-container {

@@ -3,17 +3,34 @@ import {ApiUtility} from "../common/ApiUtility";
 import {PillButton} from "../common/PillButton";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 import {withContext} from "../common/GlobalContextConsumerComponent";
+import {CreateImportantThingWrapper} from "./CreateImportantThingWrapper";
+import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
 
 export const ImportantThingsListPage = withContext(class extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            importantThingsList: null
-        }
+        this.state = this.stateFromProps(props)
     }
 
     componentDidMount = () => {
         this.loadPageData();
+    };
+
+    componentDidUpdate = (prevProps, prevState) => {
+        var self = this;
+        var stateChange = this.stateFromProps(this.props);
+
+        if (this.state.showAddImportantThingModal !== stateChange.showAddImportantThingModal) {
+            this.setState(stateChange, function () {
+                self.loadPageData();
+            });
+        }
+    };
+
+    stateFromProps = (props) => {
+        return {
+            showAddImportantThingModal: props.showAddImportantThingModal,
+        };
     };
 
     loadPageData = () => {
@@ -37,7 +54,7 @@ export const ImportantThingsListPage = withContext(class extends Component {
                             loading: false
                         });
                         console && console.error(error);
-                        toastr.error('An error occurred while loading the important things list.');
+                        MessageDisplayerUtility.error('An error occurred while loading the important things list.');
                     });
             }
         );
@@ -45,6 +62,10 @@ export const ImportantThingsListPage = withContext(class extends Component {
 
     goToAddImportantThingModal = () => {
         this.props.context.navigator.navigateTo('/important-things/add');
+    };
+
+    closeModals = () => {
+        this.props.context.navigator.navigateTo('/important-things');
     };
 
     renderImportantThingsListDisplay = (importantThingsList) => {
@@ -98,14 +119,22 @@ export const ImportantThingsListPage = withContext(class extends Component {
                                     className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell message"
                                 >Message
                                 </div>
-
-
                             </div>
                         </div>
                         <div className="common-list-content">
                             {importantThingsListDisplay}
                         </div>
                     </div>
+                    {(() => {
+                        if (this.state.showAddImportantThingModal) {
+                            return (
+                                <CreateImportantThingWrapper
+                                    cancel={this.closeModals}
+                                    afterSuccessfulSave={this.closeModals}
+                                />
+                            );
+                        }
+                    })()}
                 </div>
             );
         } else {

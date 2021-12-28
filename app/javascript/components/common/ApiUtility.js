@@ -64,10 +64,6 @@ export var ApiUtility = {
         });
     },
 
-    getImportantThingsList: function () {
-        return ApiUtility.apiRequest('api/important-things');
-    },
-
     logout: function () {
         return ApiUtility.apiRequest('/api/users/' + encodeURIComponent(CookieUtility.load('token')) + '/logout', {
             method: 'POST',
@@ -75,5 +71,22 @@ export var ApiUtility = {
                 'Content-Type': 'application/json'
             }
         })
-    }
+    },
+
+    getImportantThingsList: function () {
+        return ApiUtility.apiRequest('/api/important-things');
+    },
+
+    createImportantThing: function (importantThingData) {
+        return ApiUtility.apiRequest(
+            '/api/important-things/',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(importantThingData),
+            }
+        );
+    },
 };

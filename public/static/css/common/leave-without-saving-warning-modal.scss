@@ -1,0 +1,44 @@
+.leave-without-saving-warning-modal {
+  width: 600px !important;
+  text-align: left;
+
+  .leave-without-saving-warning-modal-header {
+    .leave-without-saving-warning-modal-header-text {
+      font-size: 24px;
+      font-weight: $bold;
+    }
+  }
+
+  .leave-without-saving-warning-modal-body {
+    font-size: 16px;
+  }
+
+  .leave-without-saving-warning-modal-options {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+
+    .leave-without-saving-warning-modal-option {
+    }
+  }
+}
+
+.leave-without-saving-warning-modal-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: $white;
+  font-size: 16px;
+  font-weight: $bold;
+  margin-left: 10px;
+  margin-right: 10px;
+
+  &.leave-without-saving-warning-modal-cancel-button {
+    background-color: $cancel-gray !important;
+  }
+
+  &.leave-without-saving-warning-modal-leave-button {
+    background-color: $black;
+  }
+}
