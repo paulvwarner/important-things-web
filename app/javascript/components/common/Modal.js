@@ -27,6 +27,9 @@ export var Modal = withContext(class extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        <div className="common-modal-divider-container">
+                            <div className="common-modal-divider"/>
+                        </div>
                         <div className="common-modal-body">
                             {this.props.children}
                         </div>

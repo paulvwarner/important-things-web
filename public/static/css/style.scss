@@ -45,6 +45,8 @@ $default-text-transform: scale(1, 1.5);
 // numeric values
 $login-box-width: 400px;
 
+$common-divider-height: 3px;
+
 $admin-header-height: 70px;
 $admin-header-left-padding: 30px;
 $admin-header-right-padding: 30px;
@@ -59,6 +61,8 @@ $common-form-input-height: 50px;
 $common-form-input-border-radius: 25px;
 
 $pill-button-height: 50px;
+
+$important-things-list-weight-column-width: 50px;
 
 $common-hover-opacity: 0.75;
 
@@ -123,6 +127,16 @@ body {
         width: 100%;
         align-items: center;
         justify-content: flex-start;
+        margin-top: 1px;
+        margin-bottom: 1px;
+
+        &.invalid {
+          .common-form-input {
+            margin-top: 0;
+            margin-bottom: 0;
+            border: 2px solid $red;
+          }
+        }
 
         .common-form-field-label {
           display: flex;
@@ -130,7 +144,8 @@ body {
           font-size: 16px;
           color: $black;
           font-weight: $bold;
-          width: 200px;
+          width: 100px;
+          transform: $default-text-transform;
         }
 
         .common-form-field-input-container {
@@ -186,3 +201,4 @@ body {
 @import "common/pill-button.scss";
 @import "login/login.scss";
 @import "important-things/important-things-list.scss";
+@import "important-things/important-thing-form.scss";

@@ -74,6 +74,13 @@ body {
   width: 100%;
   align-items: center;
   justify-content: flex-start;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+.common-form .common-form-body .common-form-body-row .common-form-field.invalid .common-form-input {
+  margin-top: 0;
+  margin-bottom: 0;
+  border: 2px solid #bb342d;
 }
 .common-form .common-form-body .common-form-body-row .common-form-field .common-form-field-label {
   display: flex;
@@ -81,7 +88,8 @@ body {
   font-size: 16px;
   color: #000000;
   font-weight: 700;
-  width: 200px;
+  width: 100px;
+  transform: scale(1, 1.5);
 }
 .common-form .common-form-body .common-form-body-row .common-form-field .common-form-field-input-container {
   display: flex;
@@ -244,25 +252,42 @@ body {
   flex-direction: column;
   width: 100%;
   max-width: 1024px;
-  padding-top: 40px;
+  padding-top: 30px;
 }
 .common-list-page .common-list-page-header .common-list-page-header-content {
   display: flex;
   flex-direction: row;
   flex: 1;
+  padding-bottom: 20px;
+  border-bottom: 3px solid #ececec;
+}
+.common-list-page .common-list-page-header .common-list-page-header-content .common-list-page-header-content-left {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex: 1;
+}
+.common-list-page .common-list-page-header .common-list-page-header-content .common-list-page-header-content-left .common-list-page-header-text {
+  font-weight: 700;
+  font-size: 26px;
 }
 .common-list-page .common-list-page-header .common-list-page-header-content .common-list-page-header-content-right {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
+  flex: 1;
+}
+.common-list-page .common-list-page-header .common-list-page-header-content .common-list-page-header-content-right .pill-button-container {
+  margin: 0;
 }
 .common-list-page .common-list-page-content {
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 1024px;
-  padding-top: 40px;
+  padding-top: 20px;
 }
 .common-list-page .common-list-page-content .common-list-header {
   margin-bottom: 10px;
@@ -443,6 +468,24 @@ body {
   width: 20px;
   height: 20px;
 }
+.common-modal .common-modal-overlay .common-modal-box .common-modal-divider-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 3px;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+.common-modal .common-modal-overlay .common-modal-box .common-modal-divider-container .common-modal-divider {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 3px;
+  background-color: #ececec;
+}
 .common-modal .common-modal-overlay .common-modal-box .common-modal-body {
   display: flex;
   flex-direction: column;
@@ -471,7 +514,10 @@ body {
   cursor: pointer;
   color: #ffffff;
   background-color: #000000;
-  min-width: 200px;
+  min-width: 150px;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
 }
 .pill-button-container .pill-button:hover {
   opacity: 0.75 !important;
@@ -480,6 +526,7 @@ body {
   font-size: 14px;
   text-align: center;
   font-weight: 700;
+  transform: scale(1, 1.5);
 }
 
 .login-page .login-page-content {
@@ -537,7 +584,15 @@ body {
 }
 
 .important-things-list-page .important-things-list-row-cell.message {
-  width: 100%;
+  width: calc(100% - 50px);
+}
+.important-things-list-page .important-things-list-row-cell.weight {
+  width: 50px;
+}
+
+.important-thing-form .important-thing-weight-input {
+  width: 100px;
+  text-align: center;
 }
 
 /*# sourceMappingURL=style.css.map */

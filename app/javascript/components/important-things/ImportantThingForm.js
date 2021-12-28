@@ -1,9 +1,7 @@
 import React from "react";
-import {Constants} from "../common/Constants";
 import {LoadingIndicator} from "../common/LoadingIndicator";
 import {LeaveWithoutSavingWarningUtility} from "../common/LeaveWithoutSavingWarningUtility";
 import {PillButton} from "../common/PillButton";
-import {CookieUtility} from "../common/CookieUtility";
 import {Modal} from "../common/Modal";
 import {withContext} from "../common/GlobalContextConsumerComponent";
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
@@ -16,6 +14,7 @@ export var ImportantThingForm = withContext(class extends React.Component {
 
         this.state = {
             message: '',
+            weight: 1,
 
             invalidFields: {},
             validationErrors: [],
@@ -59,6 +58,15 @@ export var ImportantThingForm = withContext(class extends React.Component {
             if (!self.state.message) {
                 validationErrors.push('Please enter a message.');
                 invalidFields.push('message');
+            }
+
+            if (
+                !self.state.weight ||
+                !(parseInt(self.state.weight) || 0) ||
+                self.state.weight < 1
+            ) {
+                validationErrors.push('Please enter a weight of at least 1.');
+                invalidFields.push('weight');
             }
 
             if (validationErrors.length > 0) {
@@ -135,6 +143,10 @@ export var ImportantThingForm = withContext(class extends React.Component {
         }
     };
 
+    forceValueToNumeric = (fieldName) => {
+        this.setUnsavedState({[fieldName]: parseInt(this.state[fieldName]) || 0});
+    };
+
     render = () => {
         return (
             <Modal
@@ -153,7 +165,7 @@ export var ImportantThingForm = withContext(class extends React.Component {
                                     <div className="common-form-body-row">
                                         <div className={this.getFieldClasses("common-form-field", "message")}>
                                             <div className="common-form-field-label">
-                                                MESSAGE
+                                                Message
                                             </div>
                                             <div className="common-form-field-input-container">
                                                 <input
@@ -161,6 +173,23 @@ export var ImportantThingForm = withContext(class extends React.Component {
                                                     className="common-form-input"
                                                     value={this.state.message}
                                                     onChange={this.handleTextFieldChange.bind(this, "message")}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="common-form-body-row">
+                                        <div className={this.getFieldClasses("common-form-field", "weight")}>
+                                            <div className="common-form-field-label">
+                                                Weight
+                                            </div>
+                                            <div className="common-form-field-input-container">
+                                                <input
+                                                    type="text"
+                                                    className="common-form-input important-thing-weight-input"
+                                                    value={this.state.weight}
+                                                    onChange={this.handleTextFieldChange.bind(this, "weight")}
+                                                    onBlur={this.forceValueToNumeric.bind(this, 'weight')}
                                                 />
                                             </div>
                                         </div>

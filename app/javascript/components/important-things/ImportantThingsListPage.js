@@ -82,6 +82,9 @@ export const ImportantThingsListPage = withContext(class extends Component {
                     <div
                         className="common-list-row-cell common-list-row-value-cell important-things-list-row-cell message"
                     >{importantThing.message}</div>
+                    <div
+                        className="common-list-row-cell common-list-row-value-cell important-things-list-row-cell weight"
+                    >{importantThing.weight}</div>
                 </div>
             );
         }
@@ -97,6 +100,11 @@ export const ImportantThingsListPage = withContext(class extends Component {
                 <div className="common-list-page important-things-list-page">
                     <div className="common-list-page-header">
                         <div className="common-list-page-header-content">
+                            <div className="common-list-page-header-content-left">
+                                <div className="common-list-page-header-text">
+                                    Important Things
+                                </div>
+                            </div>
                             <div className="common-list-page-header-content-right">
                                 <PillButton
                                     onClick={this.goToAddImportantThingModal}
@@ -118,6 +126,10 @@ export const ImportantThingsListPage = withContext(class extends Component {
                                 <div
                                     className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell message"
                                 >Message
+                                </div>
+                                <div
+                                    className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell weight"
+                                >Weight
                                 </div>
                             </div>
                         </div>

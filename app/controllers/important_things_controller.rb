@@ -22,6 +22,7 @@ class ImportantThingsController < ApplicationController
         ImportantThing.create(
           {
             message: params[:message],
+            weight: params[:weight]
           }
         )
       end

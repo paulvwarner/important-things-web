@@ -15,7 +15,10 @@
     cursor: pointer;
     color: $white;
     background-color: $black;
-    min-width: 200px;
+    min-width: 150px;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
 
     &:hover {
       opacity: $common-hover-opacity !important;
@@ -25,6 +28,7 @@
       font-size: 14px;
       text-align: center;
       font-weight: $bold;
+      transform: $default-text-transform;
     }
   }
 }

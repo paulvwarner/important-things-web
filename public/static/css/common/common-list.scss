@@ -9,15 +9,26 @@
     flex-direction: column;
     width: 100%;
     max-width: $max-admin-page-content-width;
-    padding-top: 40px;
+    padding-top: 30px;
 
     .common-list-page-header-content {
       display: flex;
       flex-direction: row;
       flex: 1;
+      padding-bottom: 20px;
+      border-bottom: $common-divider-height solid $gray;
 
       .common-list-page-header-content-left {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: flex-start;
+        flex: 1;
 
+        .common-list-page-header-text {
+          font-weight: $bold;
+          font-size: 26px;
+        }
       }
 
       .common-list-page-header-content-right {
@@ -25,8 +36,11 @@
         flex-direction: row;
         align-items: center;
         justify-content: flex-end;
+        flex: 1;
 
-
+        .pill-button-container {
+          margin: 0;
+        }
       }
     }
   }
@@ -36,7 +50,7 @@
     flex-direction: column;
     width: 100%;
     max-width: $max-admin-page-content-width;
-    padding-top: 40px;
+    padding-top: 20px;
 
 
     .common-list-header {

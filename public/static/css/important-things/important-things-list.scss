@@ -1,7 +1,11 @@
 .important-things-list-page {
   .important-things-list-row-cell {
     &.message {
-      width: 100%;
+      width: calc(100% - #{$important-things-list-weight-column-width});
+    }
+
+    &.weight {
+      width: $important-things-list-weight-column-width;
     }
   }
 }
