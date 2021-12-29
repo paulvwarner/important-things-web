@@ -40,6 +40,7 @@ export default (
                                }
                            }
                     />
+                    <Route exact path="/important-things/:importantThingId" component={ImportantThingsListPage}/>
 
                     <Route exact path="/users" component={UsersListPage}/>
                 </Switch>

@@ -77,6 +77,9 @@ body {
   margin-top: 1px;
   margin-bottom: 1px;
 }
+.common-form .common-form-body .common-form-body-row .common-form-field.invalid .common-form-field-label {
+  color: #bb342d;
+}
 .common-form .common-form-body .common-form-body-row .common-form-field.invalid .common-form-input {
   margin-top: 0;
   margin-bottom: 0;

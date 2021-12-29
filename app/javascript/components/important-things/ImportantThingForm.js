@@ -11,10 +11,12 @@ var _ = require('underscore');
 export var ImportantThingForm = withContext(class extends React.Component {
     constructor(props) {
         super(props);
+        const importantThing = _.clone(props.importantThing) || null;
 
         this.state = {
-            message: '',
-            weight: 1,
+            id: importantThing ? importantThing.id : null,
+            message: (importantThing && importantThing.message) || '',
+            weight: (importantThing && importantThing.weight) || 1,
 
             invalidFields: {},
             validationErrors: [],

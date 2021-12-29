@@ -131,6 +131,10 @@ body {
         margin-bottom: 1px;
 
         &.invalid {
+          .common-form-field-label {
+            color: $red;
+          }
+
           .common-form-input {
             margin-top: 0;
             margin-bottom: 0;

@@ -5,6 +5,7 @@ import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 import {withContext} from "../common/GlobalContextConsumerComponent";
 import {CreateImportantThingWrapper} from "./CreateImportantThingWrapper";
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
+import {UpdateImportantThingWrapper} from "./UpdateImportantThingWrapper";
 
 export const ImportantThingsListPage = withContext(class extends Component {
     constructor(props) {
@@ -20,7 +21,11 @@ export const ImportantThingsListPage = withContext(class extends Component {
         var self = this;
         var stateChange = this.stateFromProps(this.props);
 
-        if (this.state.showAddImportantThingModal !== stateChange.showAddImportantThingModal) {
+        if (
+            this.state.showAddImportantThingModal !== stateChange.showAddImportantThingModal ||
+            this.state.showUpdateImportantThingModal !== stateChange.showUpdateImportantThingModal ||
+            this.state.updateImportantThingId !== stateChange.updateImportantThingId
+        ) {
             this.setState(stateChange, function () {
                 self.loadPageData();
             });
@@ -28,8 +33,19 @@ export const ImportantThingsListPage = withContext(class extends Component {
     };
 
     stateFromProps = (props) => {
+        var updateImportantThingId = null;
+        var showUpdateImportantThingModal = false;
+
+        var routeParams = props.match && props.match.params;
+        if (routeParams && routeParams.importantThingId && routeParams.importantThingId !== 'add') {
+            showUpdateImportantThingModal = true;
+            updateImportantThingId = routeParams.importantThingId;
+        }
+
         return {
             showAddImportantThingModal: props.showAddImportantThingModal,
+            showUpdateImportantThingModal: showUpdateImportantThingModal,
+            updateImportantThingId: updateImportantThingId
         };
     };
 
@@ -64,6 +80,10 @@ export const ImportantThingsListPage = withContext(class extends Component {
         this.props.context.navigator.navigateTo('/important-things/add');
     };
 
+    goToUpdateImportantThingModal = (importantThing) => {
+        this.props.context.navigator.navigateTo('/important-things/' + importantThing.id);
+    }
+
     closeModals = () => {
         this.props.context.navigator.navigateTo('/important-things');
     };
@@ -72,12 +92,13 @@ export const ImportantThingsListPage = withContext(class extends Component {
         var importantThingsListDisplay = [];
 
         for (var i = 0; i < importantThingsList.length; i++) {
-            var importantThing = importantThingsList[i];
+            const importantThing = importantThingsList[i];
 
             importantThingsListDisplay.push(
                 <div
                     key={i + 1}
                     className="common-list-row common-list-values-row"
+                    onClick={this.goToUpdateImportantThingModal.bind(this, importantThing)}
                 >
                     <div
                         className="common-list-row-cell common-list-row-value-cell important-things-list-row-cell message"
@@ -143,6 +164,14 @@ export const ImportantThingsListPage = withContext(class extends Component {
                                 <CreateImportantThingWrapper
                                     cancel={this.closeModals}
                                     afterSuccessfulSave={this.closeModals}
+                                />
+                            );
+                        } else if (this.state.showUpdateImportantThingModal) {
+                            return (
+                                <UpdateImportantThingWrapper
+                                    cancel={this.closeModals}
+                                    afterSuccessfulSave={this.closeModals}
+                                    importantThingId={this.state.updateImportantThingId}
                                 />
                             );
                         }

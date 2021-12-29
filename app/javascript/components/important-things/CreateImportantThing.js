@@ -1,5 +1,4 @@
 import React from "react";
-import {Constants} from "../common/Constants";
 import {ApiUtility} from "../common/ApiUtility";
 import {ImportantThingForm} from "./ImportantThingForm";
 import {withContext} from "../common/GlobalContextConsumerComponent";
@@ -35,7 +34,6 @@ export var CreateImportantThing = withContext(class extends React.Component {
                 save={this.createImportantThing}
                 isNew={true}
                 headerText="New Important Thing"
-                formData={this.props.formData}
             />
         );
     };

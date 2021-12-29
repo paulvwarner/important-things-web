@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/login', to: 'web_client#index'
   get '/important-things', to: 'web_client#index'
   get '/important-things/add', to: 'web_client#index'
+  get '/important-things/:id', to: 'web_client#index'
   get '/users', to: 'web_client#index'
 
   scope path: "/api" do

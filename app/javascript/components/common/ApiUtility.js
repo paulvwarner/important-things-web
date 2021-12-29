@@ -77,6 +77,10 @@ export var ApiUtility = {
         return ApiUtility.apiRequest('/api/important-things');
     },
 
+    getImportantThing: function (importantThingId) {
+        return ApiUtility.apiRequest('/api/important-things/' + importantThingId);
+    },
+
     createImportantThing: function (importantThingData) {
         return ApiUtility.apiRequest(
             '/api/important-things/',
@@ -86,6 +90,20 @@ export var ApiUtility = {
                     'Content-Type': 'application/json'
                 },
                 data: JSON.stringify(importantThingData),
+            }
+        );
+    },
+
+
+    updateImportantThing: function (importantThingData) {
+        return ApiUtility.apiRequest(
+            '/api/important-things/' + importantThingData.id,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(importantThingData)
             }
         );
     },
