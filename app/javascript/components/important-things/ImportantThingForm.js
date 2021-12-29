@@ -146,7 +146,9 @@ export var ImportantThingForm = withContext(class extends React.Component {
     };
 
     forceValueToNumeric = (fieldName) => {
-        this.setUnsavedState({[fieldName]: parseInt(this.state[fieldName]) || 0});
+        if (this.state[fieldName] !== parseInt(this.state[fieldName]) || 0) {
+            this.setUnsavedState({[fieldName]: parseInt(this.state[fieldName]) || 0});
+        }
     };
 
     render = () => {
