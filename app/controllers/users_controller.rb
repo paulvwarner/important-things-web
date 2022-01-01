@@ -19,7 +19,6 @@ class UsersController < ApplicationController
       if db_password == params[:password]
         if user[:authentication_token].blank?
           token = generate_authentication_token
-
           user[:authentication_token] = token
           user.save!
         else

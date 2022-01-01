@@ -94,7 +94,6 @@ export var ApiUtility = {
         );
     },
 
-
     updateImportantThing: function (importantThingData) {
         return ApiUtility.apiRequest(
             '/api/important-things/' + importantThingData.id,
@@ -104,6 +103,18 @@ export var ApiUtility = {
                     'Content-Type': 'application/json'
                 },
                 data: JSON.stringify(importantThingData)
+            }
+        );
+    },
+
+    notifyImportantThingNow: function (importantThingId) {
+        return ApiUtility.apiRequest(
+            '/api/important-things/' + importantThingId + '/notify-now',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
             }
         );
     },

@@ -169,6 +169,31 @@ body {
     align-items: center;
     justify-content: center;
 
+    .common-form-options-section {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      align-items: center;
+
+      &.common-form-options-left {
+        justify-content: flex-start;
+
+        .common-form-button-container {
+          margin-left: 0;
+          margin-right: 20px;
+        }
+      }
+
+      &.common-form-options-right {
+        justify-content: flex-end;
+
+        .common-form-button-container {
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+    }
+
     .common-form-button-container {
       margin-left: 10px;
       margin-right: 10px;

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     post '/users/:token/logout', to: 'users#logout'
     resources :users
 
+    post '/important-things/:id/notify-now', to: 'important_things#notify_now'
     resources :important_things, :path => 'important-things'
   end
 end

@@ -107,6 +107,26 @@ body {
   align-items: center;
   justify-content: center;
 }
+.common-form .common-form-options .common-form-options-section {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+}
+.common-form .common-form-options .common-form-options-section.common-form-options-left {
+  justify-content: flex-start;
+}
+.common-form .common-form-options .common-form-options-section.common-form-options-left .common-form-button-container {
+  margin-left: 0;
+  margin-right: 20px;
+}
+.common-form .common-form-options .common-form-options-section.common-form-options-right {
+  justify-content: flex-end;
+}
+.common-form .common-form-options .common-form-options-section.common-form-options-right .common-form-button-container {
+  margin-left: 0;
+  margin-right: 0;
+}
 .common-form .common-form-options .common-form-button-container {
   margin-left: 10px;
   margin-right: 10px;
@@ -526,10 +546,14 @@ body {
   opacity: 0.75 !important;
 }
 .pill-button-container .pill-button .pill-button-text {
+  font-family: OxygenSansSansBook, Verdana, Arial, Helvetica, sans-serif;
   font-size: 14px;
   text-align: center;
   font-weight: 700;
   transform: scale(1, 1.5);
+}
+.pill-button-container .pill-button.red-button {
+  background-color: #bb342d;
 }
 
 .login-page .login-page-content {

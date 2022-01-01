@@ -1,4 +1,5 @@
 include ApplicationHelper
+include ImportantThingsHelper
 
 class ImportantThingsController < ApplicationController
   def index
@@ -44,7 +45,6 @@ class ImportantThingsController < ApplicationController
     end
   end
 
-
   def update
     begin
       authorize_for(Permission::NAMES[:important_thing_update], get_current_user_permissions)
@@ -67,6 +67,21 @@ class ImportantThingsController < ApplicationController
         render json: {}, status: 200
       end
     rescue => e
+      Rails.logger.info "Error occurred: " + e.to_yaml
+      render json: {message: e.message}, status: 500
+    end
+  end
+
+  def notify_now
+    begin
+      authorize_for(Permission::NAMES[:important_thing_read], get_current_user_permissions)
+      return if performed?
+
+      important_thing = ImportantThing.find(params[:id])
+      send_notification_for(important_thing)
+
+      render json: {}, status: 200
+    rescue Exception => e
       Rails.logger.info "Error occurred: " + e.to_yaml
       render json: {message: e.message}, status: 500
     end

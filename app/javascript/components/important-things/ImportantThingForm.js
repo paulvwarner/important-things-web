@@ -5,6 +5,7 @@ import {PillButton} from "../common/PillButton";
 import {Modal} from "../common/Modal";
 import {withContext} from "../common/GlobalContextConsumerComponent";
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
+import {ApiUtility} from "../common/ApiUtility";
 
 var _ = require('underscore');
 
@@ -118,6 +119,24 @@ export var ImportantThingForm = withContext(class extends React.Component {
         }, 0);
     };
 
+    notifyAppUsersNow = () => {
+        var self = this;
+        self.setState(
+            {loading: true},
+            function () {
+                ApiUtility.notifyImportantThingNow(this.state.id)
+                    .then(function () {
+                        self.setState({loading: false});
+                    })
+                    .catch(function (error) {
+                        console.log("Error notifying about important thing: ", error)
+                        MessageDisplayerUtility.error("An error occurred while notifying users.")
+                        self.setState({loading: false});
+                    });
+            }
+        );
+    }
+
     getFieldClasses = (originalClasses, fieldName) => {
         var returnClasses = originalClasses;
         if (Array.isArray(fieldName)) {
@@ -152,6 +171,7 @@ export var ImportantThingForm = withContext(class extends React.Component {
     };
 
     render = () => {
+        var self = this
         return (
             <Modal
                 headerText={this.props.headerText}
@@ -201,18 +221,48 @@ export var ImportantThingForm = withContext(class extends React.Component {
 
                                     <div className="common-form-body-row">
                                         <div className="common-form-options">
-                                            <PillButton
-                                                containerClasses="common-form-button-container"
-                                                buttonClasses="common-form-button cancel-button"
-                                                onClick={this.props.cancel}
-                                                buttonText={"CANCEL"}
-                                            />
-                                            <PillButton
-                                                containerClasses="common-form-button-container"
-                                                buttonClasses="common-form-button save-button"
-                                                onClick={this.save}
-                                                buttonText={"SAVE"}
-                                            />
+                                            {(() => {
+                                                let commonFormOptions = [
+                                                    <PillButton
+                                                        key={1}
+                                                        containerClasses="common-form-button-container"
+                                                        buttonClasses="common-form-button cancel-button"
+                                                        onClick={this.props.cancel}
+                                                        buttonText={"CANCEL"}
+                                                    />,
+                                                    <PillButton
+                                                        key={2}
+                                                        containerClasses="common-form-button-container"
+                                                        buttonClasses="common-form-button save-button"
+                                                        onClick={this.save}
+                                                        buttonText={"SAVE"}
+                                                    />
+                                                ]
+                                                if (self.props.isNew) {
+                                                    return commonFormOptions;
+                                                } else {
+                                                    return [
+                                                        <div
+                                                            key={1}
+                                                            className="common-form-options-section common-form-options-left"
+                                                        >
+                                                            {commonFormOptions}
+                                                        </div>,
+                                                        <div
+                                                            key={2}
+                                                            className="common-form-options-section common-form-options-right"
+                                                        >
+                                                            <PillButton
+                                                                containerClasses="common-form-button-container"
+                                                                buttonClasses="common-form-button red-button"
+                                                                onClick={this.notifyAppUsersNow}
+                                                                buttonText={"NOTIFY APP USERS NOW"}
+                                                            />
+                                                        </div>
+                                                    ]
+                                                }
+                                            })()}
+
                                         </div>
                                     </div>
                                 </div>

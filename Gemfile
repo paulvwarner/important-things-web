@@ -19,8 +19,12 @@ gem 'jbuilder', '2.11.3'
 
 gem 'bcrypt', '3.1.7'
 
+# send Firebase Cloud Messaging notifications to the mobile app
+gem 'fcm', '1.0.6'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '1.9.3', require: false
+
 
 group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring

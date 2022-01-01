@@ -25,10 +25,15 @@
     }
 
     .pill-button-text {
+      font-family: $default-fonts;
       font-size: 14px;
       text-align: center;
       font-weight: $bold;
       transform: $default-text-transform;
+    }
+
+    &.red-button {
+      background-color: $red;
     }
   }
 }
