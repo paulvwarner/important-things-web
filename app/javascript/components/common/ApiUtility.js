@@ -2,6 +2,7 @@ import React from 'react';
 import {CookieUtility} from "./CookieUtility";
 import {Constants} from "./Constants";
 import {MessageDisplayerUtility} from "./MessageDisplayerUtility";
+import {UrlUtility} from "./UrlUtility";
 
 var _ = require('underscore');
 
@@ -73,8 +74,16 @@ export var ApiUtility = {
         })
     },
 
-    getImportantThingsList: function () {
-        return ApiUtility.apiRequest('/api/important-things');
+    getImportantThingsList: function (pageNumber) {
+        let argumentsArray = [];
+
+        if (pageNumber) {
+            argumentsArray.push({label: 'page', value: pageNumber})
+        }
+
+        return ApiUtility.apiRequest(
+            `/api/important-things${UrlUtility.getUrlQueryString(argumentsArray)}`
+        );
     },
 
     getImportantThing: function (importantThingId) {

@@ -6,5 +6,8 @@ export let Constants = {
     pagePathSegments: {
         importantThings: 'important-things',
         users: 'users'
-    }
+    },
+
+    defaultPageNumber: 1,
+    defaultPageCount: 1,
 };

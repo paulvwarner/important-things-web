@@ -58,11 +58,15 @@ $common-modal-close-option-dim: $common-modal-header-height;
 $max-admin-page-content-width: 1024px;
 
 $common-form-input-height: 50px;
+$common-form-textarea-height: 200px;
 $common-form-input-border-radius: 25px;
 
 $pill-button-height: 50px;
 
 $important-things-list-weight-column-width: 50px;
+
+$pagination-option-dim: 28px;
+$pagination-nav-option-padding: 5px;
 
 $common-hover-opacity: 0.75;
 
@@ -83,6 +87,10 @@ body {
   margin: 0;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .common-form-input {
   background-color: $white;
   height: $common-form-input-height;
@@ -94,6 +102,23 @@ body {
   width: 100%;
   -webkit-appearance: none;
   box-sizing: border-box;
+  font-family: $default-fonts;
+  font-size: 14px;
+}
+
+.common-form-textarea {
+  background-color: $white;
+  height: $common-form-textarea-height;
+  border-radius: $common-form-input-border-radius;
+  border: 1px solid $black;
+  padding: 12px;
+  font-weight: $normal;
+  color: $black;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: $default-fonts;
+  font-size: 14px;
+  resize: none;
 }
 
 .common-form {
@@ -125,7 +150,7 @@ body {
         display: flex;
         flex-direction: row;
         width: 100%;
-        align-items: center;
+        align-items: first baseline;
         justify-content: flex-start;
         margin-top: 1px;
         margin-bottom: 1px;
@@ -136,6 +161,12 @@ body {
           }
 
           .common-form-input {
+            margin-top: 0;
+            margin-bottom: 0;
+            border: 2px solid $red;
+          }
+
+          .common-form-textarea {
             margin-top: 0;
             margin-bottom: 0;
             border: 2px solid $red;
@@ -225,6 +256,7 @@ body {
 @import "admin-frame/admin-header.scss";
 @import "common/common-list.scss";
 @import "common/leave-without-saving-warning-modal.scss";
+@import "common/list-pagination-options.scss";
 @import "common/loading-indicator.scss";
 @import "common/modal.scss";
 @import "common/pill-button.scss";

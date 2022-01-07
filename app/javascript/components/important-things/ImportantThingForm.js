@@ -17,6 +17,7 @@ export var ImportantThingForm = withContext(class extends React.Component {
         this.state = {
             id: importantThing ? importantThing.id : null,
             message: (importantThing && importantThing.message) || '',
+            notes: (importantThing && importantThing.notes) || '',
             weight: (importantThing && importantThing.weight) || 1,
 
             invalidFields: {},
@@ -197,6 +198,21 @@ export var ImportantThingForm = withContext(class extends React.Component {
                                                     className="common-form-input"
                                                     value={this.state.message}
                                                     onChange={this.handleTextFieldChange.bind(this, "message")}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="common-form-body-row">
+                                        <div className={this.getFieldClasses("common-form-field", "notes")}>
+                                            <div className="common-form-field-label">
+                                                Notes
+                                            </div>
+                                            <div className="common-form-field-input-container">
+                                                <textarea
+                                                    className="common-form-textarea"
+                                                    value={this.state.notes}
+                                                    onChange={this.handleTextFieldChange.bind(this, "notes")}
                                                 />
                                             </div>
                                         </div>

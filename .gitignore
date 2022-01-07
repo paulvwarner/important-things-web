@@ -38,3 +38,5 @@
 /node_modules
 /public/webpack
 npm-debug.log
+
+/lib/tasks/setup_personal_data.rake

@@ -6,6 +6,9 @@ import {withContext} from "../common/GlobalContextConsumerComponent";
 import {CreateImportantThingWrapper} from "./CreateImportantThingWrapper";
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
 import {UpdateImportantThingWrapper} from "./UpdateImportantThingWrapper";
+import {ListPaginationOptions} from "../common/ListPaginationOptions";
+import {UrlUtility} from "../common/UrlUtility";
+import {Constants} from "../common/Constants";
 
 export const ImportantThingsListPage = withContext(class extends Component {
     constructor(props) {
@@ -22,6 +25,7 @@ export const ImportantThingsListPage = withContext(class extends Component {
         var stateChange = this.stateFromProps(this.props);
 
         if (
+            this.state.selectedPage !== stateChange.selectedPage ||
             this.state.showAddImportantThingModal !== stateChange.showAddImportantThingModal ||
             this.state.showUpdateImportantThingModal !== stateChange.showUpdateImportantThingModal ||
             this.state.updateImportantThingId !== stateChange.updateImportantThingId
@@ -33,6 +37,7 @@ export const ImportantThingsListPage = withContext(class extends Component {
     };
 
     stateFromProps = (props) => {
+        var selectedPage = 1;
         var updateImportantThingId = null;
         var showUpdateImportantThingModal = false;
 
@@ -42,7 +47,14 @@ export const ImportantThingsListPage = withContext(class extends Component {
             updateImportantThingId = routeParams.importantThingId;
         }
 
+        var queryParams = UrlUtility.getQueryParamsFromProps(props);
+        if (queryParams.page) {
+            selectedPage = queryParams.page;
+        }
+
         return {
+            selectedPage: selectedPage,
+            loading: false,
             showAddImportantThingModal: props.showAddImportantThingModal,
             showUpdateImportantThingModal: showUpdateImportantThingModal,
             updateImportantThingId: updateImportantThingId
@@ -56,11 +68,12 @@ export const ImportantThingsListPage = withContext(class extends Component {
         this.setState(
             {loading: true},
             function () {
-                ApiUtility.getImportantThingsList()
+                ApiUtility.getImportantThingsList(this.state.selectedPage)
                     .then(function (importantThingsListData) {
                         stateChange = {
                             loading: false,
                             importantThingsList: importantThingsListData.importantThingsList || [],
+                            pageCount: importantThingsListData.pageCount || Constants.defaultPageCount,
                         };
 
                         self.setState(stateChange);
@@ -157,6 +170,11 @@ export const ImportantThingsListPage = withContext(class extends Component {
                         <div className="common-list-content">
                             {importantThingsListDisplay}
                         </div>
+                        <ListPaginationOptions
+                            pageCount={this.state.pageCount}
+                            selectedPage={this.state.selectedPage}
+                            urlBase="/important-things"
+                        />
                     </div>
                     {(() => {
                         if (this.state.showAddImportantThingModal) {

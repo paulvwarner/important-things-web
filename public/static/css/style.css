@@ -31,6 +31,10 @@ body {
   margin: 0;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .common-form-input {
   background-color: #ffffff;
   height: 50px;
@@ -42,6 +46,23 @@ body {
   width: 100%;
   -webkit-appearance: none;
   box-sizing: border-box;
+  font-family: OxygenSansSansBook, Verdana, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.common-form-textarea {
+  background-color: #ffffff;
+  height: 200px;
+  border-radius: 25px;
+  border: 1px solid #000000;
+  padding: 12px;
+  font-weight: 400;
+  color: #000000;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: OxygenSansSansBook, Verdana, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  resize: none;
 }
 
 .common-form {
@@ -72,7 +93,7 @@ body {
   display: flex;
   flex-direction: row;
   width: 100%;
-  align-items: center;
+  align-items: first baseline;
   justify-content: flex-start;
   margin-top: 1px;
   margin-bottom: 1px;
@@ -81,6 +102,11 @@ body {
   color: #bb342d;
 }
 .common-form .common-form-body .common-form-body-row .common-form-field.invalid .common-form-input {
+  margin-top: 0;
+  margin-bottom: 0;
+  border: 2px solid #bb342d;
+}
+.common-form .common-form-body .common-form-body-row .common-form-field.invalid .common-form-textarea {
   margin-top: 0;
   margin-bottom: 0;
   border: 2px solid #bb342d;
@@ -381,6 +407,79 @@ body {
 }
 .leave-without-saving-warning-modal-button.leave-without-saving-warning-modal-leave-button {
   background-color: #000000;
+}
+
+.common-list-pagination-options {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+.common-list-pagination-options .pagination-arrow-container {
+  font-size: 0;
+}
+.common-list-pagination-options .common-list-pagination-options-left {
+  display: flex;
+  flex-direction: row;
+}
+.common-list-pagination-options .common-list-pagination-options-right {
+  display: flex;
+  flex-direction: row;
+}
+.common-list-pagination-options .pagination-ellipsis {
+  display: flex;
+  font-weight: 700;
+  font-size: 14px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.common-list-pagination-options .paging-nav-cell {
+  display: flex;
+}
+.common-list-pagination-options .pagination-element {
+  display: flex;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: calc(28px / 2);
+  background-color: transparent;
+  align-items: center;
+  justify-content: center;
+}
+.common-list-pagination-options .pagination-element.pagination-link {
+  cursor: pointer;
+}
+.common-list-pagination-options .pagination-element.pagination-link.pagination-link-selected {
+  background-color: #000000;
+  color: #ffffff;
+}
+.common-list-pagination-options .pagination-element.pagination-link:hover {
+  background-color: #cccccc !important;
+}
+.common-list-pagination-options .pagination-element.pagination-link:not(.pagination-link-selected):hover {
+  background-color: #cccccc !important;
+  color: #ffffff !important;
+}
+.common-list-pagination-options .pagination-element .pagination-nav-button-container {
+  cursor: pointer;
+  font-size: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: calc(28px / 2);
+  background-color: transparent;
+}
+.common-list-pagination-options .pagination-element .pagination-nav-button-container:hover {
+  opacity: 0.75;
+  background-color: #cccccc;
+}
+.common-list-pagination-options .pagination-element .pagination-nav-button-container .pagination-nav-button-icon {
+  padding: 5px;
+  width: calc(28px - (5px * 2));
+  height: calc(28px - (5px * 2));
 }
 
 .loading-indicator-overlay {

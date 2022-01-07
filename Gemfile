@@ -25,6 +25,8 @@ gem 'fcm', '1.0.6'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '1.9.3', require: false
 
+# pagination
+gem 'kaminari', '1.2.2'
 
 group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring

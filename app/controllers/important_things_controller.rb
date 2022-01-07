@@ -2,15 +2,21 @@ include ApplicationHelper
 include ImportantThingsHelper
 
 class ImportantThingsController < ApplicationController
+  @important_things_per_page = 20
+
   def index
     authorize_for(Permission::NAMES[:important_thing_read], get_current_user_permissions)
     return if performed?
 
     # return important things list
-    important_things = ImportantThing.all.as_json
+    important_things = ImportantThing
+                         .all
+                         .page(params[:page])
+                         .per(@important_things_per_page)
 
     render json: {
-      importantThingsList: important_things,
+      importantThingsList: important_things.as_json,
+      pageCount: important_things.total_pages
     }, status: 200
   end
 
@@ -20,7 +26,7 @@ class ImportantThingsController < ApplicationController
 
     # return single important thing by id
     important_thing = ImportantThing
-             .find(params[:id])
+                        .find(params[:id])
 
     render json: important_thing.as_json, status: 200
   end
@@ -34,6 +40,7 @@ class ImportantThingsController < ApplicationController
         ImportantThing.create(
           {
             message: params[:message],
+            notes: params[:notes],
             weight: params[:weight]
           }
         )
@@ -56,6 +63,10 @@ class ImportantThingsController < ApplicationController
 
         if params.has_key?(:message)
           important_thing_update[:message] = params[:message]
+        end
+
+        if params.has_key?(:notes)
+          important_thing_update[:notes] = params[:notes]
         end
 
         if params.has_key?(:weight)
