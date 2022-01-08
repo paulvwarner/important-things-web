@@ -1,149 +1,156 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from 'react';
 import {LoadingIndicator} from "../common/LoadingIndicator";
 import {LeaveWithoutSavingWarningUtility} from "../common/LeaveWithoutSavingWarningUtility";
 import {PillButton} from "../common/PillButton";
 import {Modal} from "../common/Modal";
-import {withContext} from "../common/GlobalContextConsumerComponent";
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
 import {ApiUtility} from "../common/ApiUtility";
+import {GlobalContext} from "../admin-frame/AdminFrame";
 
-var _ = require('underscore');
+let _ = require('underscore');
 
-export var ImportantThingForm = withContext(class extends React.Component {
-    constructor(props) {
-        super(props);
-        const importantThing = _.clone(props.importantThing) || null;
+export let ImportantThingForm = function (props) {
+    const context = useContext(GlobalContext);
+    const importantThing = _.clone(props.importantThing) || null;
 
-        this.state = {
-            id: importantThing ? importantThing.id : null,
-            message: (importantThing && importantThing.message) || '',
-            notes: (importantThing && importantThing.notes) || '',
-            weight: (importantThing && importantThing.weight) || 1,
+    const [formState, setFormState] = useState({
+        id: importantThing ? importantThing.id : null,
+        message: (importantThing && importantThing.message) || '',
+        notes: (importantThing && importantThing.notes) || '',
+        weight: (importantThing && importantThing.weight) || 1,
 
-            invalidFields: {},
-            validationErrors: [],
-            loading: false,
-            saved: true,
-        };
-    }
+        invalidFields: {},
+        validationErrors: [],
+        saved: true,
+    });
 
-    setUnsavedState = (stateChange, callback) => {
-        LeaveWithoutSavingWarningUtility.enableLeaveWithoutSavingWarnings(
-            this.props.context,
-            this.props.headerText
-        );
+    const [saving, setSaving] = useState(false);
+    const [notifying, setNotifying] = useState(false);
+
+    function mergeFormState(prevState, stateChange) {
         if (stateChange) {
-            this.setState(
-                _.extend(
-                    stateChange,
-                    {saved: false}
-                ),
-                () => {
-                    if (callback) {
-                        callback();
-                    }
+            setFormState(
+                {
+                    ...prevState,
+                    ...stateChange,
                 }
             );
         }
-    };
+    }
 
-    displayValidationErrors = (validationErrors) => {
-        for (var e = 0; e < validationErrors.length; e++) {
+    function mergeUnsavedFormState(prevState, stateChange) {
+        LeaveWithoutSavingWarningUtility.enableLeaveWithoutSavingWarnings(
+            context,
+            props.headerText
+        );
+
+        if (stateChange) {
+            setFormState(
+                {
+                    ...prevState,
+                    ...stateChange,
+                    ...{saved: false}
+                }
+            );
+        }
+    }
+
+    function displayValidationErrors(validationErrors) {
+        for (let e = 0; e < validationErrors.length; e++) {
             MessageDisplayerUtility.error(validationErrors[e]);
         }
-    };
+    }
 
-    validateData = () => {
-        var self = this;
+    function validateData() {
         return new Promise(function (resolve, reject) {
-            var validationErrors = [];
-            var invalidFields = [];
+            let validationErrors = [];
+            let invalidFields = [];
 
-            if (!self.state.message) {
+            if (!formState.message) {
                 validationErrors.push('Please enter a message.');
                 invalidFields.push('message');
             }
 
             if (
-                !self.state.weight ||
-                !(parseInt(self.state.weight) || 0) ||
-                self.state.weight < 1
+                !formState.weight ||
+                !(parseInt(formState.weight) || 0) ||
+                formState.weight < 1
             ) {
                 validationErrors.push('Please enter a weight of at least 1.');
                 invalidFields.push('weight');
             }
 
             if (validationErrors.length > 0) {
-                var stateChange = {
+                let stateChange = {
                     invalidFields: {},
                     validationErrors: validationErrors
                 };
-                for (var y = 0; y < invalidFields.length; y++) {
+                for (let y = 0; y < invalidFields.length; y++) {
                     stateChange.invalidFields['' + invalidFields[y] + '_invalid'] = true;
                 }
-                self.setState(stateChange);
+                mergeFormState(stateChange);
                 resolve(false);
             } else {
-                self.setState({
+                mergeFormState({
                     invalidFields: {},
                     validationErrors: []
                 });
                 resolve(true);
             }
         });
-    };
+    }
 
-    getSubmitData = () => {
-        return _.clone(this.state);
-    };
+    function getSubmitData() {
+        return _.clone(formState);
+    }
 
-    save = () => {
-        var self = this;
-        self.setState({loading: true}, function () {
-            self.validateData()
+    function save() {
+        setSaving(true);
+    }
+
+    useEffect(function () {
+        if (saving) {
+            validateData()
                 .then(function (validationPasses) {
                     if (validationPasses) {
-                        self.props.save(self.getSubmitData());
+                        props.save(getSubmitData());
                     } else {
-                        self.setState({loading: false}, function () {
-                            window.setTimeout(function () {
-                                self.displayValidationErrors(self.state.validationErrors);
-                            }, 0);
-                        });
+                        setSaving(false);
+                        displayValidationErrors(formState.validationErrors);
                     }
                 })
                 .catch(function (error) {
-                    self.setState({loading: false});
+                    setSaving(false);
                     console.log("Error validating form: ", error);
                     MessageDisplayerUtility.error("An error occurred while saving.")
                 });
-        }, 0);
-    };
+        }
+    }, [saving]);
 
-    notifyAppUsersNow = () => {
-        var self = this;
-        self.setState(
-            {loading: true},
-            function () {
-                ApiUtility.notifyImportantThingNow(this.state.id)
-                    .then(function () {
-                        self.setState({loading: false});
-                    })
-                    .catch(function (error) {
-                        console.log("Error notifying about important thing: ", error)
-                        MessageDisplayerUtility.error("An error occurred while notifying users.")
-                        self.setState({loading: false});
-                    });
-            }
-        );
+    useEffect(function () {
+        if (notifying) {
+            ApiUtility.notifyImportantThingNow(formState.id)
+                .then(function () {
+                    setNotifying(false);
+                })
+                .catch(function (error) {
+                    console.log("Error notifying about important thing: ", error)
+                    MessageDisplayerUtility.error("An error occurred while notifying users.")
+                    setNotifying(false);
+                });
+        }
+    }, [notifying]);
+
+    function notifyAppUsersNow() {
+        setNotifying(true);
     }
 
-    getFieldClasses = (originalClasses, fieldName) => {
-        var returnClasses = originalClasses;
+    function getFieldClasses(originalClasses, fieldName) {
+        let returnClasses = originalClasses;
         if (Array.isArray(fieldName)) {
-            var allValid = true;
-            for (var f = 0; f < fieldName.length; f++) {
-                if (this.state.invalidFields[fieldName[f]] + '_invalid') {
+            let allValid = true;
+            for (let f = 0; f < fieldName.length; f++) {
+                if (formState.invalidFields[fieldName[f]] + '_invalid') {
                     allValid = false;
                     break;
                 }
@@ -152,141 +159,139 @@ export var ImportantThingForm = withContext(class extends React.Component {
                 returnClasses += ' invalid';
             }
         } else {
-            if (this.state.invalidFields[fieldName + '_invalid']) {
+            if (formState.invalidFields[fieldName + '_invalid']) {
                 returnClasses += ' invalid';
             }
         }
         return returnClasses;
-    };
+    }
 
-    handleTextFieldChange = (fieldName, event) => {
+    function handleTextFieldChange(fieldName, event) {
         if (event && event.target) {
-            this.setUnsavedState({[fieldName]: event.target.value});
+            mergeUnsavedFormState(formState, {[fieldName]: event.target.value});
         }
-    };
+    }
 
-    forceValueToNumeric = (fieldName) => {
-        if (this.state[fieldName] !== parseInt(this.state[fieldName]) || 0) {
-            this.setUnsavedState({[fieldName]: parseInt(this.state[fieldName]) || 0});
+    function forceValueToNumeric(fieldName) {
+        if (formState[fieldName] !== parseInt(formState[fieldName]) || 0) {
+            mergeUnsavedFormState(formState, {[fieldName]: parseInt(formState[fieldName]) || 0});
         }
-    };
+    }
 
-    render = () => {
-        var self = this
-        return (
-            <Modal
-                headerText={this.props.headerText}
-                onClickCloseOption={this.props.cancel}
-            >
-                {(() => {
-                    if (this.state.loading) {
-                        return (
-                            <LoadingIndicator loading={true}/>
-                        );
-                    } else {
-                        return (
-                            <div className="common-form important-thing-form">
-                                <div className="common-form-body">
-                                    <div className="common-form-body-row">
-                                        <div className={this.getFieldClasses("common-form-field", "message")}>
-                                            <div className="common-form-field-label">
-                                                Message
-                                            </div>
-                                            <div className="common-form-field-input-container">
-                                                <input
-                                                    type="text"
-                                                    className="common-form-input"
-                                                    value={this.state.message}
-                                                    onChange={this.handleTextFieldChange.bind(this, "message")}
-                                                />
-                                            </div>
+    return (
+        <Modal
+            headerText={props.headerText}
+            onClickCloseOption={props.cancel}
+        >
+            {(() => {
+                if (saving || notifying) {
+                    return (
+                        <LoadingIndicator loading={true}/>
+                    );
+                } else {
+                    return (
+                        <div className="common-form important-thing-form">
+                            <div className="common-form-body">
+                                <div className="common-form-body-row">
+                                    <div className={getFieldClasses("common-form-field", "message")}>
+                                        <div className="common-form-field-label">
+                                            Message
                                         </div>
-                                    </div>
-
-                                    <div className="common-form-body-row">
-                                        <div className={this.getFieldClasses("common-form-field", "notes")}>
-                                            <div className="common-form-field-label">
-                                                Notes
-                                            </div>
-                                            <div className="common-form-field-input-container">
-                                                <textarea
-                                                    className="common-form-textarea"
-                                                    value={this.state.notes}
-                                                    onChange={this.handleTextFieldChange.bind(this, "notes")}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="common-form-body-row">
-                                        <div className={this.getFieldClasses("common-form-field", "weight")}>
-                                            <div className="common-form-field-label">
-                                                Weight
-                                            </div>
-                                            <div className="common-form-field-input-container">
-                                                <input
-                                                    type="text"
-                                                    className="common-form-input important-thing-weight-input"
-                                                    value={this.state.weight}
-                                                    onChange={this.handleTextFieldChange.bind(this, "weight")}
-                                                    onBlur={this.forceValueToNumeric.bind(this, 'weight')}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="common-form-body-row">
-                                        <div className="common-form-options">
-                                            {(() => {
-                                                let commonFormOptions = [
-                                                    <PillButton
-                                                        key={1}
-                                                        containerClasses="common-form-button-container"
-                                                        buttonClasses="common-form-button cancel-button"
-                                                        onClick={this.props.cancel}
-                                                        buttonText={"CANCEL"}
-                                                    />,
-                                                    <PillButton
-                                                        key={2}
-                                                        containerClasses="common-form-button-container"
-                                                        buttonClasses="common-form-button save-button"
-                                                        onClick={this.save}
-                                                        buttonText={"SAVE"}
-                                                    />
-                                                ]
-                                                if (self.props.isNew) {
-                                                    return commonFormOptions;
-                                                } else {
-                                                    return [
-                                                        <div
-                                                            key={1}
-                                                            className="common-form-options-section common-form-options-left"
-                                                        >
-                                                            {commonFormOptions}
-                                                        </div>,
-                                                        <div
-                                                            key={2}
-                                                            className="common-form-options-section common-form-options-right"
-                                                        >
-                                                            <PillButton
-                                                                containerClasses="common-form-button-container"
-                                                                buttonClasses="common-form-button red-button"
-                                                                onClick={this.notifyAppUsersNow}
-                                                                buttonText={"NOTIFY APP USERS NOW"}
-                                                            />
-                                                        </div>
-                                                    ]
-                                                }
-                                            })()}
-
+                                        <div className="common-form-field-input-container">
+                                            <input
+                                                type="text"
+                                                className="common-form-input"
+                                                value={formState.message}
+                                                onChange={handleTextFieldChange.bind(null, "message")}
+                                            />
                                         </div>
                                     </div>
                                 </div>
+
+                                <div className="common-form-body-row">
+                                    <div className={getFieldClasses("common-form-field", "notes")}>
+                                        <div className="common-form-field-label">
+                                            Notes
+                                        </div>
+                                        <div className="common-form-field-input-container">
+                                                <textarea
+                                                    className="common-form-textarea"
+                                                    value={formState.notes}
+                                                    onChange={handleTextFieldChange.bind(null, "notes")}
+                                                />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="common-form-body-row">
+                                    <div className={getFieldClasses("common-form-field", "weight")}>
+                                        <div className="common-form-field-label">
+                                            Weight
+                                        </div>
+                                        <div className="common-form-field-input-container">
+                                            <input
+                                                type="text"
+                                                className="common-form-input important-thing-weight-input"
+                                                value={formState.weight}
+                                                onChange={handleTextFieldChange.bind(null, "weight")}
+                                                onBlur={forceValueToNumeric.bind(null, 'weight')}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="common-form-body-row">
+                                    <div className="common-form-options">
+                                        {(() => {
+                                            let commonFormOptions = [
+                                                <PillButton
+                                                    key={1}
+                                                    containerClasses="common-form-button-container"
+                                                    buttonClasses="common-form-button cancel-button"
+                                                    onClick={props.cancel}
+                                                    buttonText={"CANCEL"}
+                                                />,
+                                                <PillButton
+                                                    key={2}
+                                                    containerClasses="common-form-button-container"
+                                                    buttonClasses="common-form-button save-button"
+                                                    onClick={save}
+                                                    buttonText={"SAVE"}
+                                                />
+                                            ]
+                                            if (props.isNew) {
+                                                return commonFormOptions;
+                                            } else {
+                                                return [
+                                                    <div
+                                                        key={1}
+                                                        className="common-form-options-section common-form-options-left"
+                                                    >
+                                                        {commonFormOptions}
+                                                    </div>,
+                                                    <div
+                                                        key={2}
+                                                        className="common-form-options-section common-form-options-right"
+                                                    >
+                                                        <PillButton
+                                                            containerClasses="common-form-button-container"
+                                                            buttonClasses="common-form-button red-button"
+                                                            onClick={notifyAppUsersNow}
+                                                            buttonText={"NOTIFY APP USERS NOW"}
+                                                        />
+                                                    </div>
+                                                ]
+                                            }
+                                        })()}
+
+                                    </div>
+                                </div>
                             </div>
-                        );
-                    }
-                })()}
-            </Modal>
-        );
-    }
-});
+                        </div>
+                    );
+                }
+            })()}
+        </Modal>
+    );
+
+};
