@@ -3,12 +3,12 @@ import {ApiUtility} from "../common/ApiUtility";
 import {PillButton} from "../common/PillButton";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 import {withContext} from "../common/GlobalContextConsumerComponent";
-import {CreateImportantThingWrapper} from "./CreateImportantThingWrapper";
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
-import {UpdateImportantThingWrapper} from "./UpdateImportantThingWrapper";
 import {ListPaginationOptions} from "../common/ListPaginationOptions";
 import {UrlUtility} from "../common/UrlUtility";
 import {Constants} from "../common/Constants";
+import {CreateImportantThing} from "./CreateImportantThing";
+import {UpdateImportantThing} from "./UpdateImportantThing";
 
 export const ImportantThingsListPage = withContext(class extends Component {
     constructor(props) {
@@ -179,14 +179,14 @@ export const ImportantThingsListPage = withContext(class extends Component {
                     {(() => {
                         if (this.state.showAddImportantThingModal) {
                             return (
-                                <CreateImportantThingWrapper
+                                <CreateImportantThing
                                     cancel={this.closeModals}
                                     afterSuccessfulSave={this.closeModals}
                                 />
                             );
                         } else if (this.state.showUpdateImportantThingModal) {
                             return (
-                                <UpdateImportantThingWrapper
+                                <UpdateImportantThing
                                     cancel={this.closeModals}
                                     afterSuccessfulSave={this.closeModals}
                                     importantThingId={this.state.updateImportantThingId}

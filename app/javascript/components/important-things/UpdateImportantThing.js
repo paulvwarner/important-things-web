@@ -1,37 +1,55 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {ImportantThingForm} from "./ImportantThingForm";
 import {LeaveWithoutSavingWarningUtility} from "../common/LeaveWithoutSavingWarningUtility";
-import {withContext} from "../common/GlobalContextConsumerComponent";
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
+import {LoadingIndicator} from "../common/LoadingIndicator";
+import {GlobalContext} from "../admin-frame/AdminFrame";
 
-export var UpdateImportantThing = withContext(class extends React.Component {
-    updateImportantThing = (importantThingData) => {
-        var self = this;
+export let UpdateImportantThing = function (props) {
+    const context = useContext(GlobalContext);
+    const [importantThing, setImportantThing] = useState(null);
 
+    // on mount, fetch important thing from API and put it in state
+    useEffect(function () {
+        ApiUtility.getImportantThing(props.importantThingId)
+            .then(function (importantThing) {
+                setImportantThing(importantThing);
+            })
+            .catch(function (error) {
+                console.log("Error fetching important thing: ", error);
+                MessageDisplayerUtility.error("Error fetching important thing.");
+            });
+    }, []);
+
+    function updateImportantThing(importantThingData) {
         ApiUtility.updateImportantThing(importantThingData)
             .then((response) => {
-                LeaveWithoutSavingWarningUtility.disableLeaveWithoutSavingWarnings(self.props.context);
+                LeaveWithoutSavingWarningUtility.disableLeaveWithoutSavingWarnings(context);
                 MessageDisplayerUtility.success("Successfully updated important thing.");
-                if (self.props.afterSuccessfulSave) {
-                    self.props.afterSuccessfulSave();
+                if (props.afterSuccessfulSave) {
+                    props.afterSuccessfulSave();
                 }
             })
             .catch((err) => {
                 console && console.error(err);
                 MessageDisplayerUtility.error('An error occurred while updating the important thing.');
             });
-    };
+    }
 
-    render = () => {
+    if (importantThing) {
         return (
             <ImportantThingForm
-                cancel={this.props.cancel}
-                save={this.updateImportantThing}
-                importantThing={this.props.importantThing}
+                cancel={props.cancel}
+                save={updateImportantThing}
+                importantThing={importantThing}
                 isNew={false}
                 headerText="Update Important Thing"
             />
         );
-    };
-});
+    } else {
+        return (
+            <LoadingIndicator loading={true}/>
+        );
+    }
+};
