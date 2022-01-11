@@ -1,117 +1,129 @@
-import React, {Component} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {ApiUtility} from "../common/ApiUtility";
 import {PillButton} from "../common/PillButton";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
-import {withContext} from "../common/GlobalContextConsumerComponent";
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
 import {ListPaginationOptions} from "../common/ListPaginationOptions";
 import {UrlUtility} from "../common/UrlUtility";
 import {Constants} from "../common/Constants";
 import {CreateImportantThing} from "./CreateImportantThing";
 import {UpdateImportantThing} from "./UpdateImportantThing";
+import {GlobalContext} from "../admin-frame/AdminFrame";
 
-export const ImportantThingsListPage = withContext(class extends Component {
-    constructor(props) {
-        super(props);
-        this.state = this.stateFromProps(props)
+export const ImportantThingsListPage = function (props) {
+    const context = useContext(GlobalContext);
+
+    const [listState, setListState] = useState({
+        selectedPage: 1,
+        showAddImportantThingModal: false,
+        showUpdateImportantThingModal: false,
+        updateImportantThingId: null,
+        importantThingsList: [],
+        pageCount: 0
+    });
+
+    const [loadingListData, setLoadingListData] = useState(false);
+
+    function mergeListState(prevState, stateChange) {
+        if (stateChange) {
+            setListState(
+                {
+                    ...prevState,
+                    ...stateChange,
+                }
+            );
+        }
     }
 
-    componentDidMount = () => {
-        this.loadPageData();
-    };
+    // update state from prop changes reflected in URL
+    useEffect(
+        function () {
+            let selectedPage = 1;
+            let updateImportantThingId = null;
+            let showUpdateImportantThingModal = false;
 
-    componentDidUpdate = (prevProps, prevState) => {
-        var self = this;
-        var stateChange = this.stateFromProps(this.props);
-
-        if (
-            this.state.selectedPage !== stateChange.selectedPage ||
-            this.state.showAddImportantThingModal !== stateChange.showAddImportantThingModal ||
-            this.state.showUpdateImportantThingModal !== stateChange.showUpdateImportantThingModal ||
-            this.state.updateImportantThingId !== stateChange.updateImportantThingId
-        ) {
-            this.setState(stateChange, function () {
-                self.loadPageData();
-            });
-        }
-    };
-
-    stateFromProps = (props) => {
-        var selectedPage = 1;
-        var updateImportantThingId = null;
-        var showUpdateImportantThingModal = false;
-
-        var routeParams = props.match && props.match.params;
-        if (routeParams && routeParams.importantThingId && routeParams.importantThingId !== 'add') {
-            showUpdateImportantThingModal = true;
-            updateImportantThingId = routeParams.importantThingId;
-        }
-
-        var queryParams = UrlUtility.getQueryParamsFromProps(props);
-        if (queryParams.page) {
-            selectedPage = queryParams.page;
-        }
-
-        return {
-            selectedPage: selectedPage,
-            loading: false,
-            showAddImportantThingModal: props.showAddImportantThingModal,
-            showUpdateImportantThingModal: showUpdateImportantThingModal,
-            updateImportantThingId: updateImportantThingId
-        };
-    };
-
-    loadPageData = () => {
-        var self = this;
-        var stateChange = {};
-
-        this.setState(
-            {loading: true},
-            function () {
-                ApiUtility.getImportantThingsList(this.state.selectedPage)
-                    .then(function (importantThingsListData) {
-                        stateChange = {
-                            loading: false,
-                            importantThingsList: importantThingsListData.importantThingsList || [],
-                            pageCount: importantThingsListData.pageCount || Constants.defaultPageCount,
-                        };
-
-                        self.setState(stateChange);
-                    })
-                    .catch(function (error) {
-                        self.setState({
-                            loading: false
-                        });
-                        console && console.error(error);
-                        MessageDisplayerUtility.error('An error occurred while loading the important things list.');
-                    });
+            let routeParams = props.match && props.match.params;
+            if (routeParams && routeParams.importantThingId && routeParams.importantThingId !== 'add') {
+                showUpdateImportantThingModal = true;
+                updateImportantThingId = routeParams.importantThingId;
             }
-        );
-    };
 
-    goToAddImportantThingModal = () => {
-        this.props.context.navigator.navigateTo('/important-things/add');
-    };
+            let queryParams = UrlUtility.getQueryParamsFromProps(props);
+            if (queryParams.page) {
+                selectedPage = queryParams.page;
+            }
 
-    goToUpdateImportantThingModal = (importantThing) => {
-        this.props.context.navigator.navigateTo('/important-things/' + importantThing.id);
+            mergeListState(listState, {
+                selectedPage: selectedPage,
+                showAddImportantThingModal: props.showAddImportantThingModal,
+                showUpdateImportantThingModal: showUpdateImportantThingModal,
+                updateImportantThingId: updateImportantThingId
+            })
+        },
+        [
+            props.location && props.location.search,
+            props.match && props.match.params,
+            props.showAddImportantThingModal
+        ]
+    )
+
+    // reload list data on mount and if certain things change in list state
+    useEffect(
+        function () {
+            setLoadingListData(true);
+        },
+        [
+            listState.selectedPage,
+            listState.showAddImportantThingModal,
+            listState.showUpdateImportantThingModal,
+            listState.updateImportantThingId
+        ]
+    );
+
+    useEffect(function () {
+        if (loadingListData) {
+            let listStateChange = {};
+
+            ApiUtility.getImportantThingsList(listState.selectedPage)
+                .then(function (importantThingsListData) {
+                    listStateChange = {
+                        importantThingsList: importantThingsListData.importantThingsList || [],
+                        pageCount: importantThingsListData.pageCount || Constants.defaultPageCount,
+                    };
+                    mergeListState(listState, listStateChange);
+                    setLoadingListData(false);
+                })
+                .catch(function (error) {
+                    setLoadingListData(false);
+                    console && console.error(error);
+                    MessageDisplayerUtility.error('An error occurred while loading the important things list.');
+                });
+        }
+    }, [loadingListData]);
+
+    function goToAddImportantThingModal() {
+        context.navigator.navigateTo('/important-things/add');
     }
 
-    closeModals = () => {
-        this.props.context.navigator.navigateTo('/important-things');
-    };
+    function goToUpdateImportantThingModal(importantThing) {
+        context.navigator.navigateTo('/important-things/' + importantThing.id);
+    }
 
-    renderImportantThingsListDisplay = (importantThingsList) => {
-        var importantThingsListDisplay = [];
+    function closeModals() {
+        context.navigator.navigateTo('/important-things');
+    }
 
-        for (var i = 0; i < importantThingsList.length; i++) {
+    function renderImportantThingsListDisplay(importantThingsList) {
+        let importantThingsListDisplay = [];
+
+        for (let i = 0; i < importantThingsList.length; i++) {
             const importantThing = importantThingsList[i];
 
             importantThingsListDisplay.push(
                 <div
                     key={i + 1}
                     className="common-list-row common-list-values-row"
-                    onClick={this.goToUpdateImportantThingModal.bind(this, importantThing)}
+                    onClick={goToUpdateImportantThingModal.bind(null, importantThing)}
                 >
                     <div
                         className="common-list-row-cell common-list-row-value-cell important-things-list-row-cell message"
@@ -124,82 +136,78 @@ export const ImportantThingsListPage = withContext(class extends Component {
         }
 
         return importantThingsListDisplay;
-    };
+    }
 
-    render = () => {
-        if (this.state.importantThingsList) {
-            let importantThingsListDisplay = this.renderImportantThingsListDisplay(this.state.importantThingsList);
-
-            return (
-                <div className="common-list-page important-things-list-page">
-                    <div className="common-list-page-header">
-                        <div className="common-list-page-header-content">
-                            <div className="common-list-page-header-content-left">
-                                <div className="common-list-page-header-text">
-                                    Important Things
-                                </div>
+    if (listState.importantThingsList) {
+        return (
+            <div className="common-list-page important-things-list-page">
+                <div className="common-list-page-header">
+                    <div className="common-list-page-header-content">
+                        <div className="common-list-page-header-content-left">
+                            <div className="common-list-page-header-text">
+                                Important Things
                             </div>
-                            <div className="common-list-page-header-content-right">
-                                <PillButton
-                                    onClick={this.goToAddImportantThingModal}
-                                    buttonText="ADD"
-                                />
-                            </div>
+                        </div>
+                        <div className="common-list-page-header-content-right">
+                            <PillButton
+                                onClick={goToAddImportantThingModal}
+                                buttonText="ADD"
+                            />
                         </div>
                     </div>
-                    <div className="common-list-page-content">
-                        {(() => {
-                            if (this.state.loading) {
-                                return (
-                                    <OverlayLoadingIndicator/>
-                                );
-                            }
-                        })()}
-                        <div className="common-list-header">
-                            <div key={0} className="common-list-row common-list-labels-row">
-                                <div
-                                    className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell message"
-                                >Message
-                                </div>
-                                <div
-                                    className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell weight"
-                                >Weight
-                                </div>
-                            </div>
-                        </div>
-                        <div className="common-list-content">
-                            {importantThingsListDisplay}
-                        </div>
-                        <ListPaginationOptions
-                            pageCount={this.state.pageCount}
-                            selectedPage={this.state.selectedPage}
-                            urlBase="/important-things"
-                        />
-                    </div>
+                </div>
+                <div className="common-list-page-content">
                     {(() => {
-                        if (this.state.showAddImportantThingModal) {
+                        if (loadingListData) {
                             return (
-                                <CreateImportantThing
-                                    cancel={this.closeModals}
-                                    afterSuccessfulSave={this.closeModals}
-                                />
-                            );
-                        } else if (this.state.showUpdateImportantThingModal) {
-                            return (
-                                <UpdateImportantThing
-                                    cancel={this.closeModals}
-                                    afterSuccessfulSave={this.closeModals}
-                                    importantThingId={this.state.updateImportantThingId}
-                                />
+                                <OverlayLoadingIndicator/>
                             );
                         }
                     })()}
+                    <div className="common-list-header">
+                        <div key={0} className="common-list-row common-list-labels-row">
+                            <div
+                                className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell message"
+                            >Message
+                            </div>
+                            <div
+                                className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell weight"
+                            >Weight
+                            </div>
+                        </div>
+                    </div>
+                    <div className="common-list-content">
+                        {renderImportantThingsListDisplay(listState.importantThingsList)}
+                    </div>
+                    <ListPaginationOptions
+                        pageCount={listState.pageCount}
+                        selectedPage={listState.selectedPage}
+                        urlBase="/important-things"
+                    />
                 </div>
-            );
-        } else {
-            return (
-                <OverlayLoadingIndicator/>
-            );
-        }
-    };
-});
+                {(() => {
+                    if (listState.showAddImportantThingModal) {
+                        return (
+                            <CreateImportantThing
+                                cancel={closeModals}
+                                afterSuccessfulSave={closeModals}
+                            />
+                        );
+                    } else if (listState.showUpdateImportantThingModal) {
+                        return (
+                            <UpdateImportantThing
+                                cancel={closeModals}
+                                afterSuccessfulSave={closeModals}
+                                importantThingId={listState.updateImportantThingId}
+                            />
+                        );
+                    }
+                })()}
+            </div>
+        );
+    } else {
+        return (
+            <OverlayLoadingIndicator/>
+        );
+    }
+};
