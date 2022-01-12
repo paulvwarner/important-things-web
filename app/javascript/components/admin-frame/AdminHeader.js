@@ -6,8 +6,6 @@ import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
 import {GlobalContext} from "./AdminFrame";
 import {AuthUtility} from "../common/AuthUtility";
 
-var _ = require('underscore');
-
 export let AdminHeader = function (props) {
     const context = useContext(GlobalContext);
 
@@ -75,14 +73,14 @@ export let AdminHeader = function (props) {
     );
 };
 
-var AdminHeaderTab = function (props) {
+let AdminHeaderTab = function (props) {
     const context = useContext(GlobalContext);
 
     function onClick() {
         context.navigator.navigateTo(props.path);
     }
 
-    var tabClasses = "admin-header-tab ";
+    let tabClasses = "admin-header-tab ";
     if (props.selected) {
         tabClasses += "selected";
     }

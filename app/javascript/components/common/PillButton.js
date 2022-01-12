@@ -1,22 +1,21 @@
 import React from "react";
 
-export let PillButton = class extends React.Component {
-    render = () => {
-        let containerClasses = "pill-button-container " + (this.props.containerClasses || '');
-        let buttonClasses = "pill-button " + (this.props.buttonClasses || '');
-        let buttonTextClasses = "pill-button-text " + (this.props.buttonTextClasses || '');
+export let PillButton = function (props) {
+    let containerClasses = "pill-button-container " + (props.containerClasses || '');
+    let buttonClasses = "pill-button " + (props.buttonClasses || '');
+    let buttonTextClasses = "pill-button-text " + (props.buttonTextClasses || '');
 
-        return (
-            <div className={containerClasses}>
-                <div
-                    className={buttonClasses}
-                    onClick={this.props.onClick}
-                >
-                    <div className={buttonTextClasses}>
-                        {this.props.buttonText}
-                    </div>
+    return (
+        <div className={containerClasses}>
+            <div
+                className={buttonClasses}
+                onClick={props.onClick}
+            >
+                <div className={buttonTextClasses}>
+                    {props.buttonText}
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
+
 };

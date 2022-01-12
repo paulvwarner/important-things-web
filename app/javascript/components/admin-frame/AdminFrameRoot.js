@@ -1,15 +1,15 @@
-import React from "react";
+import React, {useEffect} from "react";
 
-export class AdminFrameRoot extends React.Component {
-    componentDidMount = () => {
-        this.goToDefaultPage();
-    };
+export let AdminFrameRoot = function (props) {
+    // redirect to default page on mount.
+    // this component would be more useful if more roles were supported that had different default pages.
+    useEffect(function () {
+        goToDefaultPage();
+    }, []);
 
-    goToDefaultPage = () => {
+    function goToDefaultPage() {
         window.location.assign('/important-things');
-    };
-
-    render = () => {
-        return null;
     }
-}
+
+    return null;
+};
