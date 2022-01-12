@@ -5,6 +5,7 @@ import {CookieUtility} from "../common/CookieUtility";
 import {Constants} from "../common/Constants";
 import {PillButton} from "../common/PillButton";
 import {ApiUtility} from "../common/ApiUtility";
+import {AuthUtility} from "../common/AuthUtility";
 
 let _ = require('underscore');
 
@@ -17,14 +18,6 @@ export let Login = withRouter(class extends React.Component {
             password: ''
         };
     }
-
-    clearCookies = () => {
-        CookieUtility.remove("token");
-        CookieUtility.remove("userPersonName");
-        CookieUtility.remove("userEmailAddress");
-        CookieUtility.remove("userId");
-        CookieUtility.remove("permissions");
-    };
 
     login = (event) => {
         if (event) {
@@ -44,7 +37,7 @@ export let Login = withRouter(class extends React.Component {
                             expires: new Date(2999, 1, 1, 0, 0, 1)
                         };
 
-                        self.clearCookies();
+                        AuthUtility.clearAuthCookies();
                         CookieUtility.save("token", response.user.authentication_token, cookieParams);
                         CookieUtility.save("userPersonName", response.user.person.name, cookieParams);
                         CookieUtility.save("userEmailAddress", response.user.person.email, cookieParams);

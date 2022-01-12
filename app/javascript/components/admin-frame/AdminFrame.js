@@ -50,6 +50,15 @@ export let AdminFrame = withRouter(class extends React.Component {
         }
     }
 
+    componentDidUpdate() {
+        let token = CookieUtility.load("token");
+
+        // if no token, hard redirect to login page
+        if (token === undefined) {
+            window.location.assign('/login');
+        }
+    }
+
     render = () => {
         var self = this;
         var pathParts = this.props.location.pathname ? this.props.location.pathname.split('/') : [];
