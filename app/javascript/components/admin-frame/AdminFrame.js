@@ -33,10 +33,12 @@ export let AdminFrame = function (props) {
         navWarningDisplayValueSetter({
             showLeaveWithoutSavingWarningModal: true,
             getUserConfirmationCallback: function (allowNavigation) {
-                if (allowNavigation) {
-                    LeaveWithoutSavingWarningUtility.disableLeaveWithoutSavingWarnings(context);
-                }
-                callback(allowNavigation);
+                window.setTimeout(function () {
+                    if (allowNavigation) {
+                        LeaveWithoutSavingWarningUtility.disableLeaveWithoutSavingWarnings(context);
+                    }
+                    callback(allowNavigation);
+                }, 0);
             },
         })
     });
