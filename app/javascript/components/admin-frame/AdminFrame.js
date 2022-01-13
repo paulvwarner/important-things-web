@@ -1,5 +1,5 @@
-import React from "react";
-import {withRouter} from 'react-router-dom';
+import React, {useEffect} from "react";
+import {useHistory} from 'react-router-dom';
 import {CookieUtility} from "../common/CookieUtility";
 import {CrossComponentValueManager} from "../common/CrossComponentValueManager";
 import {AdminHeader} from "./AdminHeader";
@@ -8,104 +8,72 @@ import {LeaveWithoutSavingWarningUtility} from "../common/LeaveWithoutSavingWarn
 
 export let GlobalContext = React.createContext({});
 
-// pvw todo hooks
-export let AdminFrame = withRouter(class extends React.Component {
-    constructor(props) {
-        super(props);
-        var self = this;
+let navWarningDisplayValueManager = new CrossComponentValueManager();
+let navWarningDisplayValueSetter = navWarningDisplayValueManager.createValueSetter();
 
-        this.navWarningDisplayValueManager = new CrossComponentValueManager();
-        this.navWarningDisplayValueSetter = this.navWarningDisplayValueManager.createValueSetter();
+let confirmBeforeNavValueManager = new CrossComponentValueManager();
+let confirmBeforeNavValueSetter = confirmBeforeNavValueManager.createValueSetter();
 
-        this.confirmBeforeNavValueManager = new CrossComponentValueManager();
-        this.confirmBeforeNavValueSetter = this.confirmBeforeNavValueManager.createValueSetter();
+export let AdminFrame = function (props) {
+    let token = CookieUtility.load("token");
 
-        props.setUserConfirmationFunction(function (message, callback) {
-            // this function gets called by BrowserRouter to determine what to show to the user if
-            // navigation is blocked by a Prompt. It's meant to return a component for display,
-            // but I have it instead triggering an externally-defined component to display (in the
-            // same wrapper component as the prompt).
-
-            self.navWarningDisplayValueSetter({
-                showLeaveWithoutSavingWarningModal: true,
-                getUserConfirmationCallback: function (allowNavigation) {
-                    if (allowNavigation) {
-                        LeaveWithoutSavingWarningUtility.disableLeaveWithoutSavingWarnings(self.context);
-                    }
-                    callback(allowNavigation);
-                },
-            })
-        });
-
-        let redirectToLogin = false;
-        let token = CookieUtility.load("token");
-
-        // if no token, hard redirect to login page
-        if (token === undefined) {
-            redirectToLogin = true;
-            window.location.assign('/login');
-        }
-
-        this.state = {
-            redirectToLogin: redirectToLogin
-        }
+    // if no token, hard redirect to login page
+    if (token === undefined) {
+        window.location.assign('/login');
     }
 
-    componentDidUpdate() {
-        let token = CookieUtility.load("token");
+    let history = useHistory();
 
-        // if no token, hard redirect to login page
-        if (token === undefined) {
-            window.location.assign('/login');
-        }
-    }
+    props.setUserConfirmationFunction(function (message, callback) {
+        // this function gets called by BrowserRouter to determine what to show to the user if
+        // navigation is blocked by a Prompt. It's meant to return a component for display,
+        // but I have it instead triggering an externally-defined component to display (in the
+        // same wrapper component as the prompt).
 
-    render = () => {
-        var self = this;
-        var pathParts = this.props.location.pathname ? this.props.location.pathname.split('/') : [];
-        var selectedPagePathSegment;
-        if (pathParts.length > 1) {
-            selectedPagePathSegment = pathParts[1];
-        } else {
-            selectedPagePathSegment = ('' + this.props.location.pathname).replace(new RegExp('/', 'g'), '')
-        }
-
-        this.context = {
-            navigator: {
-                navigateTo: function (url) {
-                    self.props.history.push(url);
-                },
-                goBack: function () {
-                    if (self.props.history) {
-                        self.props.history.goBack()
-                    }
+        navWarningDisplayValueSetter({
+            showLeaveWithoutSavingWarningModal: true,
+            getUserConfirmationCallback: function (allowNavigation) {
+                if (allowNavigation) {
+                    LeaveWithoutSavingWarningUtility.disableLeaveWithoutSavingWarnings(context);
                 }
+                callback(allowNavigation);
             },
-            confirmBeforeNavValueManager: this.confirmBeforeNavValueManager,
-            navWarningDisplayValueSetter: this.navWarningDisplayValueSetter,
-            confirmBeforeNavValueSetter: this.confirmBeforeNavValueSetter,
-        };
+        })
+    });
 
-        if (this.state.redirectToLogin) {
-            return null;
-        } else {
-            return (
-                <GlobalContext.Provider
-                    value={this.context}
-                >
-                    <div className="admin-frame">
-                        <AdminHeader selectedPagePathSegment={selectedPagePathSegment}/>
-                        <div className="admin-page-content">
-                            {this.props.children}
-                        </div>
+    let context = {
+        navigator: {
+            navigateTo: function (url) {
+                history.push(url);
+            },
+            goBack: function () {
+                history.goBack();
+            }
+        },
+        confirmBeforeNavValueManager: confirmBeforeNavValueManager,
+        navWarningDisplayValueSetter: navWarningDisplayValueSetter,
+        confirmBeforeNavValueSetter: confirmBeforeNavValueSetter,
+    };
+
+    if (token === undefined) {
+        return null;
+    } else {
+        return (
+            <GlobalContext.Provider
+                value={context}
+            >
+                <div className="admin-frame">
+                    <AdminHeader/>
+                    <div className="admin-page-content">
+                        {props.children}
                     </div>
-                    <LeaveWithoutSavingWarningModal
-                        navWarningDisplayValueManager={this.navWarningDisplayValueManager}
-                        confirmBeforeNavValueManager={this.confirmBeforeNavValueManager}
-                    />
-                </GlobalContext.Provider>
-            );
-        }
+                </div>
+                <LeaveWithoutSavingWarningModal
+                    navWarningDisplayValueManager={navWarningDisplayValueManager}
+                    confirmBeforeNavValueManager={confirmBeforeNavValueManager}
+                />
+            </GlobalContext.Provider>
+        );
     }
-});
+};
 

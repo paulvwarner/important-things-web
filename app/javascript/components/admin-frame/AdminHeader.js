@@ -5,6 +5,7 @@ import {CookieUtility} from "../common/CookieUtility";
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
 import {GlobalContext} from "./AdminFrame";
 import {AuthUtility} from "../common/AuthUtility";
+import {useLocation} from "react-router-dom";
 
 export let AdminHeader = function (props) {
     const context = useContext(GlobalContext);
@@ -27,6 +28,15 @@ export let AdminHeader = function (props) {
             });
     }
 
+    let location = useLocation();
+    var pathParts = location.pathname ? location.pathname.split('/') : [];
+    var selectedPagePathSegment;
+    if (pathParts.length > 1) {
+        selectedPagePathSegment = pathParts[1];
+    } else {
+        selectedPagePathSegment = ('' + location.pathname).replace(new RegExp('/', 'g'), '')
+    }
+
     return (
         <div className="admin-header">
             <div className="admin-header-content">
@@ -43,12 +53,12 @@ export let AdminHeader = function (props) {
                 <div className="admin-header-tabs-container">
                     <AdminHeaderTab
                         label="USERS"
-                        selected={props.selectedPagePathSegment === Constants.pagePathSegments.users}
+                        selected={selectedPagePathSegment === Constants.pagePathSegments.users}
                         path="/users"
                     />
                     <AdminHeaderTab
                         label="IMPORTANT THINGS"
-                        selected={props.selectedPagePathSegment === Constants.pagePathSegments.importantThings}
+                        selected={selectedPagePathSegment === Constants.pagePathSegments.importantThings}
                         path="/important-things"
                     />
                 </div>
