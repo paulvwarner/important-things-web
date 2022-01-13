@@ -1,5 +1,5 @@
-import React from "react";
-import {withRouter} from 'react-router-dom';
+import React, {useState} from "react";
+import {useHistory} from 'react-router-dom';
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
 import {CookieUtility} from "../common/CookieUtility";
 import {Constants} from "../common/Constants";
@@ -9,25 +9,31 @@ import {AuthUtility} from "../common/AuthUtility";
 
 let _ = require('underscore');
 
-// pvw todo hooks
-export let Login = withRouter(class extends React.Component {
-    constructor(props) {
-        super(props);
+export let Login = function (props) {
+    let history = useHistory();
 
-        this.state = {
-            username: '',
-            password: ''
-        };
+    let [formState, setFormState] = useState({
+        username: '',
+        password: ''
+    });
+
+    function mergeFormState(prevState, stateChange) {
+        if (stateChange) {
+            setFormState(
+                {
+                    ...prevState,
+                    ...stateChange,
+                }
+            );
+        }
     }
 
-    login = (event) => {
+    function login(event) {
         if (event) {
             event.preventDefault();
         }
 
-        let self = this;
-
-        ApiUtility.login(this.state.username, this.state.password)
+        ApiUtility.login(formState.username, formState.password)
             .then(function (response) {
                 if (response.user && response.user.authentication_token) {
                     let permissionNames = _.pluck(response.permissions || [], 'name');
@@ -45,7 +51,7 @@ export let Login = withRouter(class extends React.Component {
                         CookieUtility.save("userId", response.user.id, cookieParams);
                         CookieUtility.save("permissionNames", permissionNames, cookieParams);
 
-                        self.props.history.push('/');
+                        history.push('/');
                     } else {
                         MessageDisplayerUtility.error('User does not have web admin access.');
                     }
@@ -56,54 +62,55 @@ export let Login = withRouter(class extends React.Component {
             .catch(function (errorMessage) {
                 MessageDisplayerUtility.error(errorMessage);
             });
-    };
+    }
 
-    handleTextFieldChange = (fieldName, event) => {
-        this.setState({[fieldName]: event.target.value});
-    };
-
-    render = () => {
-        return (
-            <div className="login-page">
-                <div className="login-page-content">
-                    <form className="login-form" onSubmit={this.login}>
-                        <div className="login-box">
-                            <div className="login-logo-container">
-                                <img
-                                    src="/static/images/logo.png"
-                                    className="login-logo"
-                                />
-                            </div>
-                            <div className="login-header">IMPORTANT THINGS</div>
-                            <div className="login-field">
-                                <input
-                                    autoFocus={true}
-                                    className="common-form-input login-input"
-                                    type="text"
-                                    placeholder="Email Address"
-                                    onChange={this.handleTextFieldChange.bind(this, 'username')}
-                                    value={this.state.username}
-                                />
-                            </div>
-                            <div className="login-field">
-                                <input
-                                    className="common-form-input login-input"
-                                    type="password"
-                                    placeholder="Password"
-                                    onChange={this.handleTextFieldChange.bind(this, 'password')}
-                                    value={this.state.password}
-                                />
-                            </div>
-                            <button className="login-button">
-                                <PillButton
-                                    onClick={this.login}
-                                    buttonText="LOGIN"
-                                />
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    function handleTextFieldChange(fieldName, event) {
+        mergeFormState(
+            formState,
+            {[fieldName]: event.target.value}
         );
-    };
-});
+    }
+
+    return (
+        <div className="login-page">
+            <div className="login-page-content">
+                <form className="login-form" onSubmit={login}>
+                    <div className="login-box">
+                        <div className="login-logo-container">
+                            <img
+                                src="/static/images/logo.png"
+                                className="login-logo"
+                            />
+                        </div>
+                        <div className="login-header">IMPORTANT THINGS</div>
+                        <div className="login-field">
+                            <input
+                                autoFocus={true}
+                                className="common-form-input login-input"
+                                type="text"
+                                placeholder="Email Address"
+                                onChange={handleTextFieldChange.bind(null, 'username')}
+                                value={formState.username}
+                            />
+                        </div>
+                        <div className="login-field">
+                            <input
+                                className="common-form-input login-input"
+                                type="password"
+                                placeholder="Password"
+                                onChange={handleTextFieldChange.bind(null, 'password')}
+                                value={formState.password}
+                            />
+                        </div>
+                        <button className="login-button">
+                            <PillButton
+                                onClick={login}
+                                buttonText="LOGIN"
+                            />
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+};
