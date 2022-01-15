@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {Fragment, useContext, useEffect, useState} from 'react';
 import {ApiUtility} from "../common/ApiUtility";
 import {PillButton} from "../common/PillButton";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
@@ -9,12 +9,16 @@ import {Constants} from "../common/Constants";
 import {CreateImportantThing} from "./CreateImportantThing";
 import {UpdateImportantThing} from "./UpdateImportantThing";
 import {GlobalContext} from "../admin-frame/AdminFrame";
+import {DelayedSearchBar} from "../common/DelayedSearchBar";
+import {useLocation} from "react-router-dom";
 
 export const ImportantThingsListPage = function (props) {
     const context = useContext(GlobalContext);
+    let location = useLocation();
 
     const [listState, setListState] = useState({
         selectedPage: 1,
+        searchText: '',
         showAddImportantThingModal: false,
         showUpdateImportantThingModal: false,
         updateImportantThingId: null,
@@ -39,6 +43,7 @@ export const ImportantThingsListPage = function (props) {
     useEffect(
         function () {
             let selectedPage = 1;
+            var searchText = '';
             let updateImportantThingId = null;
             let showUpdateImportantThingModal = false;
 
@@ -53,8 +58,13 @@ export const ImportantThingsListPage = function (props) {
                 selectedPage = queryParams.page;
             }
 
+            if (queryParams.searchText) {
+                searchText = queryParams.searchText;
+            }
+
             mergeListState(listState, {
                 selectedPage: selectedPage,
+                searchText: searchText,
                 showAddImportantThingModal: props.showAddImportantThingModal,
                 showUpdateImportantThingModal: showUpdateImportantThingModal,
                 updateImportantThingId: updateImportantThingId
@@ -74,6 +84,7 @@ export const ImportantThingsListPage = function (props) {
         },
         [
             listState.selectedPage,
+            listState.searchText,
             listState.showAddImportantThingModal,
             listState.showUpdateImportantThingModal,
             listState.updateImportantThingId
@@ -84,7 +95,10 @@ export const ImportantThingsListPage = function (props) {
         if (loadingListData) {
             let listStateChange = {};
 
-            ApiUtility.getImportantThingsList(listState.selectedPage)
+            ApiUtility.getImportantThingsList(
+                listState.selectedPage,
+                listState.searchText
+            )
                 .then(function (importantThingsListData) {
                     listStateChange = {
                         importantThingsList: importantThingsListData.importantThingsList || [],
@@ -102,15 +116,24 @@ export const ImportantThingsListPage = function (props) {
     }, [loadingListData]);
 
     function goToAddImportantThingModal() {
-        context.navigator.navigateTo('/important-things/add');
+        context.navigator.navigateTo('/important-things/add' + location.search);
     }
 
     function goToUpdateImportantThingModal(importantThing) {
-        context.navigator.navigateTo('/important-things/' + importantThing.id);
+        context.navigator.navigateTo('/important-things/' + importantThing.id + location.search);
     }
 
     function closeModals() {
-        context.navigator.navigateTo('/important-things');
+        context.navigator.navigateTo('/important-things' + location.search);
+    }
+
+    function performSearch(searchText) {
+        if (listState.searchText !== searchText) {
+            let queryParams = UrlUtility.getQueryParamsFromProps(props);
+            queryParams.searchText = searchText;
+            let queryString = UrlUtility.getUrlQueryStringFromQueryParamsObject(queryParams);
+            context.navigator.navigateTo('/important-things' + queryString);
+        }
     }
 
     function renderImportantThingsListDisplay(importantThingsList) {
@@ -149,6 +172,11 @@ export const ImportantThingsListPage = function (props) {
                             </div>
                         </div>
                         <div className="common-list-page-header-content-right">
+                            <DelayedSearchBar
+                                performSearch={performSearch}
+                                value={listState.searchText}
+                                placeholder="Search Important Things"
+                            />
                             <PillButton
                                 onClick={goToAddImportantThingModal}
                                 buttonText="ADD"
@@ -156,6 +184,7 @@ export const ImportantThingsListPage = function (props) {
                         </div>
                     </div>
                 </div>
+
                 <div className="common-list-page-content">
                     {(() => {
                         if (loadingListData) {
@@ -164,26 +193,40 @@ export const ImportantThingsListPage = function (props) {
                             );
                         }
                     })()}
-                    <div className="common-list-header">
-                        <div key={0} className="common-list-row common-list-labels-row">
-                            <div
-                                className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell message"
-                            >Message
-                            </div>
-                            <div
-                                className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell weight"
-                            >Weight
-                            </div>
-                        </div>
-                    </div>
-                    <div className="common-list-content">
-                        {renderImportantThingsListDisplay(listState.importantThingsList)}
-                    </div>
-                    <ListPaginationOptions
-                        pageCount={listState.pageCount}
-                        selectedPage={listState.selectedPage}
-                        urlBase="/important-things"
-                    />
+                    {(() => {
+                        if (listState.importantThingsList.length > 0) {
+                            return (
+                                <Fragment>
+                                    <div className="common-list-header">
+                                        <div key={0} className="common-list-row common-list-labels-row">
+                                            <div
+                                                className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell message"
+                                            >Message
+                                            </div>
+                                            <div
+                                                className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell weight"
+                                            >Weight
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="common-list-content">
+                                        {renderImportantThingsListDisplay(listState.importantThingsList)}
+                                    </div>
+                                    <ListPaginationOptions
+                                        pageCount={listState.pageCount}
+                                        selectedPage={listState.selectedPage}
+                                        urlBase="/important-things"
+                                    />
+                                </Fragment>
+                            );
+                        } else {
+                            return (
+                                <div className="common-empty-list-message-container">
+                                <div className="common-empty-list-message">No important things found.</div>
+                                </div>
+                            );
+                        }
+                    })()}
                 </div>
                 {(() => {
                     if (listState.showAddImportantThingModal) {

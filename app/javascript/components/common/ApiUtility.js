@@ -74,11 +74,15 @@ export var ApiUtility = {
         })
     },
 
-    getImportantThingsList: function (pageNumber) {
+    getImportantThingsList: function (pageNumber, searchText) {
         let argumentsArray = [];
 
         if (pageNumber) {
             argumentsArray.push({label: 'page', value: pageNumber})
+        }
+
+        if (searchText) {
+            argumentsArray.push({label: 'searchText', value: searchText})
         }
 
         return ApiUtility.apiRequest(

@@ -9,8 +9,16 @@ class ImportantThingsController < ApplicationController
     return if performed?
 
     # return important things list
-    important_things = ImportantThing
-                         .all
+    important_things_query = ImportantThing.all
+
+    # apply filters
+    if params[:searchText] && params[:searchText].to_s.size > 0
+      search_term = params[:searchText].to_s.downcase
+      important_things_query = important_things_query
+                                 .where("lower(message) like '%" + search_term + "%'")
+    end
+
+    important_things = important_things_query
                          .page(params[:page])
                          .per(@important_things_per_page)
 

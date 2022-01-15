@@ -36,7 +36,7 @@
         flex-direction: row;
         align-items: center;
         justify-content: flex-end;
-        flex: 1;
+        flex: 2;
 
         .pill-button-container {
           margin: 0;
@@ -52,13 +52,26 @@
     max-width: $max-admin-page-content-width;
     padding-top: 20px;
 
-
     .common-list-header {
       margin-bottom: 10px;
     }
 
     .common-list-content {
       margin-bottom: 40px;
+    }
+
+    .common-empty-list-message-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+
+      .common-empty-list-message {
+        color: $dark-gray;
+        font-weight: $bold;
+        font-style: italic;
+      }
     }
 
     .common-list-content, .common-list-header {

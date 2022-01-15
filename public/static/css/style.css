@@ -326,7 +326,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  flex: 1;
+  flex: 2;
 }
 .common-list-page .common-list-page-header .common-list-page-header-content .common-list-page-header-content-right .pill-button-container {
   margin: 0;
@@ -343,6 +343,18 @@ body {
 }
 .common-list-page .common-list-page-content .common-list-content {
   margin-bottom: 40px;
+}
+.common-list-page .common-list-page-content .common-empty-list-message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.common-list-page .common-list-page-content .common-empty-list-message-container .common-empty-list-message {
+  color: #aaaaaa;
+  font-weight: 700;
+  font-style: italic;
 }
 .common-list-page .common-list-page-content .common-list-content, .common-list-page .common-list-page-content .common-list-header {
   display: table;
@@ -373,6 +385,60 @@ body {
 }
 .common-list-page .common-list-page-content .common-list-content .common-list-row .common-list-row-cell.common-list-row-value-cell, .common-list-page .common-list-page-content .common-list-header .common-list-row .common-list-row-cell.common-list-row-value-cell {
   font-size: 12px;
+}
+
+.search-bar-outer-container {
+  display: flex;
+  margin-right: 20px;
+}
+.search-bar-outer-container .search-bar-loading-indicator-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  text-align: center;
+}
+.search-bar-outer-container .search-bar-loading-indicator-container .search-bar-loading-indicator {
+  width: 30px;
+  height: 30px;
+}
+.search-bar-outer-container .search-bar-container {
+  display: flex;
+  border: 1px solid #ececec;
+  height: 50px;
+  border-radius: calc(50px / 2);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.search-bar-outer-container .search-bar-container .search-bar-icon-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  text-align: center;
+}
+.search-bar-outer-container .search-bar-container .search-bar-icon-container .search-bar-icon {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+}
+.search-bar-outer-container .search-bar-container .search-bar-field-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+.search-bar-outer-container .search-bar-container .search-bar-field-container .search-bar-field {
+  border: 0;
+  font-size: 17px;
+  font-weight: 400;
+  min-width: 200px;
+  outline: none;
 }
 
 .leave-without-saving-warning-modal {

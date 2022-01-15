@@ -18,7 +18,7 @@ export let Modal = function (props) {
                                     onClick={props.onClickCloseOption}
                                 >
                                     <img
-                                        src="/static/images/times.svg"
+                                        src="/static/images/close-black.svg"
                                         className="common-modal-close-option-icon"
                                     />
                                 </div>

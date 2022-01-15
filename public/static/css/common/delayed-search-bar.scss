@@ -1,0 +1,61 @@
+.search-bar-outer-container {
+  display: flex;
+  margin-right: 20px;
+
+  .search-bar-loading-indicator-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    text-align: center;
+
+    .search-bar-loading-indicator {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .search-bar-container {
+    display: flex;
+    border: 1px solid $border-gray;
+    height: $pill-button-height;
+    border-radius: calc(#{$pill-button-height} / 2);
+    padding-left: 10px;
+    padding-right: 10px;
+
+    .search-bar-icon-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      text-align: center;
+
+      .search-bar-icon {
+        width: 30px;
+        height: 30px;
+        margin: 0 auto;
+      }
+    }
+
+    .search-bar-field-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+      padding-right: 10px;
+      padding-left: 10px;
+
+      .search-bar-field {
+        border: 0;
+        font-size: 17px;
+        font-weight: $normal;
+        min-width: 200px;
+        outline: none;
+      }
+    }
+  }
+}
+

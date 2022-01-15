@@ -7,6 +7,7 @@ $gray: #ececec;
 $border-gray: $gray;
 $bg-alt-color: $gray;
 $cancel-gray: #bbbbbb;
+$dark-gray: #aaaaaa;
 
 
 // font setup
@@ -255,6 +256,7 @@ body {
 @import "admin-frame/admin-frame.scss";
 @import "admin-frame/admin-header.scss";
 @import "common/common-list.scss";
+@import "common/delayed-search-bar.scss";
 @import "common/leave-without-saving-warning-modal.scss";
 @import "common/list-pagination-options.scss";
 @import "common/loading-indicator.scss";
