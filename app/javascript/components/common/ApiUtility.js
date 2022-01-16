@@ -131,4 +131,50 @@ export var ApiUtility = {
             }
         );
     },
+
+    getCommitmentsList: function (pageNumber, searchText) {
+        let argumentsArray = [];
+
+        if (pageNumber) {
+            argumentsArray.push({label: 'page', value: pageNumber})
+        }
+
+        if (searchText) {
+            argumentsArray.push({label: 'searchText', value: searchText})
+        }
+
+        return ApiUtility.apiRequest(
+            `/api/commitments${UrlUtility.getUrlQueryString(argumentsArray)}`
+        );
+    },
+
+    getCommitment: function (commitmentId) {
+        return ApiUtility.apiRequest('/api/commitments/' + commitmentId);
+    },
+
+    createCommitment: function (commitmentData) {
+        return ApiUtility.apiRequest(
+            '/api/commitments/',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(commitmentData),
+            }
+        );
+    },
+
+    updateCommitment: function (commitmentData) {
+        return ApiUtility.apiRequest(
+            '/api/commitments/' + commitmentData.id,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(commitmentData)
+            }
+        );
+    },
 };

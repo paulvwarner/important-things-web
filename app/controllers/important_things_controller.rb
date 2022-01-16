@@ -23,7 +23,7 @@ class ImportantThingsController < ApplicationController
                          .per(@important_things_per_page)
 
     render json: {
-      importantThingsList: important_things.as_json,
+      modelList: important_things.as_json,
       pageCount: important_things.total_pages
     }, status: 200
   end

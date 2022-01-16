@@ -4,31 +4,31 @@ import {PillButton} from "../common/PillButton";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 import {ListPaginationOptions} from "../common/ListPaginationOptions";
 import {UrlUtility} from "../common/UrlUtility";
-import {CreateImportantThing} from "./CreateImportantThing";
-import {UpdateImportantThing} from "./UpdateImportantThing";
+import {CreateCommitment} from "./CreateCommitment";
+import {UpdateCommitment} from "./UpdateCommitment";
 import {GlobalContext} from "../admin-frame/AdminFrame";
 import {DelayedSearchBar} from "../common/DelayedSearchBar";
 import {useLocation} from "react-router-dom";
 import {useCommonListEffects} from "../common/CommonListHooks";
 
-export const ImportantThingsListPage = function (props) {
+export const CommitmentsListPage = function (props) {
     const context = useContext(GlobalContext);
     let location = useLocation();
 
     const [listState, loadingListData] = useCommonListEffects(
-        props, 'importantThingId', ApiUtility.getImportantThingsList, 'important thing'
+        props, 'commitmentId', ApiUtility.getCommitmentsList, 'commitment'
     );
 
-    function goToAddImportantThingModal() {
-        context.navigator.navigateTo('/important-things/add' + location.search);
+    function goToAddCommitmentModal() {
+        context.navigator.navigateTo('/commitments/add' + location.search);
     }
 
-    function goToUpdateImportantThingModal(importantThing) {
-        context.navigator.navigateTo('/important-things/' + importantThing.id + location.search);
+    function goToUpdateCommitmentModal(commitment) {
+        context.navigator.navigateTo('/commitments/' + commitment.id + location.search);
     }
 
     function closeModals() {
-        context.navigator.navigateTo('/important-things' + location.search);
+        context.navigator.navigateTo('/commitments' + location.search);
     }
 
     function performSearch(searchText) {
@@ -36,53 +36,50 @@ export const ImportantThingsListPage = function (props) {
             let queryParams = UrlUtility.getQueryParamsFromProps(props);
             queryParams.searchText = searchText;
             let queryString = UrlUtility.getUrlQueryStringFromQueryParamsObject(queryParams);
-            context.navigator.navigateTo('/important-things' + queryString);
+            context.navigator.navigateTo('/commitments' + queryString);
         }
     }
 
-    function renderImportantThingsListDisplay(importantThingsList) {
-        let importantThingsListDisplay = [];
+    function renderCommitmentsListDisplay(commitmentsList) {
+        let commitmentsListDisplay = [];
 
-        for (let i = 0; i < importantThingsList.length; i++) {
-            const importantThing = importantThingsList[i];
+        for (let i = 0; i < commitmentsList.length; i++) {
+            const commitment = commitmentsList[i];
 
-            importantThingsListDisplay.push(
+            commitmentsListDisplay.push(
                 <div
                     key={i + 1}
                     className="common-list-row common-list-values-row"
-                    onClick={goToUpdateImportantThingModal.bind(null, importantThing)}
+                    onClick={goToUpdateCommitmentModal.bind(null, commitment)}
                 >
                     <div
-                        className="common-list-row-cell common-list-row-value-cell important-things-list-row-cell message"
-                    >{importantThing.message}</div>
-                    <div
-                        className="common-list-row-cell common-list-row-value-cell important-things-list-row-cell weight"
-                    >{importantThing.weight}</div>
+                        className="common-list-row-cell common-list-row-value-cell commitments-list-row-cell title"
+                    >{commitment.title}</div>
                 </div>
             );
         }
 
-        return importantThingsListDisplay;
+        return commitmentsListDisplay;
     }
 
     if (listState.modelList) {
         return (
-            <div className="common-list-page important-things-list-page">
+            <div className="common-list-page commitments-list-page">
                 <div className="common-list-page-header">
                     <div className="common-list-page-header-content">
                         <div className="common-list-page-header-content-left">
                             <div className="common-list-page-header-text">
-                                Important Things
+                                Commitments
                             </div>
                         </div>
                         <div className="common-list-page-header-content-right">
                             <DelayedSearchBar
                                 performSearch={performSearch}
                                 value={listState.searchText}
-                                placeholder="Search Important Things"
+                                placeholder="Search Commitments"
                             />
                             <PillButton
-                                onClick={goToAddImportantThingModal}
+                                onClick={goToAddCommitmentModal}
                                 buttonText="ADD"
                             />
                         </div>
@@ -104,32 +101,25 @@ export const ImportantThingsListPage = function (props) {
                                     <div className="common-list-header">
                                         <div key={0} className="common-list-row common-list-labels-row">
                                             <div
-                                                className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell message"
-                                            >Message
-                                            </div>
-                                            <div
-                                                className="common-list-row-cell common-list-row-label-cell important-things-list-row-cell weight"
-                                            >Weight
+                                                className="common-list-row-cell common-list-row-label-cell commitments-list-row-cell title"
+                                            >Title
                                             </div>
                                         </div>
                                     </div>
                                     <div className="common-list-content">
-                                        {renderImportantThingsListDisplay(listState.modelList)}
+                                        {renderCommitmentsListDisplay(listState.modelList)}
                                     </div>
                                     <ListPaginationOptions
                                         pageCount={listState.pageCount}
                                         selectedPage={listState.selectedPage}
-                                        urlBase="/important-things"
+                                        urlBase="/commitments"
                                     />
                                 </Fragment>
                             );
                         } else {
                             return (
                                 <div className="common-empty-list-message-container">
-                                    <div
-                                        className="common-empty-list-message"
-                                    >No important things found.
-                                    </div>
+                                    <div className="common-empty-list-message">No commitments found.</div>
                                 </div>
                             );
                         }
@@ -138,17 +128,17 @@ export const ImportantThingsListPage = function (props) {
                 {(() => {
                     if (listState.showCreateModal) {
                         return (
-                            <CreateImportantThing
+                            <CreateCommitment
                                 cancel={closeModals}
                                 afterSuccessfulSave={closeModals}
                             />
                         );
                     } else if (listState.showUpdateModal) {
                         return (
-                            <UpdateImportantThing
+                            <UpdateCommitment
                                 cancel={closeModals}
                                 afterSuccessfulSave={closeModals}
-                                importantThingId={listState.updateModelId}
+                                commitmentId={listState.updateModelId}
                             />
                         );
                     }

@@ -5,6 +5,8 @@ export let Constants = {
 
     pagePathSegments: {
         importantThings: 'important-things',
+        commitments: 'commitments',
+        affirmations: 'affirmations',
         users: 'users'
     },
 

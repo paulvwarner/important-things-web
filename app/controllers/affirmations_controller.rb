@@ -1,0 +1,2 @@
+class AffirmationsController < ApplicationController
+end

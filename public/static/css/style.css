@@ -290,6 +290,10 @@ body {
   opacity: 0.75;
 }
 
+.commitments-list-page .commitments-list-row-cell.title {
+  width: 100%;
+}
+
 .common-list-page {
   display: flex;
   flex-direction: column;
