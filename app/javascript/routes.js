@@ -6,6 +6,7 @@ import {Login} from "./components/login/Login";
 import {ImportantThingsListPage} from "./components/important-things/ImportantThingsListPage";
 import {UsersListPage} from "./components/users/UsersListPage";
 import {CommitmentsListPage} from "./components/commitments/CommitmentsListPage";
+import {AffirmationsListPage} from "./components/affirmations/AffirmationsListPage";
 
 // placeholder BrowserRouter confirmation function to be overwritten by AdminFrame
 var getUserConfirmationFunction = function (message, callback) {
@@ -57,6 +58,23 @@ export default (
                            }
                     />
                     <Route exact path="/commitments/:commitmentId" component={CommitmentsListPage}/>
+
+
+                    <Route exact path="/affirmations" component={AffirmationsListPage}/>
+                    <Route exact path="/affirmations/add"
+                           render={
+                               function (props) {
+                                   return (
+                                       <AffirmationsListPage
+                                           {...props}
+                                           showCreateModal={true}
+                                       />
+                                   );
+                               }
+                           }
+                    />
+                    <Route exact path="/affirmations/:affirmationId" component={AffirmationsListPage}/>
+
 
                     <Route exact path="/users" component={UsersListPage}/>
                 </Switch>

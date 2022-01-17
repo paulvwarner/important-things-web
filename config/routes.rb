@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   get '/commitments', to: 'web_client#index'
   get '/commitments/add', to: 'web_client#index'
   get '/commitments/:id', to: 'web_client#index'
+  get '/affirmations', to: 'web_client#index'
+  get '/affirmations/add', to: 'web_client#index'
+  get '/affirmations/:id', to: 'web_client#index'
   get '/users', to: 'web_client#index'
 
   scope path: "/api" do

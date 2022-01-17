@@ -290,6 +290,10 @@ body {
   opacity: 0.75;
 }
 
+.affirmations-list-page .affirmations-list-row-cell.message {
+  width: 100%;
+}
+
 .commitments-list-page .commitments-list-row-cell.title {
   width: 100%;
 }

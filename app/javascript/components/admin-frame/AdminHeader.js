@@ -66,6 +66,11 @@ export let AdminHeader = function (props) {
                         selected={selectedPagePathSegment === Constants.pagePathSegments.commitments}
                         path="/commitments"
                     />
+                    <AdminHeaderTab
+                        label="AFFIRMATIONS"
+                        selected={selectedPagePathSegment === Constants.pagePathSegments.affirmations}
+                        path="/affirmations"
+                    />
                 </div>
 
                 <div className="admin-header-account-info-container">

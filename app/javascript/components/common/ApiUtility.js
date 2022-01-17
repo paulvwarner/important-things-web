@@ -1,7 +1,5 @@
 import React from 'react';
 import {CookieUtility} from "./CookieUtility";
-import {Constants} from "./Constants";
-import {MessageDisplayerUtility} from "./MessageDisplayerUtility";
 import {UrlUtility} from "./UrlUtility";
 
 var _ = require('underscore');
@@ -174,6 +172,52 @@ export var ApiUtility = {
                     'Content-Type': 'application/json'
                 },
                 data: JSON.stringify(commitmentData)
+            }
+        );
+    },
+
+    getAffirmationsList: function (pageNumber, searchText) {
+        let argumentsArray = [];
+
+        if (pageNumber) {
+            argumentsArray.push({label: 'page', value: pageNumber})
+        }
+
+        if (searchText) {
+            argumentsArray.push({label: 'searchText', value: searchText})
+        }
+
+        return ApiUtility.apiRequest(
+            `/api/affirmations${UrlUtility.getUrlQueryString(argumentsArray)}`
+        );
+    },
+
+    getAffirmation: function (affirmationId) {
+        return ApiUtility.apiRequest('/api/affirmations/' + affirmationId);
+    },
+
+    createAffirmation: function (affirmationData) {
+        return ApiUtility.apiRequest(
+            '/api/affirmations/',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(affirmationData),
+            }
+        );
+    },
+
+    updateAffirmation: function (affirmationData) {
+        return ApiUtility.apiRequest(
+            '/api/affirmations/' + affirmationData.id,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(affirmationData)
             }
         );
     },
