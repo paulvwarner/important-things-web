@@ -35,7 +35,7 @@ export default (
                                    return (
                                        <ImportantThingsListPage
                                            {...props}
-                                           showAddImportantThingModal={true}
+                                           showCreateModal={true}
                                        />
                                    );
                                }
