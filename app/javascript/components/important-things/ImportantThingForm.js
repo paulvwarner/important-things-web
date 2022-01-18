@@ -6,6 +6,7 @@ import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
 import {ApiUtility} from "../common/ApiUtility";
 import {useCommonFormEffects} from "../common/CommonFormHooks";
 import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
+import {CommonFormOptions} from "../common/CommonFormOptions";
 
 let _ = require('underscore');
 
@@ -141,54 +142,22 @@ export let ImportantThingForm = function (props) {
 
                                 <div className="common-form-body-row">
                                     <div className="common-form-options">
-                                        {(() => {
-                                            let commonFormOptions = [
-                                                <PillButton
-                                                    key={1}
-                                                    containerClasses="common-form-button-container"
-                                                    buttonClasses="common-form-button cancel-button"
-                                                    onClick={props.cancel}
-                                                    buttonText={"CANCEL"}
-                                                />,
-                                                <PillButton
-                                                    key={2}
-                                                    containerClasses="common-form-button-container"
-                                                    buttonClasses="common-form-button save-button"
-                                                    onClick={save}
-                                                    buttonText={"SAVE"}
-                                                />
-                                            ];
-                                            if (props.isNew) {
-                                                return commonFormOptions;
-                                            } else {
-                                                return [
-                                                    <div
-                                                        key={1}
-                                                        className="common-form-options-section common-form-options-left"
-                                                    >
-                                                        {commonFormOptions}
-                                                    </div>,
-                                                    <div
-                                                        key={2}
-                                                        className="common-form-options-section common-form-options-right"
-                                                    >
-                                                        <PillButton
-                                                            containerClasses="common-form-button-container"
-                                                            buttonClasses="common-form-button delete-button white-button"
-                                                            onClick={confirmDeactivate}
-                                                            buttonText={"DELETE"}
-                                                        />
-                                                        <PillButton
-                                                            containerClasses="common-form-button-container"
-                                                            buttonClasses="common-form-button red-button"
-                                                            onClick={notifyAppUsersNow}
-                                                            buttonText={"NOTIFY APP USERS NOW"}
-                                                        />
-                                                    </div>
-                                                ]
-                                            }
-                                        })()}
-
+                                        <CommonFormOptions
+                                            isNew={props.isNew}
+                                            cancel={props.cancel}
+                                            save={save}
+                                            confirmDeactivate={confirmDeactivate}
+                                            renderAdditionalOptions={function() {
+                                                return (
+                                                    <PillButton
+                                                        containerClasses="common-form-button-container"
+                                                        buttonClasses="common-form-button red-button notify-now-button"
+                                                        onClick={notifyAppUsersNow}
+                                                        buttonText={"NOTIFY APP USERS NOW"}
+                                                    />
+                                                )
+                                            }}
+                                        />
                                     </div>
                                 </div>
                             </div>

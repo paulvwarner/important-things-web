@@ -3,6 +3,8 @@ import {LoadingIndicator} from "../common/LoadingIndicator";
 import {PillButton} from "../common/PillButton";
 import {Modal} from "../common/Modal";
 import {useCommonFormEffects} from "../common/CommonFormHooks";
+import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
+import {CommonFormOptions} from "../common/CommonFormOptions";
 
 let _ = require('underscore');
 
@@ -48,7 +50,7 @@ export let AffirmationForm = function (props) {
             onClickCloseOption={props.cancel}
         >
             {(() => {
-                if (saving) {
+                if (saving|| deactivating) {
                     return (
                         <LoadingIndicator loading={true}/>
                     );
@@ -88,22 +90,25 @@ export let AffirmationForm = function (props) {
                                 </div>
 
                                 <div className="common-form-body-row">
-                                    <div className="common-form-options">
-                                        <PillButton
-                                            containerClasses="common-form-button-container"
-                                            buttonClasses="common-form-button cancel-button"
-                                            onClick={props.cancel}
-                                            buttonText={"CANCEL"}
-                                        />,
-                                        <PillButton
-                                            containerClasses="common-form-button-container"
-                                            buttonClasses="common-form-button save-button"
-                                            onClick={save}
-                                            buttonText={"SAVE"}
-                                        />
-                                    </div>
+                                    <CommonFormOptions
+                                        isNew={props.isNew}
+                                        cancel={props.cancel}
+                                        save={save}
+                                        confirmDeactivate={confirmDeactivate}
+                                    />
                                 </div>
                             </div>
+                            {(() => {
+                                if (confirmingDeactivate) {
+                                    return (
+                                        <ConfirmDeleteModal
+                                            cancel={cancelDeactivate}
+                                            deactivate={deactivate}
+                                            modelTypeName="affirmation"
+                                        />
+                                    );
+                                }
+                            })()}
                         </div>
                     );
                 }

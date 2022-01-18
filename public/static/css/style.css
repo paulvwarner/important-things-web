@@ -167,7 +167,8 @@ body {
   background-color: #ffffff;
   color: #000000;
   min-width: 0;
-  margin-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .common-form .common-form-options .common-form-button-container .common-form-button.save-button {
   background-color: #000000;
@@ -839,6 +840,9 @@ body {
 .important-thing-form .important-thing-weight-input {
   width: 100px;
   text-align: center;
+}
+.important-thing-form .notify-now-button {
+  margin-left: 20px;
 }
 
 /*# sourceMappingURL=style.css.map */
