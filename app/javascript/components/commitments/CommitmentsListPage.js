@@ -10,6 +10,7 @@ import {GlobalContext} from "../admin-frame/AdminFrame";
 import {DelayedSearchBar} from "../common/DelayedSearchBar";
 import {useLocation} from "react-router-dom";
 import {useCommonListEffects} from "../common/CommonListHooks";
+import {CommonListPageHeader} from "../common/CommonListPageHeader";
 
 export const CommitmentsListPage = function (props) {
     const context = useContext(GlobalContext);
@@ -65,26 +66,13 @@ export const CommitmentsListPage = function (props) {
     if (listState.modelList) {
         return (
             <div className="common-list-page commitments-list-page">
-                <div className="common-list-page-header">
-                    <div className="common-list-page-header-content">
-                        <div className="common-list-page-header-content-left">
-                            <div className="common-list-page-header-text">
-                                Commitments
-                            </div>
-                        </div>
-                        <div className="common-list-page-header-content-right">
-                            <DelayedSearchBar
-                                performSearch={performSearch}
-                                value={listState.searchText}
-                                placeholder="Search Commitments"
-                            />
-                            <PillButton
-                                onClick={goToAddCommitmentModal}
-                                buttonText="ADD"
-                            />
-                        </div>
-                    </div>
-                </div>
+                <CommonListPageHeader
+                    headerText="Commitments"
+                    performSearch={performSearch}
+                    searchText={listState.searchText}
+                    searchPlaceholderText="Search Commitments"
+                    onClickAddButton={goToAddCommitmentModal}
+                />
 
                 <div className="common-list-page-content">
                     {(() => {

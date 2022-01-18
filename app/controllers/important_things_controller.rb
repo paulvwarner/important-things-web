@@ -45,13 +45,7 @@ class ImportantThingsController < ApplicationController
       return if performed?
 
       ActiveRecord::Base.transaction do
-        ImportantThing.create(
-          {
-            message: params[:message],
-            notes: params[:notes],
-            weight: params[:weight]
-          }
-        )
+        create_important_thing(params)
       end
       render json: {}, status: 200
     rescue Exception => e

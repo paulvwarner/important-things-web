@@ -17,4 +17,14 @@ module ImportantThingsHelper
       }
     )
   end
+
+  def create_important_thing(important_thing_attrs)
+    ImportantThing.create(
+      {
+        message: important_thing_attrs[:message],
+        notes: important_thing_attrs[:notes],
+        weight: important_thing_attrs[:weight]
+      }
+    )
+  end
 end

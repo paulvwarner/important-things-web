@@ -82,6 +82,7 @@ export let Login = function (props) {
                         <div className="login-header">IMPORTANT THINGS</div>
                         <div className="login-field">
                             <input
+                                id="usernameInput"
                                 autoFocus={true}
                                 className="common-form-input login-input"
                                 type="text"
@@ -92,6 +93,7 @@ export let Login = function (props) {
                         </div>
                         <div className="login-field">
                             <input
+                                id="passwordInput"
                                 className="common-form-input login-input"
                                 type="password"
                                 placeholder="Password"

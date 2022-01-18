@@ -76,7 +76,7 @@ export let AdminHeader = function (props) {
                 <div className="admin-header-account-info-container">
                     <div className="admin-header-account-info">
                         <div
-                            className="admin-header-username"
+                            className="admin-header-username-display"
                         >Logged in as {CookieUtility.load("userPersonName")}
                         </div>
                         <div className="logout-option-container">

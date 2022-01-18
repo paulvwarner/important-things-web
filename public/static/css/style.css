@@ -273,7 +273,7 @@ body {
   flex: 1;
   justify-content: flex-end;
 }
-.admin-header .admin-header-content .admin-header-account-info-container .admin-header-account-info .admin-header-username {
+.admin-header .admin-header-content .admin-header-account-info-container .admin-header-account-info .admin-header-username-display {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

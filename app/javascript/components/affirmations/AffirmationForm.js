@@ -50,7 +50,7 @@ export let AffirmationForm = function (props) {
             onClickCloseOption={props.cancel}
         >
             {(() => {
-                if (saving|| deactivating) {
+                if (saving || deactivating) {
                     return (
                         <LoadingIndicator loading={true}/>
                     );

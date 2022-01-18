@@ -10,6 +10,7 @@ import {GlobalContext} from "../admin-frame/AdminFrame";
 import {DelayedSearchBar} from "../common/DelayedSearchBar";
 import {useLocation} from "react-router-dom";
 import {useCommonListEffects} from "../common/CommonListHooks";
+import {CommonListPageHeader} from "../common/CommonListPageHeader";
 
 export const ImportantThingsListPage = function (props) {
     const context = useContext(GlobalContext);
@@ -68,26 +69,13 @@ export const ImportantThingsListPage = function (props) {
     if (listState.modelList) {
         return (
             <div className="common-list-page important-things-list-page">
-                <div className="common-list-page-header">
-                    <div className="common-list-page-header-content">
-                        <div className="common-list-page-header-content-left">
-                            <div className="common-list-page-header-text">
-                                Important Things
-                            </div>
-                        </div>
-                        <div className="common-list-page-header-content-right">
-                            <DelayedSearchBar
-                                performSearch={performSearch}
-                                value={listState.searchText}
-                                placeholder="Search Important Things"
-                            />
-                            <PillButton
-                                onClick={goToAddImportantThingModal}
-                                buttonText="ADD"
-                            />
-                        </div>
-                    </div>
-                </div>
+                <CommonListPageHeader
+                    headerText="Important Things"
+                    performSearch={performSearch}
+                    searchText={listState.searchText}
+                    searchPlaceholderText="Search Important Things"
+                    onClickAddButton={goToAddImportantThingModal}
+                />
 
                 <div className="common-list-page-content">
                     {(() => {

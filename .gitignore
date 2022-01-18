@@ -40,3 +40,6 @@
 npm-debug.log
 
 /lib/tasks/setup_personal_data.rake
+
+# test credentials
+/spec/support/credentials.yml

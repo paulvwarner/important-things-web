@@ -9,3 +9,10 @@ development:
   username: impthingsuser
   password: D0pP3|_G@|!ger
   database: impthingsdata
+
+e2e_test:
+  <<: *default
+  host: localhost
+  username: impthingse2e
+  password: D|pP3|_G||!ger
+  database: impthingstestdata

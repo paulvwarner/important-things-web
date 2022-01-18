@@ -99,6 +99,7 @@ export let ImportantThingForm = function (props) {
                                         </div>
                                         <div className="common-form-field-input-container">
                                             <input
+                                                id="message"
                                                 type="text"
                                                 className="common-form-input"
                                                 value={formState.message}
@@ -115,6 +116,7 @@ export let ImportantThingForm = function (props) {
                                         </div>
                                         <div className="common-form-field-input-container">
                                                 <textarea
+                                                    id="notes"
                                                     className="common-form-textarea"
                                                     value={formState.notes}
                                                     onChange={handleTextFieldChange.bind(null, "notes")}
@@ -130,6 +132,7 @@ export let ImportantThingForm = function (props) {
                                         </div>
                                         <div className="common-form-field-input-container">
                                             <input
+                                                id="weight"
                                                 type="text"
                                                 className="common-form-input important-thing-weight-input"
                                                 value={formState.weight}
