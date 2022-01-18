@@ -17,13 +17,15 @@ export function useCommonFormEffects(
         ...initialModelSpecificState,
     });
 
+    const [confirmingDeactivate, setConfirmingDeactivate] = useState(false);
+    const [deactivating, setDeactivating] = useState(false);
     const [saving, setSaving] = useState(false);
 
-    function mergeFormState(prevState, stateChange) {
+    function mergeToFormState(stateChange) {
         if (stateChange) {
             setFormState(
                 {
-                    ...prevState,
+                    ...formState,
                     ...stateChange,
                 }
             );
@@ -65,24 +67,33 @@ export function useCommonFormEffects(
             for (let y = 0; y < invalidFields.length; y++) {
                 stateChange.invalidFields['' + invalidFields[y] + '_invalid'] = true;
             }
-            mergeFormState(formState, stateChange);
+            mergeToFormState(stateChange);
             window.setTimeout(function () {
                 resolve(false);
             }, 0)
         } else {
-            mergeFormState(
-                formState,
-                {
-                    invalidFields: {},
-                    validationErrors: []
-                }
-            );
+            mergeToFormState({
+                invalidFields: {},
+                validationErrors: []
+            });
             resolve(true);
         }
     }
 
     function save() {
         setSaving(true);
+    }
+
+    function confirmDeactivate() {
+        setConfirmingDeactivate(true);
+    }
+
+    function cancelDeactivate() {
+        setConfirmingDeactivate(false);
+    }
+
+    function deactivate() {
+        setDeactivating(true);
     }
 
     useEffect(function () {
@@ -102,6 +113,12 @@ export function useCommonFormEffects(
                 });
         }
     }, [saving]);
+
+    useEffect(function () {
+        if (deactivating) {
+            props.deactivate();
+        }
+    }, [deactivating]);
 
     function getFormFieldClasses(originalClasses, fieldName) {
         let returnClasses = originalClasses;
@@ -140,6 +157,11 @@ export function useCommonFormEffects(
         formState,
         save,
         saving,
+        deactivate,
+        deactivating,
+        confirmDeactivate,
+        confirmingDeactivate,
+        cancelDeactivate,
         handleValidationResult,
         getFormFieldClasses,
         handleTextFieldChange,

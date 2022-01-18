@@ -118,7 +118,7 @@ export let LeaveWithoutSavingWarningModal = function (props) {
                                 <div className="leave-without-saving-warning-modal-option">
                                     <PillButton
                                         onClick={cancel}
-                                        buttonClasses={'leave-without-saving-warning-modal-button leave-without-saving-warning-modal-cancel-button'}
+                                        buttonClasses="leave-without-saving-warning-modal-button leave-without-saving-warning-modal-cancel-button"
                                         buttonText="CANCEL"
                                         buttonTextClasses="leave-without-saving-warning-modal-button-text"
                                     />
@@ -126,7 +126,7 @@ export let LeaveWithoutSavingWarningModal = function (props) {
                                 <div className="leave-without-saving-warning-modal-option">
                                     <PillButton
                                         onClick={leaveWithoutSaving}
-                                        buttonClasses={'leave-without-saving-warning-modal-button leave-without-saving-warning-modal-leave-button'}
+                                        buttonClasses="leave-without-saving-warning-modal-button leave-without-saving-warning-modal-leave-button"
                                         buttonText="LEAVE WITHOUT SAVING"
                                         buttonTextClasses="leave-without-saving-warning-modal-button-text"
                                     />

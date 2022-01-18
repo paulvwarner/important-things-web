@@ -9,7 +9,7 @@ class ImportantThingsController < ApplicationController
     return if performed?
 
     # return important things list
-    important_things_query = ImportantThing.all
+    important_things_query = ImportantThing.where(active: true)
 
     # apply filters
     if params[:searchText] && params[:searchText].to_s.size > 0
@@ -79,6 +79,10 @@ class ImportantThingsController < ApplicationController
 
         if params.has_key?(:weight)
           important_thing_update[:weight] = params[:weight]
+        end
+
+        if params.has_key?(:active)
+          important_thing_update[:active] = params[:active]
         end
 
         important_thing.update(important_thing_update)

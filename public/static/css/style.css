@@ -89,6 +89,9 @@ body {
   width: 100%;
   padding-bottom: 20px;
 }
+.common-form .common-form-body .common-form-body-row:last-child {
+  padding-bottom: 0;
+}
 .common-form .common-form-body .common-form-body-row .common-form-field {
   display: flex;
   flex-direction: row;
@@ -159,6 +162,12 @@ body {
 }
 .common-form .common-form-options .common-form-button-container .common-form-button.cancel-button {
   background-color: #bbbbbb;
+}
+.common-form .common-form-options .common-form-button-container .common-form-button.delete-button {
+  background-color: #ffffff;
+  color: #000000;
+  min-width: 0;
+  margin-right: 10px;
 }
 .common-form .common-form-options .common-form-button-container .common-form-button.save-button {
   background-color: #000000;
@@ -395,6 +404,36 @@ body {
   font-size: 12px;
 }
 
+.confirm-delete-modal {
+  width: 600px !important;
+  text-align: left;
+}
+.confirm-delete-modal .confirm-delete-modal-body {
+  font-size: 16px;
+}
+.confirm-delete-modal .confirm-delete-modal-options {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+.confirm-delete-modal-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.confirm-delete-modal-button.confirm-delete-modal-cancel-button {
+  background-color: #bbbbbb !important;
+}
+.confirm-delete-modal-button.confirm-delete-modal-delete-button {
+  background-color: #000000;
+}
+
 .search-bar-outer-container {
   display: flex;
   margin-right: 20px;
@@ -615,6 +654,7 @@ body {
   display: flex;
   flex-direction: column;
   flex: 0;
+  border-radius: 20px;
 }
 .common-modal .common-modal-overlay .common-modal-box .common-modal-header {
   display: flex;
@@ -727,6 +767,12 @@ body {
 }
 .pill-button-container .pill-button.red-button {
   background-color: #bb342d;
+}
+.pill-button-container .pill-button.white-button {
+  background-color: #ffffff;
+}
+.pill-button-container .pill-button.white-button .pill-button-text {
+  color: #000000;
 }
 
 .login-page .login-page-content {

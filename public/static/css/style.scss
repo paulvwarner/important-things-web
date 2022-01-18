@@ -147,6 +147,10 @@ body {
       width: 100%;
       padding-bottom: 20px;
 
+      &:last-child {
+        padding-bottom: 0;
+      }
+
       .common-form-field {
         display: flex;
         flex-direction: row;
@@ -235,6 +239,13 @@ body {
           background-color: $cancel-gray;
         }
 
+        &.delete-button {
+          background-color: $white;
+          color: $black;
+          min-width: 0;
+          margin-right: 10px;
+        }
+
         &.save-button {
           background-color: $black;
         }
@@ -260,6 +271,7 @@ body {
 @import "commitments/commitments-list.scss";
 @import "commitments/commitment-form.scss";
 @import "common/common-list.scss";
+@import "common/confirm-delete-modal.scss";
 @import "common/delayed-search-bar.scss";
 @import "common/leave-without-saving-warning-modal.scss";
 @import "common/list-pagination-options.scss";

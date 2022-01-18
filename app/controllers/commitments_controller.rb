@@ -9,7 +9,7 @@ class CommitmentsController < ApplicationController
     return if performed?
 
     # return commitments list
-    commitments_query = Commitment.all
+    commitments_query = Commitment.where(active: true)
 
     # apply filters
     if params[:searchText] && params[:searchText].to_s.size > 0
@@ -74,6 +74,10 @@ class CommitmentsController < ApplicationController
 
         if params.has_key?(:notes)
           commitment_update[:notes] = params[:notes]
+        end
+
+        if params.has_key?(:active)
+          commitment_update[:active] = params[:active]
         end
 
         commitment.update(commitment_update)

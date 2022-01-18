@@ -5,6 +5,7 @@ import {Modal} from "../common/Modal";
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
 import {ApiUtility} from "../common/ApiUtility";
 import {useCommonFormEffects} from "../common/CommonFormHooks";
+import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
 
 let _ = require('underscore');
 
@@ -21,6 +22,11 @@ export let ImportantThingForm = function (props) {
         formState,
         save,
         saving,
+        deactivate,
+        deactivating,
+        confirmDeactivate,
+        confirmingDeactivate,
+        cancelDeactivate,
         handleValidationResult,
         getFormFieldClasses,
         handleTextFieldChange,
@@ -57,6 +63,7 @@ export let ImportantThingForm = function (props) {
             ApiUtility.notifyImportantThingNow(formState.id)
                 .then(function () {
                     setNotifying(false);
+                    MessageDisplayerUtility.success("Notified app users.")
                 })
                 .catch(function (error) {
                     console.log("Error notifying about important thing: ", error)
@@ -76,7 +83,7 @@ export let ImportantThingForm = function (props) {
             onClickCloseOption={props.cancel}
         >
             {(() => {
-                if (saving || notifying) {
+                if (saving || notifying || deactivating) {
                     return (
                         <LoadingIndicator loading={true}/>
                     );
@@ -150,7 +157,7 @@ export let ImportantThingForm = function (props) {
                                                     onClick={save}
                                                     buttonText={"SAVE"}
                                                 />
-                                            ]
+                                            ];
                                             if (props.isNew) {
                                                 return commonFormOptions;
                                             } else {
@@ -167,6 +174,12 @@ export let ImportantThingForm = function (props) {
                                                     >
                                                         <PillButton
                                                             containerClasses="common-form-button-container"
+                                                            buttonClasses="common-form-button delete-button white-button"
+                                                            onClick={confirmDeactivate}
+                                                            buttonText={"DELETE"}
+                                                        />
+                                                        <PillButton
+                                                            containerClasses="common-form-button-container"
                                                             buttonClasses="common-form-button red-button"
                                                             onClick={notifyAppUsersNow}
                                                             buttonText={"NOTIFY APP USERS NOW"}
@@ -179,6 +192,17 @@ export let ImportantThingForm = function (props) {
                                     </div>
                                 </div>
                             </div>
+                            {(() => {
+                                if (confirmingDeactivate) {
+                                    return (
+                                        <ConfirmDeleteModal
+                                            cancel={cancelDeactivate}
+                                            deactivate={deactivate}
+                                            modelTypeName="important thing"
+                                        />
+                                    );
+                                }
+                            })()}
                         </div>
                     );
                 }

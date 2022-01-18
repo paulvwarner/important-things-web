@@ -17,11 +17,11 @@ export let Login = function (props) {
         password: ''
     });
 
-    function mergeFormState(prevState, stateChange) {
+    function mergeToFormState(stateChange) {
         if (stateChange) {
             setFormState(
                 {
-                    ...prevState,
+                    ...formState,
                     ...stateChange,
                 }
             );
@@ -65,10 +65,7 @@ export let Login = function (props) {
     }
 
     function handleTextFieldChange(fieldName, event) {
-        mergeFormState(
-            formState,
-            {[fieldName]: event.target.value}
-        );
+        mergeToFormState({[fieldName]: event.target.value});
     }
 
     return (

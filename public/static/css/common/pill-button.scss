@@ -35,5 +35,13 @@
     &.red-button {
       background-color: $red;
     }
+
+    &.white-button {
+      background-color: $white;
+
+      .pill-button-text {
+        color: $black;
+      }
+    }
   }
 }

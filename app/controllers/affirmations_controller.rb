@@ -9,7 +9,7 @@ class AffirmationsController < ApplicationController
     return if performed?
 
     # return affirmations list
-    affirmations_query = Affirmation.all
+    affirmations_query = Affirmation.where(active: true)
 
     # apply filters
     if params[:searchText] && params[:searchText].to_s.size > 0
@@ -74,6 +74,10 @@ class AffirmationsController < ApplicationController
 
         if params.has_key?(:notes)
           affirmation_update[:notes] = params[:notes]
+        end
+
+        if params.has_key?(:active)
+          affirmation_update[:active] = params[:active]
         end
 
         affirmation.update(affirmation_update)
