@@ -1,8 +1,9 @@
 include ApplicationHelper
 include AffirmationsHelper
 
+@@affirmations_per_page = 20
+
 class AffirmationsController < ApplicationController
-  @affirmations_per_page = 20
 
   def index
     authorize_for(Permission::NAMES[:affirmation_read], get_current_user_permissions)
@@ -15,12 +16,13 @@ class AffirmationsController < ApplicationController
     if params[:searchText] && params[:searchText].to_s.size > 0
       search_term = params[:searchText].to_s.downcase
       affirmations_query = affirmations_query
-                            .where("lower(message) like '%" + search_term + "%'")
+                             .where("lower(message) like '%" + search_term.to_s + "%'")
     end
 
     affirmations = affirmations_query
-                    .page(params[:page])
-                    .per(@affirmations_per_page)
+                     .order(:message)
+                     .page(params[:page])
+                     .per(@@affirmations_per_page)
 
     render json: {
       modelList: affirmations.as_json,
@@ -34,7 +36,7 @@ class AffirmationsController < ApplicationController
 
     # return single affirmation by id
     affirmation = Affirmation
-                   .find(params[:id])
+                    .find(params[:id])
 
     render json: affirmation.as_json, status: 200
   end
@@ -45,12 +47,7 @@ class AffirmationsController < ApplicationController
       return if performed?
 
       ActiveRecord::Base.transaction do
-        Affirmation.create(
-          {
-            message: params[:message],
-            notes: params[:notes]
-          }
-        )
+        create_affirmation(params)
       end
       render json: {}, status: 200
     rescue Exception => e

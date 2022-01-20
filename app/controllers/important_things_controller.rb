@@ -1,8 +1,9 @@
 include ApplicationHelper
 include ImportantThingsHelper
 
+@@important_things_per_page = 20
+
 class ImportantThingsController < ApplicationController
-  @important_things_per_page = 20
 
   def index
     authorize_for(Permission::NAMES[:important_thing_read], get_current_user_permissions)
@@ -15,12 +16,13 @@ class ImportantThingsController < ApplicationController
     if params[:searchText] && params[:searchText].to_s.size > 0
       search_term = params[:searchText].to_s.downcase
       important_things_query = important_things_query
-                                 .where("lower(message) like '%" + search_term + "%'")
+                                 .where("lower(message) like '%" + search_term.to_s + "%'")
     end
 
     important_things = important_things_query
+                         .order(:message)
                          .page(params[:page])
-                         .per(@important_things_per_page)
+                         .per(@@important_things_per_page)
 
     render json: {
       modelList: important_things.as_json,

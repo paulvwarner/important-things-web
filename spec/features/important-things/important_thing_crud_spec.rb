@@ -4,14 +4,15 @@ require 'support/common_helper'
 require 'support/important-things/important_thing_spec_helper'
 
 RSpec.describe 'Important Thing CRUD', type: :system do
+  # these are named starting with an "a" so they show on page 1 of the lists
   important_thing_create_attrs = {
-    message: "test important thing",
+    message: "a test important thing",
     notes: "it's important",
     weight: 1
   }
 
   important_thing_update_attrs = {
-    message: "test important thing update",
+    message: "a test important thing update",
     notes: "it's still important",
     weight: 2
   }
@@ -25,6 +26,7 @@ RSpec.describe 'Important Thing CRUD', type: :system do
     create_important_thing_in_admin(important_thing_create_attrs)
 
     # verify on list page
+    page.find('.search-bar-field').fill_in with: important_thing_create_attrs[:message]
     important_thing_list_row = get_important_thing_list_row(important_thing_create_attrs)
 
     verify_important_thing_list_row(important_thing_list_row, important_thing_create_attrs)
@@ -43,6 +45,7 @@ RSpec.describe 'Important Thing CRUD', type: :system do
     page.find('.common-list-page-header-text', text: 'Important Things')
 
     # verify data before update
+    page.find('.search-bar-field').fill_in with: important_thing_create_attrs[:message]
     important_thing_list_row = get_important_thing_list_row(important_thing_create_attrs)
     verify_important_thing_list_row(important_thing_list_row, important_thing_create_attrs)
     important_thing_list_row.click
@@ -53,6 +56,7 @@ RSpec.describe 'Important Thing CRUD', type: :system do
     update_important_thing_in_admin(important_thing_update_attrs)
 
     # verify update in list row
+    page.find('.search-bar-field').fill_in with: important_thing_update_attrs[:message]
     important_thing_list_row = get_important_thing_list_row(important_thing_update_attrs)
     verify_important_thing_list_row(important_thing_list_row, important_thing_update_attrs)
 
@@ -69,6 +73,7 @@ RSpec.describe 'Important Thing CRUD', type: :system do
     page.find('.common-list-page-header-text', text: 'Important Things')
 
     # basic check for the important thing
+    page.find('.search-bar-field').fill_in with: important_thing_create_attrs[:message]
     expect(page).to have_text(important_thing_create_attrs[:message])
 
     # verify data before update

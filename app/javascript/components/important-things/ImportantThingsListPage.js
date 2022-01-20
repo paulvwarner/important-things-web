@@ -35,6 +35,7 @@ export const ImportantThingsListPage = function (props) {
     function performSearch(searchText) {
         if (listState.searchText !== searchText) {
             let queryParams = UrlUtility.getQueryParamsFromProps(props);
+            queryParams.page = 1;
             queryParams.searchText = searchText;
             let queryString = UrlUtility.getUrlQueryStringFromQueryParamsObject(queryParams);
             context.navigator.navigateTo('/important-things' + queryString);

@@ -65,6 +65,7 @@ export let CommitmentForm = function (props) {
                                         </div>
                                         <div className="common-form-field-input-container">
                                             <input
+                                                id="title"
                                                 type="text"
                                                 className="common-form-input"
                                                 value={formState.title}
@@ -81,6 +82,7 @@ export let CommitmentForm = function (props) {
                                         </div>
                                         <div className="common-form-field-input-container">
                                                 <textarea
+                                                    id="notes"
                                                     className="common-form-textarea"
                                                     value={formState.notes}
                                                     onChange={handleTextFieldChange.bind(null, "notes")}

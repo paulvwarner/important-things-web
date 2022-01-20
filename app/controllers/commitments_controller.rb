@@ -1,8 +1,9 @@
 include ApplicationHelper
 include CommitmentsHelper
 
+@@commitments_per_page = 20
+
 class CommitmentsController < ApplicationController
-  @commitments_per_page = 20
 
   def index
     authorize_for(Permission::NAMES[:commitment_read], get_current_user_permissions)
@@ -15,12 +16,13 @@ class CommitmentsController < ApplicationController
     if params[:searchText] && params[:searchText].to_s.size > 0
       search_term = params[:searchText].to_s.downcase
       commitments_query = commitments_query
-                                 .where("lower(title) like '%" + search_term + "%'")
+                            .where("lower(title) like '%" + search_term.to_s + "%'")
     end
 
     commitments = commitments_query
-                         .page(params[:page])
-                         .per(@commitments_per_page)
+                    .order(:title)
+                    .page(params[:page])
+                    .per(@@commitments_per_page)
 
     render json: {
       modelList: commitments.as_json,
@@ -34,7 +36,7 @@ class CommitmentsController < ApplicationController
 
     # return single commitment by id
     commitment = Commitment
-                        .find(params[:id])
+                   .find(params[:id])
 
     render json: commitment.as_json, status: 200
   end
@@ -45,12 +47,7 @@ class CommitmentsController < ApplicationController
       return if performed?
 
       ActiveRecord::Base.transaction do
-        Commitment.create(
-          {
-            title: params[:title],
-            notes: params[:notes]
-          }
-        )
+        create_commitment(params)
       end
       render json: {}, status: 200
     rescue Exception => e
