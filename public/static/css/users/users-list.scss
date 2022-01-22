@@ -1,0 +1,15 @@
+.users-list-page {
+  .users-list-row-cell {
+    &.email {
+      width: 40%;
+    }
+
+    &.name {
+      width: 40%;
+    }
+
+    &.role {
+      width: 20%;
+    }
+  }
+}

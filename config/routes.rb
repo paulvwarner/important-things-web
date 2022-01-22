@@ -12,10 +12,15 @@ Rails.application.routes.draw do
   get '/affirmations/add', to: 'web_client#index'
   get '/affirmations/:id', to: 'web_client#index'
   get '/users', to: 'web_client#index'
+  get '/users/add', to: 'web_client#index'
+  get '/users/:id', to: 'web_client#index'
 
   scope path: "/api" do
     post '/users/login', to: 'users#login'
     post '/users/:token/logout', to: 'users#logout'
+    get '/users/is-person-email-available/:email',
+        to: 'users#is_person_email_available',
+        :constraints => {:email => /[^\/]+/}
     resources :users
 
     post '/important-things/:id/notify-now', to: 'important_things#notify_now'
@@ -23,5 +28,6 @@ Rails.application.routes.draw do
 
     resources :commitments
     resources :affirmations
+    resources :roles
   end
 end

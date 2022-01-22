@@ -10,7 +10,9 @@ export let Constants = {
         users: 'users'
     },
 
+    placeholderPassword: '********',
+    minPasswordLength: 8,
     defaultPageNumber: 1,
     defaultPageCount: 1,
-    searchDelayMs: 1000
+    searchDelayMs: 1000,
 };

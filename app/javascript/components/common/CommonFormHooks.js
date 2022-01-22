@@ -5,7 +5,7 @@ import _ from "underscore";
 import {GlobalContext} from "../admin-frame/AdminFrame";
 
 export function useCommonFormEffects(
-    props, initialModelSpecificState, initialModel, validateData
+    props, initialModelSpecificState, initialModel, validateData, formStateToSaveData
 ) {
     const context = useContext(GlobalContext);
     const [formState, setFormState] = useState({
@@ -32,7 +32,7 @@ export function useCommonFormEffects(
         }
     }
 
-    function mergeUnsavedFormState(prevState, stateChange) {
+    function mergeUnsavedToFormState(stateChange) {
         LeaveWithoutSavingWarningUtility.enableLeaveWithoutSavingWarnings(
             context,
             props.headerText
@@ -41,7 +41,7 @@ export function useCommonFormEffects(
         if (stateChange) {
             setFormState(
                 {
-                    ...prevState,
+                    ...formState,
                     ...stateChange,
                     ...{saved: false}
                 }
@@ -101,7 +101,11 @@ export function useCommonFormEffects(
             validateData()
                 .then(function (validationPasses) {
                     if (validationPasses) {
-                        props.save(_.clone(formState));
+                        let saveData = _.clone(formState);
+                        if (formStateToSaveData) {
+                            saveData = formStateToSaveData(formState)
+                        }
+                        props.save(formStateToSaveData(saveData));
                     } else {
                         setSaving(false);
                     }
@@ -143,13 +147,19 @@ export function useCommonFormEffects(
 
     function handleTextFieldChange(fieldName, event) {
         if (event && event.target) {
-            mergeUnsavedFormState(formState, {[fieldName]: event.target.value});
+            mergeUnsavedToFormState({[fieldName]: event.target.value});
+        }
+    }
+
+    function handleRadioOptionChange(fieldName, selectedOption) {
+        if (selectedOption) {
+            mergeUnsavedToFormState({[fieldName]: selectedOption});
         }
     }
 
     function forceValueToNumeric(fieldName) {
         if (formState[fieldName] !== parseInt(formState[fieldName]) || 0) {
-            mergeUnsavedFormState(formState, {[fieldName]: parseInt(formState[fieldName]) || 0});
+            mergeUnsavedToFormState({[fieldName]: parseInt(formState[fieldName]) || 0});
         }
     }
 
@@ -165,6 +175,9 @@ export function useCommonFormEffects(
         handleValidationResult,
         getFormFieldClasses,
         handleTextFieldChange,
-        forceValueToNumeric
+        handleRadioOptionChange,
+        forceValueToNumeric,
+        mergeToFormState,
+        mergeUnsavedToFormState
     ];
 }

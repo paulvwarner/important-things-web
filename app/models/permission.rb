@@ -19,5 +19,10 @@ class Permission < ActiveRecord::Base
     commitment_read: 'Commitment Read',
     commitment_update: 'Commitment Update',
     commitment_delete: 'Commitment Delete',
+
+    user_create: 'User Create',
+    user_read: 'User Read',
+    user_update: 'User Update',
+    user_delete: 'User Delete',
   }
 end

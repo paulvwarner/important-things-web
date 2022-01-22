@@ -77,6 +77,19 @@ export default (
 
 
                     <Route exact path="/users" component={UsersListPage}/>
+                    <Route exact path="/users/add"
+                           render={
+                               function (props) {
+                                   return (
+                                       <UsersListPage
+                                           {...props}
+                                           showCreateModal={true}
+                                       />
+                                   );
+                               }
+                           }
+                    />
+                    <Route exact path="/users/:userId" component={UsersListPage}/>
                 </Switch>
             </AdminFrame>
         </Switch>

@@ -31,6 +31,7 @@ export let ImportantThingForm = function (props) {
         handleValidationResult,
         getFormFieldClasses,
         handleTextFieldChange,
+        handleRadioOptionChange,
         forceValueToNumeric
     ] = useCommonFormEffects(props, initialModelState, importantThing, validateData);
 

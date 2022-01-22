@@ -160,6 +160,11 @@ body {
         margin-top: 1px;
         margin-bottom: 1px;
 
+        &.common-radio-option-set-form-field {
+          align-items: center;
+          height: $common-form-input-height;
+        }
+
         &.invalid {
           .common-form-field-label {
             color: $red;
@@ -175,6 +180,16 @@ body {
             margin-top: 0;
             margin-bottom: 0;
             border: 2px solid $red;
+          }
+
+          .common-radio-option-circle {
+            border-color: $red;
+            border-width: 2px;
+            margin: 0;
+          }
+
+          .common-radio-option-label {
+            color: $red;
           }
         }
 
@@ -279,6 +294,9 @@ body {
 @import "common/loading-indicator.scss";
 @import "common/modal.scss";
 @import "common/pill-button.scss";
+@import "common/radio-option-set.scss";
 @import "login/login.scss";
 @import "important-things/important-things-list.scss";
 @import "important-things/important-thing-form.scss";
+@import "users/users-list.scss";
+@import "users/user-form.scss";

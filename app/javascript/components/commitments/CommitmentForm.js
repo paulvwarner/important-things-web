@@ -27,7 +27,6 @@ export let CommitmentForm = function (props) {
         handleValidationResult,
         getFormFieldClasses,
         handleTextFieldChange,
-        forceValueToNumeric
     ] = useCommonFormEffects(props, initialModelState, commitment, validateData);
 
     function validateData() {

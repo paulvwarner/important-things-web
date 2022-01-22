@@ -26,8 +26,7 @@ export let AffirmationForm = function (props) {
         cancelDeactivate,
         handleValidationResult,
         getFormFieldClasses,
-        handleTextFieldChange,
-        forceValueToNumeric
+        handleTextFieldChange
     ] = useCommonFormEffects(props, initialModelState, affirmation, validateData);
 
     function validateData() {

@@ -221,4 +221,58 @@ export var ApiUtility = {
             }
         );
     },
+
+    getIsPersonEmailAvailable: function (email, isNew) {
+        return ApiUtility.apiRequest('/api/users/is-person-email-available/' + encodeURIComponent(email));
+    },
+
+    getUsersList: function (pageNumber, searchText) {
+        let argumentsArray = [];
+
+        if (pageNumber) {
+            argumentsArray.push({label: 'page', value: pageNumber})
+        }
+
+        if (searchText) {
+            argumentsArray.push({label: 'searchText', value: searchText})
+        }
+
+        return ApiUtility.apiRequest(
+            `/api/users${UrlUtility.getUrlQueryString(argumentsArray)}`
+        );
+    },
+
+    getUser: function (userId) {
+        return ApiUtility.apiRequest('/api/users/' + userId);
+    },
+
+    createUser: function (userData) {
+        return ApiUtility.apiRequest(
+            '/api/users/',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(userData),
+            }
+        );
+    },
+
+    updateUser: function (userData) {
+        return ApiUtility.apiRequest(
+            '/api/users/' + userData.id,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(userData)
+            }
+        );
+    },
+
+    getRolesList:function (){
+        return ApiUtility.apiRequest('/api/roles');
+    },
 };
