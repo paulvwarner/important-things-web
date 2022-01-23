@@ -30,6 +30,18 @@ class ImportantThingsController < ApplicationController
     }, status: 200
   end
 
+  def index_for_app
+    authorize_for(Permission::NAMES[:can_access_app], get_current_user_permissions)
+    return if performed?
+
+    # return important things list - for app, this returns every active one
+    important_things = ImportantThing
+                         .where(active: true)
+                         .order(:message)
+
+    render json: important_things.as_json, status: 200
+  end
+
   def show
     authorize_for(Permission::NAMES[:important_thing_read], get_current_user_permissions)
     return if performed?

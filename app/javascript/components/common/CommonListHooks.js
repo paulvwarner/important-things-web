@@ -89,10 +89,10 @@ export function useCommonListEffects(
                 listState.selectedPage,
                 listState.searchText
             )
-                .then(function (commitmentsListData) {
+                .then(function (listData) {
                     listStateChange = {
-                        modelList: commitmentsListData.modelList || [],
-                        pageCount: commitmentsListData.pageCount || Constants.defaultPageCount,
+                        modelList: listData.modelList || [],
+                        pageCount: listData.pageCount || Constants.defaultPageCount,
                     };
                     mergeListState(listState, listStateChange);
                     setLoadingListData(false);

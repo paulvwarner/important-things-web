@@ -61,9 +61,7 @@ export let AdminFrame = function (props) {
         return null;
     } else {
         return (
-            <GlobalContext.Provider
-                value={context}
-            >
+            <GlobalContext.Provider value={context}>
                 <div className="admin-frame">
                     <AdminHeader/>
                     <div className="admin-page-content">

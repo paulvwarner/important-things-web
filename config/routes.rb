@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     resources :users
 
     post '/important-things/:id/notify-now', to: 'important_things#notify_now'
+    get '/important-things/for-app', to: 'important_things#index_for_app'
     resources :important_things, :path => 'important-things'
 
     resources :commitments
