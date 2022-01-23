@@ -30,6 +30,18 @@ class CommitmentsController < ApplicationController
     }, status: 200
   end
 
+  def index_for_app
+    authorize_for(Permission::NAMES[:can_access_app], get_current_user_permissions)
+    return if performed?
+
+    # return commitments list - for app, this returns every active one
+    commitments = Commitment
+                         .where(active: true)
+                         .order(:title)
+
+    render json: commitments.as_json, status: 200
+  end
+
   def show
     authorize_for(Permission::NAMES[:commitment_read], get_current_user_permissions)
     return if performed?

@@ -22,13 +22,16 @@ Rails.application.routes.draw do
         to: 'users#is_person_email_available',
         :constraints => {:email => /[^\/]+/}
     resources :users
+    resources :roles
 
     post '/important-things/:id/notify-now', to: 'important_things#notify_now'
     get '/important-things/for-app', to: 'important_things#index_for_app'
     resources :important_things, :path => 'important-things'
 
+    get '/commitments/for-app', to: 'commitments#index_for_app'
     resources :commitments
+
+    get '/affirmations/for-app', to: 'affirmations#index_for_app'
     resources :affirmations
-    resources :roles
   end
 end
