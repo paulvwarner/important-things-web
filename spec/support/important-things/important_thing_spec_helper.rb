@@ -65,7 +65,7 @@ def delete_important_thing
   page.find('.common-list-page-header-text', text: 'Important Things')
 end
 
-def get_created_important_thing_data(important_thing_attrs)
+def create_important_thing_for_test(important_thing_attrs)
   important_thing = create_important_thing(important_thing_attrs)
   important_thing.as_json
 end

@@ -60,7 +60,7 @@ def delete_commitment
   page.find('.common-list-page-header-text', text: 'Commitments')
 end
 
-def get_created_commitment_data(commitment_attrs)
+def create_commitment_for_test(commitment_attrs)
   commitment = create_commitment(commitment_attrs)
   commitment.as_json
 end

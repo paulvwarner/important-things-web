@@ -60,7 +60,7 @@ def delete_affirmation
   page.find('.common-list-page-header-text', text: 'Affirmations')
 end
 
-def get_created_affirmation_data(affirmation_attrs)
+def create_affirmation_for_test(affirmation_attrs)
   affirmation = create_affirmation(affirmation_attrs)
   affirmation.as_json
 end

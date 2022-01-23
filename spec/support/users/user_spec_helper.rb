@@ -73,7 +73,7 @@ def delete_user
   page.find('.common-list-page-header-text', text: 'Users')
 end
 
-def get_created_user_data(user_attrs)
+def create_user_for_test(user_attrs)
   user = create_user(user_attrs)
   user.as_json
 end
@@ -103,7 +103,7 @@ def create_user_test(create_user_attrs)
 end
 
 def update_user_test(create_user_attrs, update_user_attrs)
-  before_user = get_created_user_data(create_user_attrs)
+  create_user_for_test(create_user_attrs)
 
   login_as_admin
   visit users_path
@@ -136,7 +136,7 @@ def update_user_test(create_user_attrs, update_user_attrs)
 end
 
 def deactivate_user_test(create_user_attrs)
-  before_user = get_created_user_data(create_user_attrs)
+  create_user_for_test(create_user_attrs)
 
   login_as_admin
   visit users_path
@@ -163,4 +163,61 @@ def deactivate_user_test(create_user_attrs)
 
   # verify login (fails for deactivated user)
   login_as_test_user(create_user_attrs, true)
+end
+
+def test_user_form_validation(user_attrs, is_new_user)
+  # test empty form - this method assumes form is empty
+  page.find('.common-form-button.save-button').click
+
+  page.find('.toast-message', text: 'Please enter an email address.').click
+  page.find('.toast-message', text: 'Please enter a first name.').click
+  page.find('.toast-message', text: 'Please enter a last name.').click
+
+  if is_new_user
+    page.find('.toast-message', text: 'Please enter a password.').click
+    page.find('.toast-message', text: 'Please select a role.').click
+  end
+
+  # fill out all fields, test invalid email
+  page.find('#firstName').fill_in with: user_attrs[:firstName]
+  page.find('#lastName').fill_in with: user_attrs[:lastName]
+
+  if is_new_user
+    page.find('#password').fill_in with: user_attrs[:password]
+    page.find('#confirmPassword').fill_in with: user_attrs[:confirmPassword]
+    page.find('.role-selector .option-circle-' + user_attrs[:roleId].to_s).click
+  end
+
+  page.find('#email').fill_in with: 'fake email'
+
+  page.find('.common-form-button.save-button').click
+
+  page.find('.toast-message', text: 'Please enter a valid email address.').click
+
+  # test already used email
+  page.find('#email').fill_in with: CREDENTIALS['admin_username'].to_s
+  page.find('.common-form-button.save-button').click
+  page.find('.toast-message', text: 'Another user is already using that email address - please enter a different email address.').click
+
+  # test password that isn't long enough and that lacks required characters
+  page.find('#email').fill_in with: user_attrs[:email]
+  page.find('#password').fill_in with: 'pass'
+  page.find('#confirmPassword').fill_in with: 'pass'
+  page.find('.common-form-button.save-button').click
+
+  page.find('.toast-message', text: 'Passwords must be at least 8 characters long.').click
+  page.find('.toast-message', text: 'Passwords must contain at least one upper case letter.').click
+  page.find('.toast-message', text: 'Passwords must contain at least one number.').click
+  page.find('.toast-message', text: 'Passwords must contain at least one of these characters:').click
+
+  # test password mismatch
+  page.find('#password').fill_in with: user_attrs[:password]
+  page.find('#confirmPassword').fill_in with: 'pass'
+  page.find('.common-form-button.save-button').click
+
+  page.find('.toast-message', text: 'Password does not match confirm password.').click
+
+  # close form, dismiss leave without save warnings
+  page.find('.cancel-button').click
+  page.find('.leave-without-saving-warning-modal-leave-button').click
 end

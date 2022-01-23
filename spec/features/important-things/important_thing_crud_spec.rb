@@ -38,7 +38,7 @@ RSpec.describe 'Important Thing CRUD', type: :system do
   end
 
   scenario 'update an important thing' do
-    before_important_thing = get_created_important_thing_data(important_thing_create_attrs)
+    create_important_thing_for_test(important_thing_create_attrs)
 
     login_as_admin
     visit important_things_path
@@ -66,7 +66,7 @@ RSpec.describe 'Important Thing CRUD', type: :system do
   end
 
   scenario 'deactivate an important thing' do
-    before_important_thing = get_created_important_thing_data(important_thing_create_attrs)
+    create_important_thing_for_test(important_thing_create_attrs)
 
     login_as_admin
     visit important_things_path

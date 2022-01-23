@@ -36,7 +36,7 @@ RSpec.describe 'Commitment CRUD', type: :system do
   end
 
   scenario 'update a commitment' do
-    before_commitment = get_created_commitment_data(commitment_create_attrs)
+    create_commitment_for_test(commitment_create_attrs)
 
     login_as_admin
     visit commitments_path
@@ -64,7 +64,7 @@ RSpec.describe 'Commitment CRUD', type: :system do
   end
 
   scenario 'deactivate a commitment' do
-    before_commitment = get_created_commitment_data(commitment_create_attrs)
+    create_commitment_for_test(commitment_create_attrs)
 
     login_as_admin
     visit commitments_path

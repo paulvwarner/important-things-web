@@ -36,7 +36,7 @@ RSpec.describe 'Affirmation CRUD', type: :system do
   end
 
   scenario 'update an affirmation' do
-    before_affirmation = get_created_affirmation_data(affirmation_create_attrs)
+    create_affirmation_for_test(affirmation_create_attrs)
 
     login_as_admin
     visit affirmations_path
@@ -64,7 +64,7 @@ RSpec.describe 'Affirmation CRUD', type: :system do
   end
 
   scenario 'deactivate an affirmation' do
-    before_affirmation = get_created_affirmation_data(affirmation_create_attrs)
+    create_affirmation_for_test(affirmation_create_attrs)
 
     login_as_admin
     visit affirmations_path
