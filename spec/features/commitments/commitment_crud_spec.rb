@@ -35,7 +35,7 @@ RSpec.describe 'Commitment CRUD', type: :system do
     verify_commitment_detail(commitment_create_attrs)
   end
 
-  scenario 'update an commitment' do
+  scenario 'update a commitment' do
     before_commitment = get_created_commitment_data(commitment_create_attrs)
 
     login_as_admin
@@ -63,7 +63,7 @@ RSpec.describe 'Commitment CRUD', type: :system do
     verify_commitment_detail(commitment_update_attrs)
   end
 
-  scenario 'deactivate an commitment' do
+  scenario 'deactivate a commitment' do
     before_commitment = get_created_commitment_data(commitment_create_attrs)
 
     login_as_admin

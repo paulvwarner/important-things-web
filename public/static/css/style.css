@@ -898,7 +898,7 @@ body {
 .users-list-page .users-list-row-cell.email {
   width: 40%;
 }
-.users-list-page .users-list-row-cell.name {
+.users-list-page .users-list-row-cell.full-name {
   width: 40%;
 }
 .users-list-page .users-list-row-cell.role {

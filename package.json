@@ -2,7 +2,7 @@
   "name": "important-things-web",
   "scripts": {
     "start": "NODE_ENV=development webpack --config ./config/webpack.config.js && NODE_ENV=development RAILS_ENV=development SECRET_KEY_BASE=test rails server -e local",
-    "test-suite": "RUBYOPT=-W:no-deprecated RAILS_ENV=e2e_test bundle exec rake setup_web_test_suite_data && NODE_ENV=development webpack --config ./config/webpack.config.js && RAILS_ENV=e2e_test RUBYOPT=-W:no-deprecated rspec --format documentation",
+    "test-suite": "NODE_ENV=development webpack --config ./config/webpack.config.js && RAILS_ENV=e2e_test RUBYOPT=-W:no-deprecated rspec --format documentation",
     "start-test": "NODE_ENV=development webpack --config ./config/webpack.config.js && NODE_ENV=development RAILS_ENV=e2e_test SECRET_KEY_BASE=test rails server -e local"
   },
   "babel": {

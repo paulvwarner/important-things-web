@@ -6,11 +6,11 @@ class AddMobileUser < ActiveRecord::Migration[6.1]
 
         User.create(
           {
-            username: 'paul.vincent.warner+m1@gmail.com',
+            username: 'paul.vincent.warner+z1@gmail.com',
             password: BCrypt::Password.create("testuser1"),
             person_id: Person.create(
               {
-                email: 'paul.vincent.warner+m1@gmail.com',
+                email: 'paul.vincent.warner+z1@gmail.com',
                 first_name: 'Paul',
                 last_name: 'Mobile 1'
               }
@@ -21,7 +21,7 @@ class AddMobileUser < ActiveRecord::Migration[6.1]
 
         UserRole.create(
           {
-            user_id: User.where({username: 'paul.vincent.warner+m1@gmail.com'}).first.id,
+            user_id: User.where({username: 'paul.vincent.warner+z1@gmail.com'}).first.id,
             role_id: mobile_user.id
           }
         )

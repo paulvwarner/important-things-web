@@ -283,7 +283,7 @@ export let UserForm = function (props) {
 
                                 <div className="common-form-body-row">
                                     <div className={getFormFieldClasses(
-                                        "common-form-field common-radio-option-set-form-field",
+                                        "common-form-field common-radio-option-set-form-field role-selector",
                                         "selectedRoleOption"
                                     )}>
                                         <div className="common-form-field-label">

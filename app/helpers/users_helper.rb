@@ -68,7 +68,7 @@ module UsersHelper
     user = User.create(
       {
         username: user_attrs[:email],
-        password: BCrypt::Password.create(user_attrs[:new_password]),
+        password: BCrypt::Password.create(user_attrs[:password]),
         person_id: Person.create(
           {
             email: user_attrs[:email],

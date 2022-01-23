@@ -56,7 +56,7 @@ export const UsersListPage = function (props) {
                         className="common-list-row-cell common-list-row-value-cell users-list-row-cell email"
                     >{user.person.email}</div>
                     <div
-                        className="common-list-row-cell common-list-row-value-cell users-list-row-cell name"
+                        className="common-list-row-cell common-list-row-value-cell users-list-row-cell full-name"
                     >{user.person.name}</div>
                     <div
                         className="common-list-row-cell common-list-row-value-cell users-list-row-cell role"
@@ -98,7 +98,7 @@ export const UsersListPage = function (props) {
                                             >Email
                                             </div>
                                             <div
-                                                className="common-list-row-cell common-list-row-label-cell users-list-row-cell name"
+                                                className="common-list-row-cell common-list-row-label-cell users-list-row-cell full-name"
                                             >Name
                                             </div>
                                             <div

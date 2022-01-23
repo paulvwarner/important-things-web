@@ -6,6 +6,7 @@ default: &default
 development:
   <<: *default
   host: localhost
+  encoding: utf8mb4
   username: impthingsuser
   password: D0pP3|_G@|!ger
   database: impthingsdata
@@ -13,6 +14,7 @@ development:
 e2e_test:
   <<: *default
   host: localhost
+  encoding: utf8mb4
   username: impthingse2e
   password: D|pP3|_G||!ger
   database: impthingstestdata

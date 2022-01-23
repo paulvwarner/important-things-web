@@ -33,7 +33,7 @@ class UsersController < ApplicationController
 
     if user && !user.active
       render json: {message: 'User has been deactivated.'}, status: 401
-    else
+    elsif user
       if token != nil
         Rails.logger.info "Login successful for user " + user[:username].to_s + ' with token ' + token
       end
@@ -51,6 +51,8 @@ class UsersController < ApplicationController
         user: user.as_json(user_full_json_includes),
         permissions: permissions.as_json
       }, status: 200
+    else
+      render json: {}, status: 200
     end
   end
 
@@ -162,6 +164,7 @@ class UsersController < ApplicationController
         if params.has_key?(:firstName)
           person_update[:first_name] = params[:firstName]
         end
+
         if params.has_key?(:lastName)
           person_update[:last_name] = params[:lastName]
         end
