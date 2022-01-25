@@ -1,9 +1,8 @@
 include ApplicationHelper
 include ImportantThingsHelper
 
-@@important_things_per_page = 20
-
 class ImportantThingsController < ApplicationController
+  class_variable_set(:@@important_things_per_page, 20)
 
   def index
     authorize_for(Permission::NAMES[:important_thing_read], get_current_user_permissions)

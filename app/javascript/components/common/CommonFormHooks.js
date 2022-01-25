@@ -105,7 +105,7 @@ export function useCommonFormEffects(
                         if (formStateToSaveData) {
                             saveData = formStateToSaveData(formState)
                         }
-                        props.save(formStateToSaveData(saveData));
+                        props.save(saveData);
                     } else {
                         setSaving(false);
                     }

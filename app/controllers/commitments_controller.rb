@@ -1,9 +1,8 @@
 include ApplicationHelper
 include CommitmentsHelper
 
-@@commitments_per_page = 20
-
 class CommitmentsController < ApplicationController
+  class_variable_set(:@@commitments_per_page, 20)
 
   def index
     authorize_for(Permission::NAMES[:commitment_read], get_current_user_permissions)

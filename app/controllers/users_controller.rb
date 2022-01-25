@@ -1,11 +1,11 @@
 require 'bcrypt'
 
-@@users_per_page = 20
-
 class UsersController < ApplicationController
   include BCrypt
   include UsersHelper
   include ApplicationHelper
+
+  class_variable_set(:@@users_per_page, 20)
 
   skip_before_action :authenticate, only: [:login]
 
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
 
   def logout
     begin
-      user = User.find_by(authentication_token: URI.unescape(params[:token]))
+      user = User.find_by(authentication_token: URI::DEFAULT_PARSER.unescape(params[:token]))
       user.update({authentication_token: ''})
 
     rescue Exception => e
@@ -74,7 +74,7 @@ class UsersController < ApplicationController
     begin
       email_usage_query = Person.where(
         "lower(email) = ?",
-        URI.unescape(params[:email]).to_s.downcase
+        URI::DEFAULT_PARSER.unescape(params[:email]).to_s.downcase
       )
 
       email_is_available = (email_usage_query.count == 0)

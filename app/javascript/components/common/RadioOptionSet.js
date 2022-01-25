@@ -12,7 +12,7 @@ export let RadioOptionSet = function (props) {
         let option = props.options[i];
 
         optionsDisplay.push(
-            <div className="common-radio-option" onClick={onSelectRadioOption.bind(null, option)}>
+            <div key={i} className="common-radio-option" onClick={onSelectRadioOption.bind(null, option)}>
                 <div className={"common-radio-option-circle option-circle-" + option.value}>
                     {(() => {
                         if (props.selectedOption && props.selectedOption.value === option.value) {
