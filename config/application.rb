@@ -12,6 +12,8 @@ module ImportantThingsWeb
     config.load_defaults 6.1
     config.active_job.queue_adapter = :sucker_punch
 
+    Rails.application.config.x.app_version = '1.0.0'
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

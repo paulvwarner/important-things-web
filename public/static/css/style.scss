@@ -296,6 +296,10 @@ body {
   }
 }
 
+.app-version {
+  display: none;
+}
+
 // toast overrides
 #toast-container > .toast {
   background-image: none !important;

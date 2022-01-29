@@ -208,6 +208,10 @@ body {
   background-color: #000000;
 }
 
+.app-version {
+  display: none;
+}
+
 #toast-container > .toast {
   background-image: none !important;
 }
