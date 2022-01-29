@@ -44,7 +44,7 @@ class NotificationConfigsController < ApplicationController
         notification_config.update(notification_config_update)
 
         if start_notifications
-          schedule_next_notification
+          schedule_next_notification_job
         end
 
         render json: {}, status: 200
