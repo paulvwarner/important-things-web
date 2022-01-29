@@ -43,3 +43,6 @@ npm-debug.log
 
 # test credentials
 /spec/support/credentials.yml
+
+# key file for FCM service account
+/config/importantthingsmobile-firebase-adminsdk-268dc30ff6ae.json

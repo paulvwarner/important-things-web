@@ -18,3 +18,11 @@ e2e_test:
   username: impthingse2e
   password: D|pP3|_G||!ger
   database: impthingstestdata
+
+production:
+  <<: *default
+  encoding: utf8mb4
+  host: <%= Rails.application.credentials.dig(:production_database, :host) %>
+  username: <%= Rails.application.credentials.dig(:prod_db, :username) %>
+  password: <%= Rails.application.credentials.dig(:prod_db, :password) %>
+  database: <%= Rails.application.credentials.dig(:prod_db, :database) %>
