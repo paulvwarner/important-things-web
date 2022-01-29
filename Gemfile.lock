@@ -257,6 +257,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt (= 3.1.7)
   bootsnap (= 1.9.3)
+  bundler (= 2.2.33)
   capybara (= 3.36.0)
   database_cleaner (= 2.0.1)
   factory_bot_rails (= 6.2.0)
@@ -277,4 +278,4 @@ RUBY VERSION
    ruby 3.0.3p157
 
 BUNDLED WITH
-   2.2.32
+   2.2.33

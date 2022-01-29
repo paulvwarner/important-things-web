@@ -5,6 +5,8 @@ ruby '3.0.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '6.1.4.1'
 
+gem 'bundler', '2.2.33'
+
 # Use mysql as the database for Active Record
 gem 'mysql2', '0.5.3'
 
