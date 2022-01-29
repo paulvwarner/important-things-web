@@ -10,6 +10,9 @@ class Permission < ActiveRecord::Base
     important_thing_update: 'Important Thing Update',
     important_thing_delete: 'Important Thing Delete',
 
+    notification_config_read: 'Notification Config Read',
+    notification_config_update: 'Notification Config Update',
+
     affirmation_create: 'Affirmation Create',
     affirmation_read: 'Affirmation Read',
     affirmation_update: 'Affirmation Update',

@@ -10,13 +10,13 @@
     width: 100%;
     max-width: $max-admin-page-content-width;
     padding-top: 30px;
+    padding-bottom: 20px;
+    border-bottom: $common-divider-height solid $gray;
 
     .common-list-page-header-content {
       display: flex;
       flex-direction: row;
       flex: 1;
-      padding-bottom: 20px;
-      border-bottom: $common-divider-height solid $gray;
 
       .common-list-page-header-content-left {
         display: flex;

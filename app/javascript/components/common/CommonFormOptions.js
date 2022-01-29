@@ -23,7 +23,7 @@ export let CommonFormOptions = function (props) {
 
     let optionsContent = null;
 
-    if (props.isNew) {
+    if (!props.allowDelete || !props.renderAdditionalOptions) {
         optionsContent = commonFormOptions;
     } else {
         optionsContent = [
@@ -37,12 +37,18 @@ export let CommonFormOptions = function (props) {
                 key={2}
                 className="common-form-options-section common-form-options-right"
             >
-                <PillButton
-                    containerClasses="common-form-button-container"
-                    buttonClasses="common-form-button delete-button white-button"
-                    onClick={props.confirmDeactivate}
-                    buttonText={"DELETE"}
-                />
+                {(() => {
+                    if (props.allowDelete) {
+                        return (
+                            <PillButton
+                                containerClasses="common-form-button-container"
+                                buttonClasses="common-form-button delete-button white-button"
+                                onClick={props.confirmDeactivate}
+                                buttonText="DELETE"
+                            />
+                        )
+                    }
+                })()}
                 {(() => {
                     if (props.renderAdditionalOptions) {
                         return props.renderAdditionalOptions();

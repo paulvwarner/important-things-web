@@ -26,7 +26,7 @@ export let UpdateUser = function (props) {
         );
     } else {
         return (
-            <LoadingIndicator loading={true}/>
+            <LoadingIndicator/>
         );
     }
 };

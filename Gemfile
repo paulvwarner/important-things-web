@@ -28,6 +28,9 @@ gem 'bootsnap', '1.9.3', require: false
 # pagination
 gem 'kaminari', '1.2.2'
 
+# used to schedule notifications
+gem 'sucker_punch', '3.0.1'
+
 group :development,:test do
   gem 'spring', '3.1.1'
   gem 'capybara', '3.36.0'

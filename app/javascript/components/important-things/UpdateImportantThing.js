@@ -26,7 +26,7 @@ export let UpdateImportantThing = function (props) {
         );
     } else {
         return (
-            <LoadingIndicator loading={true}/>
+            <LoadingIndicator/>
         );
     }
 };

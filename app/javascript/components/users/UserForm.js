@@ -47,9 +47,9 @@ export let UserForm = function (props) {
         getFormFieldClasses,
         handleTextFieldChange,
         handleRadioOptionChange,
+        handleCheckboxChange,
         forceValueToNumeric,
-        mergeToFormState,
-        mergeUnsavedToFormState
+        mergeToFormState
     ] = useCommonFormEffects(props, initialModelState, user, validateData, formStateToSaveData);
 
     // load form data (roles list) on mount
@@ -189,7 +189,7 @@ export let UserForm = function (props) {
             {(() => {
                 if (saving || deactivating || !formState.roleOptions) {
                     return (
-                        <LoadingIndicator loading={true}/>
+                        <LoadingIndicator/>
                     );
                 } else {
                     return (
@@ -303,7 +303,7 @@ export let UserForm = function (props) {
 
                                 <div className="common-form-body-row">
                                     <CommonFormOptions
-                                        isNew={props.isNew}
+                                        allowDelete={!props.isNew}
                                         cancel={props.cancel}
                                         save={save}
                                         confirmDeactivate={confirmDeactivate}

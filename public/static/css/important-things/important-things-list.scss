@@ -1,4 +1,38 @@
 .important-things-list-page {
+  .important-things-header-left {
+    display: flex;
+    flex-direction: column;
+
+    .important-things-notification-info {
+      display: flex;
+      flex-direction: column;
+
+      .notification-info-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+
+        .notification-info-details {
+          font-size: 14px;
+        }
+
+        .notification-info-link {
+          margin-left: 4px;
+          color: $red;
+          font-size: 14px;
+          height: 16px;
+          font-weight: $bold;
+          border-bottom: 1px solid $red;
+          cursor: pointer;
+
+          &:hover {
+            opacity: $common-hover-opacity;
+          }
+        }
+      }
+    }
+  }
+
   .important-things-list-row-cell {
     &.message {
       width: calc(100% - #{$important-things-list-weight-column-width});

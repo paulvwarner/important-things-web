@@ -272,7 +272,24 @@ export var ApiUtility = {
         );
     },
 
-    getRolesList:function (){
+    getRolesList: function () {
         return ApiUtility.apiRequest('/api/roles');
+    },
+
+    getNotificationConfig: function () {
+        return ApiUtility.apiRequest('/api/notification-config');
+    },
+
+    updateNotificationConfig: function (notificationConfigData) {
+        return ApiUtility.apiRequest(
+            '/api/notification-config',
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(notificationConfigData)
+            }
+        );
     },
 };

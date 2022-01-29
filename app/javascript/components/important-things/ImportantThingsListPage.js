@@ -9,6 +9,7 @@ import {GlobalContext} from "../admin-frame/AdminFrame";
 import {useLocation} from "react-router-dom";
 import {useCommonListEffects} from "../common/CommonListHooks";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
+import {NotificationConfigDisplay} from "../notification-config/NotificationConfigDisplay";
 
 export const ImportantThingsListPage = function (props) {
     const context = useContext(GlobalContext);
@@ -24,6 +25,10 @@ export const ImportantThingsListPage = function (props) {
 
     function goToUpdateImportantThingModal(importantThing) {
         context.navigator.navigateTo('/important-things/' + importantThing.id + location.search);
+    }
+
+    function goToNotificationConfigModal() {
+        context.navigator.navigateTo('/important-things/notification-config' + location.search);
     }
 
     function closeModals() {
@@ -70,6 +75,22 @@ export const ImportantThingsListPage = function (props) {
             <div className="common-list-page important-things-list-page">
                 <CommonListPageHeader
                     headerText="Important Things"
+                    leftHeaderRenderer={function () {
+                        return (
+                            <Fragment>
+                                <div className="important-things-header-left">
+                                    <div className="common-list-page-header-text">Important Things</div>
+                                    <div className="important-things-notification-info">
+                                        <NotificationConfigDisplay
+                                            goToNotificationConfigModal={goToNotificationConfigModal}
+                                            showNotificationConfigModal={props.showNotificationConfigModal}
+                                            close={closeModals}
+                                        />
+                                    </div>
+                                </div>
+                            </Fragment>
+                        )
+                    }}
                     performSearch={performSearch}
                     searchText={listState.searchText}
                     searchPlaceholderText="Search Important Things"

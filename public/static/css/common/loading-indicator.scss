@@ -23,5 +23,9 @@
 }
 
 .loading-indicator {
-
+  &.tiny-loading-indicator {
+    width: 20px;
+    height: 20px;
+  }
 }
+

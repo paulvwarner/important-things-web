@@ -157,6 +157,10 @@ export function useCommonFormEffects(
         }
     }
 
+    function handleCheckboxChange(fieldName, value) {
+        mergeUnsavedToFormState({[fieldName]: value});
+    }
+
     function forceValueToNumeric(fieldName) {
         if (formState[fieldName] !== parseInt(formState[fieldName]) || 0) {
             mergeUnsavedToFormState({[fieldName]: parseInt(formState[fieldName]) || 0});
@@ -176,8 +180,8 @@ export function useCommonFormEffects(
         getFormFieldClasses,
         handleTextFieldChange,
         handleRadioOptionChange,
+        handleCheckboxChange,
         forceValueToNumeric,
-        mergeToFormState,
-        mergeUnsavedToFormState
+        mergeToFormState
     ];
 }

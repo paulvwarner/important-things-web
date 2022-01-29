@@ -32,6 +32,7 @@ export let ImportantThingForm = function (props) {
         getFormFieldClasses,
         handleTextFieldChange,
         handleRadioOptionChange,
+        handleCheckboxChange,
         forceValueToNumeric
     ] = useCommonFormEffects(props, initialModelState, importantThing, validateData);
 
@@ -87,7 +88,7 @@ export let ImportantThingForm = function (props) {
             {(() => {
                 if (saving || notifying || deactivating) {
                     return (
-                        <LoadingIndicator loading={true}/>
+                        <LoadingIndicator/>
                     );
                 } else {
                     return (
@@ -116,12 +117,12 @@ export let ImportantThingForm = function (props) {
                                             Notes
                                         </div>
                                         <div className="common-form-field-input-container">
-                                                <textarea
-                                                    id="notes"
-                                                    className="common-form-textarea"
-                                                    value={formState.notes}
-                                                    onChange={handleTextFieldChange.bind(null, "notes")}
-                                                />
+                                            <textarea
+                                                id="notes"
+                                                className="common-form-textarea"
+                                                value={formState.notes}
+                                                onChange={handleTextFieldChange.bind(null, "notes")}
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -147,7 +148,7 @@ export let ImportantThingForm = function (props) {
                                 <div className="common-form-body-row">
                                     <div className="common-form-options">
                                         <CommonFormOptions
-                                            isNew={props.isNew}
+                                            allowDelete={!props.isNew}
                                             cancel={props.cancel}
                                             save={save}
                                             confirmDeactivate={confirmDeactivate}

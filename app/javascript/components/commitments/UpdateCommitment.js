@@ -26,7 +26,7 @@ export let UpdateCommitment = function (props) {
         );
     } else {
         return (
-            <LoadingIndicator loading={true}/>
+            <LoadingIndicator/>
         );
     }
 };

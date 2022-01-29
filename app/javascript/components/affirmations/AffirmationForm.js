@@ -51,7 +51,7 @@ export let AffirmationForm = function (props) {
             {(() => {
                 if (saving || deactivating) {
                     return (
-                        <LoadingIndicator loading={true}/>
+                        <LoadingIndicator/>
                     );
                 } else {
                     return (
@@ -80,19 +80,19 @@ export let AffirmationForm = function (props) {
                                             Notes
                                         </div>
                                         <div className="common-form-field-input-container">
-                                                <textarea
-                                                    id="notes"
-                                                    className="common-form-textarea"
-                                                    value={formState.notes}
-                                                    onChange={handleTextFieldChange.bind(null, "notes")}
-                                                />
+                                            <textarea
+                                                id="notes"
+                                                className="common-form-textarea"
+                                                value={formState.notes}
+                                                onChange={handleTextFieldChange.bind(null, "notes")}
+                                            />
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="common-form-body-row">
                                     <CommonFormOptions
-                                        isNew={props.isNew}
+                                        allowDelete={!props.isNew}
                                         cancel={props.cancel}
                                         save={save}
                                         confirmDeactivate={confirmDeactivate}

@@ -1,5 +1,6 @@
 // colors
 $red: #bb342d;
+$green: #61bb2d;
 $lighter-red: #e13f36;
 $black: #000000;
 $white: #ffffff;
@@ -122,6 +123,26 @@ body {
   resize: none;
 }
 
+.common-form-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid $black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    opacity: $common-hover-opacity;
+  }
+
+  .common-form-checkbox-check {
+    width: 15px;
+    height: 15px;
+  }
+}
+
 .common-form {
   display: flex;
   flex-direction: column;
@@ -159,6 +180,11 @@ body {
         justify-content: flex-start;
         margin-top: 1px;
         margin-bottom: 1px;
+
+        &.checkbox-form-field {
+          align-items: center;
+          min-height: $common-form-input-height;
+        }
 
         &.common-radio-option-set-form-field {
           align-items: center;
@@ -295,8 +321,9 @@ body {
 @import "common/modal.scss";
 @import "common/pill-button.scss";
 @import "common/radio-option-set.scss";
-@import "login/login.scss";
 @import "important-things/important-things-list.scss";
 @import "important-things/important-thing-form.scss";
+@import "login/login.scss";
+@import "notification-config/notification-config-form.scss";
 @import "users/users-list.scss";
 @import "users/user-form.scss";

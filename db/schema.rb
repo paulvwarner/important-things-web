@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_22_011633) do
+ActiveRecord::Schema.define(version: 2022_01_27_022838) do
 
   create_table "affirmations", charset: "utf8mb4", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "message", null: false
@@ -35,6 +35,15 @@ ActiveRecord::Schema.define(version: 2022_01_22_011633) do
     t.integer "weight", default: 1, null: false
     t.text "notes"
     t.boolean "active", default: true
+  end
+
+  create_table "notification_configs", charset: "utf8mb4", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.boolean "notifications_enabled", default: false
+    t.string "active_job_key"
+    t.bigint "min_notify_interval_hours"
+    t.bigint "max_notify_interval_hours"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "people", charset: "utf8mb4", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|

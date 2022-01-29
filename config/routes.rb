@@ -33,5 +33,8 @@ Rails.application.routes.draw do
 
     get '/affirmations/for-app', to: 'affirmations#index_for_app'
     resources :affirmations
+
+    get '/notification-config', to:'notification_configs#show'
+    put '/notification-config', to:'notification_configs#update'
   end
 end

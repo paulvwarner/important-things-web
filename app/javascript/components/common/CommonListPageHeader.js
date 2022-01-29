@@ -7,9 +7,17 @@ export const CommonListPageHeader = function (props) {
         <div className="common-list-page-header">
             <div className="common-list-page-header-content">
                 <div className="common-list-page-header-content-left">
-                    <div className="common-list-page-header-text">
-                        {props.headerText}
-                    </div>
+                    {(() => {
+                        if (props.leftHeaderRenderer) {
+                            return props.leftHeaderRenderer();
+                        } else {
+                            return (
+                                <div className="common-list-page-header-text">
+                                    {props.headerText}
+                                </div>
+                            )
+                        }
+                    })()}
                 </div>
                 <div className="common-list-page-header-content-right">
                     <DelayedSearchBar

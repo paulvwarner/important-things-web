@@ -42,6 +42,18 @@ export default (
                                }
                            }
                     />
+                    <Route exact path="/important-things/notification-config"
+                           render={
+                               function (props) {
+                                   return (
+                                       <ImportantThingsListPage
+                                           {...props}
+                                           showNotificationConfigModal={true}
+                                       />
+                                   );
+                               }
+                           }
+                    />
                     <Route exact path="/important-things/:importantThingId" component={ImportantThingsListPage}/>
 
                     <Route exact path="/commitments" component={CommitmentsListPage}/>

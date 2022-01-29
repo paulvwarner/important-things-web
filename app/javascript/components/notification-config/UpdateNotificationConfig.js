@@ -1,32 +1,32 @@
 import React from "react";
 import {ApiUtility} from "../common/ApiUtility";
-import {AffirmationForm} from "./AffirmationForm";
-import {LoadingIndicator} from "../common/LoadingIndicator";
+import {NotificationConfigForm} from "./NotificationConfigForm";
 import {useCommonUpdateEffects} from "../common/CommonUpdateHooks";
+import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 
-export let UpdateAffirmation = function (props) {
+export let UpdateNotificationConfig = function (props) {
     const [formModel, updateFormModel, deactivateFormModel] = useCommonUpdateEffects(
         props,
-        ApiUtility.getAffirmation,
-        ApiUtility.updateAffirmation,
-        props.affirmationId,
-        'affirmation'
+        ApiUtility.getNotificationConfig,
+        ApiUtility.updateNotificationConfig,
+        null,
+        'notification config'
     );
 
     if (formModel) {
         return (
-            <AffirmationForm
+            <NotificationConfigForm
                 cancel={props.cancel}
                 save={updateFormModel}
                 deactivate={deactivateFormModel}
-                affirmation={formModel}
+                notificationConfig={formModel}
                 isNew={false}
-                headerText="Update Affirmation"
+                headerText="Update Notification Config"
             />
         );
     } else {
         return (
-            <LoadingIndicator/>
+            <OverlayLoadingIndicator/>
         );
     }
 };
