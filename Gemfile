@@ -33,8 +33,9 @@ gem 'kaminari', '1.2.2'
 # used to schedule notifications
 gem 'sucker_punch', '3.0.1'
 
-group :development,:test do
-  gem 'spring', '3.1.1'
+gem 'spring', '3.1.1'
+
+group :development, :test do
   gem 'capybara', '3.36.0'
   gem 'selenium-webdriver', '4.1.0'
   gem 'webdrivers', '5.0.0'
