@@ -1,4 +1,4 @@
-FROM ruby:3.0.3
+FROM ruby:2.7.0
 
 # dependencies for gems
 RUN apt-get update -qq
@@ -21,6 +21,7 @@ ADD . /home/site/wwwroot
 
 # install gems
 RUN bundle config --local path "vendor/bundle"
-RUN bundle install --no-deployment
+RUN gem install bundler:2.2.33
+RUN bundle _2.2.33_ install
 
 ENTRYPOINT [ "/bin/initcontainer.sh" ]
