@@ -1,0 +1,13 @@
+/.git
+/.idea
+/.bundle
+/.rspec
+/app/client
+/db
+/log
+/node_modules
+/spec
+/test
+/tmp
+/vendor
+README.md
