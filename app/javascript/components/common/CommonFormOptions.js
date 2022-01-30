@@ -23,7 +23,7 @@ export let CommonFormOptions = function (props) {
 
     let optionsContent = null;
 
-    if (!props.allowDelete || !props.renderAdditionalOptions) {
+    if (!props.allowDelete && !props.renderAdditionalOptions) {
         optionsContent = commonFormOptions;
     } else {
         optionsContent = [
