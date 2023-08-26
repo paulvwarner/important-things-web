@@ -8,6 +8,11 @@ RUN apt-get install -y build-essential nodejs --no-install-recommends
 COPY docker/initcontainer.sh /bin/
 RUN chmod 755 /bin/initcontainer.sh
 
+# only used locally - Heroku ignores these
+EXPOSE 2222 8080
+ENV PORT 8080
+ENV SSH_PORT 2222
+
 # environment variables
 ENV RAILS_ENV production
 ENV PATH ${PATH}:/home/site/wwwroot
