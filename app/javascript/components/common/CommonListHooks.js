@@ -67,7 +67,7 @@ export function useCommonListEffects(
         ]
     )
 
-    // reload list data on mount and if certain things change in list state
+    // trigger reload of list data on mount and if certain things change in list state
     useEffect(
         function () {
             setLoadingListData(true);
@@ -81,6 +81,7 @@ export function useCommonListEffects(
         ]
     );
 
+    // reload list data if "loadingListData" changes to true
     useEffect(function () {
         if (loadingListData) {
             let listStateChange = {};

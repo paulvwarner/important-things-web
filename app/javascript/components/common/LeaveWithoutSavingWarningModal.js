@@ -4,8 +4,10 @@ import {PillButton} from "./PillButton";
 import {Modal} from "./Modal";
 
 export let LeaveWithoutSavingWarningModal = function (props) {
-    props.navWarningDisplayValueManager.reactToValueChangeWith(handleNavWarningDisplayRequest);
-    props.confirmBeforeNavValueManager.reactToValueChangeWith(handleConfirmBeforeNavRequest);
+    useEffect(function () {
+        props.navWarningDisplayValueManager.reactToValueChangeWith(handleNavWarningDisplayRequest);
+        props.confirmBeforeNavValueManager.reactToValueChangeWith(handleConfirmBeforeNavRequest);
+    }, []);
 
     let [warningModalState, setWarningModalState] = useState({
         showLeaveWithoutSavingWarningModal: false,
