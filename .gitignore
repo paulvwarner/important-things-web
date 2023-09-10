@@ -46,3 +46,6 @@ npm-debug.log
 
 # key file for FCM service account
 /config/importantthingsmobile-firebase-adminsdk-268dc30ff6ae.json
+
+# personal README
+README-personal.md
