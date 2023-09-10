@@ -24,7 +24,7 @@ RSpec.describe 'Commitment CRUD', type: :system do
     create_commitment_in_admin(commitment_create_attrs)
 
     # verify on list page
-    page.find('.search-bar-field').fill_in with: commitment_create_attrs[:title]
+    search_list_for(commitment_create_attrs[:title])
     commitment_list_row = get_commitment_list_row(commitment_create_attrs)
 
     verify_commitment_list_row(commitment_list_row, commitment_create_attrs)
@@ -43,7 +43,7 @@ RSpec.describe 'Commitment CRUD', type: :system do
     page.find('.common-list-page-header-text', text: 'Commitments')
 
     # verify data before update
-    page.find('.search-bar-field').fill_in with: commitment_create_attrs[:title]
+    search_list_for(commitment_create_attrs[:title])
     commitment_list_row = get_commitment_list_row(commitment_create_attrs)
     verify_commitment_list_row(commitment_list_row, commitment_create_attrs)
     commitment_list_row.click
@@ -54,7 +54,7 @@ RSpec.describe 'Commitment CRUD', type: :system do
     update_commitment_in_admin(commitment_update_attrs)
 
     # verify update in list row
-    page.find('.search-bar-field').fill_in with: commitment_update_attrs[:title]
+    search_list_for(commitment_update_attrs[:title])
     commitment_list_row = get_commitment_list_row(commitment_update_attrs)
     verify_commitment_list_row(commitment_list_row, commitment_update_attrs)
 
@@ -71,11 +71,11 @@ RSpec.describe 'Commitment CRUD', type: :system do
     page.find('.common-list-page-header-text', text: 'Commitments')
 
     # basic check for the commitment
-    page.find('.search-bar-field').fill_in with: commitment_create_attrs[:title]
+    search_list_for(commitment_create_attrs[:title])
     expect(page).to have_text(commitment_create_attrs[:title])
 
     # verify data before update
-    page.find('.search-bar-field').fill_in with: commitment_create_attrs[:title]
+    search_list_for(commitment_create_attrs[:title])
     commitment_list_row = get_commitment_list_row(commitment_create_attrs)
     verify_commitment_list_row(commitment_list_row, commitment_create_attrs)
     commitment_list_row.click

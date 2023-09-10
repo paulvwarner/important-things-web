@@ -33,6 +33,44 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
+Webdrivers::Chromedriver.required_version = '114.0.5735.90'
+
+Webdrivers::Chromedriver.required_version = '114.0.5735.90'
+
+Capybara.register_driver :headless_chrome_custom do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless')
+  options.add_argument('--window-size=1400,800')
+
+  service = Selenium::WebDriver::Service.chrome args: ['--verbose', '--disable-build-check']
+
+  Capybara::Selenium::Driver.new(
+    app,
+    {
+      browser: :chrome,
+      capabilities: [options],
+      service: service
+    }
+  )
+end
+
+Capybara.register_driver :chrome_custom do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--window-size=1400,800')
+
+  service = Selenium::WebDriver::Service.chrome args: ['--verbose', '--disable-build-check']
+
+  Capybara::Selenium::Driver.new(
+    app,
+    {
+      browser: :chrome,
+      capabilities: [options],
+      service: service
+    }
+  )
+end
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -64,10 +102,28 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  if ENV['HEADLESS'] == 'true'
+    config.before(:each, type: :system) do
+      driven_by :headless_chrome_custom
+    end
+  else
+    config.before(:each, type: :system) do
+      driven_by :chrome_custom
+    end
+  end
 end
 
-# run rspec tests in a chrome instance instead of in a headless browser
-Capybara.default_driver = :selenium_chrome
+# run rspec tests in a chrome instance instead of in a headless browser ()unless HEADLESS environment variable is true)
+if ENV['HEADLESS'] == 'true'
+  Capybara.default_driver = :headless_chrome_custom
+  Capybara.current_driver = :headless_chrome_custom
+  Capybara.javascript_driver = :headless_chrome_custom
+else
+  Capybara.default_driver = :chrome_custom
+  Capybara.current_driver = :chrome_custom
+  Capybara.javascript_driver = :chrome_custom
+end
 
 # set Capybara up to use puma server
 Capybara.register_server :puma do |app, port, host|

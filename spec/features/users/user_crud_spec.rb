@@ -110,7 +110,7 @@ RSpec.describe 'User CRUD', type: :system do
 
     # verify data before update
     create_user_full_name = admin_user_create_attrs[:firstName] + ' ' + admin_user_create_attrs[:lastName]
-    page.find('.search-bar-field').fill_in with: create_user_full_name
+    search_list_for(create_user_full_name)
     user_list_row = get_user_list_row(admin_user_create_attrs)
     verify_user_list_row(user_list_row, admin_user_create_attrs)
     user_list_row.click
@@ -126,7 +126,7 @@ RSpec.describe 'User CRUD', type: :system do
 
     # verify update in list row
     update_user_full_name = admin_user_create_attrs[:firstName] + ' ' + admin_user_create_attrs[:lastName]
-    page.find('.search-bar-field').fill_in with: update_user_full_name
+    search_list_for(update_user_full_name)
     user_list_row = get_user_list_row(admin_user_create_attrs)
     verify_user_list_row(user_list_row, admin_user_create_attrs)
 

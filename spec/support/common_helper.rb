@@ -60,7 +60,7 @@ def common_list_search_test(label_element_css)
   expect(page).not_to have_css(label_element_css, exact_text: 'Test 021')
 
   # find one item
-  page.find('.search-bar-field').fill_in with: '21'
+  search_list_for('21')
   page.find(label_element_css, exact_text: 'Test 021')
   expect(page).not_to have_css(label_element_css, exact_text: 'Test 001')
   expect(page).not_to have_css(label_element_css, exact_text: 'Test 020')
@@ -69,7 +69,7 @@ def common_list_search_test(label_element_css)
   expect(page).not_to have_css('.common-list-pagination-options')
 
   # find multiple pages of items
-  page.find('.search-bar-field').fill_in with: '1'
+  search_list_for('1')
   page.find(label_element_css, exact_text: 'Test 001')
   expect(page).not_to have_css(label_element_css, exact_text: 'Test 002')
   expect(page).not_to have_css(label_element_css, exact_text: 'Test 022')
@@ -80,4 +80,9 @@ def common_list_search_test(label_element_css)
   expect(page).not_to have_css('.pagination-element.pagination-link', exact_text: '3')
   expect(page).not_to have_css('.pagination-element.pagination-link', exact_text: '4')
   expect(page).not_to have_css('.pagination-element.pagination-link', exact_text: '5')
+end
+
+def search_list_for(text)
+  page.find('.search-bar-field').fill_in with: text
+  wait_for_page_load
 end

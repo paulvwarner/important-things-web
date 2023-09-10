@@ -24,7 +24,7 @@ RSpec.describe 'Affirmation CRUD', type: :system do
     create_affirmation_in_admin(affirmation_create_attrs)
 
     # verify on list page
-    page.find('.search-bar-field').fill_in with: affirmation_create_attrs[:message]
+    search_list_for(affirmation_create_attrs[:message])
     affirmation_list_row = get_affirmation_list_row(affirmation_create_attrs)
 
     verify_affirmation_list_row(affirmation_list_row, affirmation_create_attrs)
@@ -43,18 +43,17 @@ RSpec.describe 'Affirmation CRUD', type: :system do
     page.find('.common-list-page-header-text', text: 'Affirmations')
 
     # verify data before update
-    page.find('.search-bar-field').fill_in with: affirmation_create_attrs[:message]
+    search_list_for(affirmation_create_attrs[:message])
     affirmation_list_row = get_affirmation_list_row(affirmation_create_attrs)
     verify_affirmation_list_row(affirmation_list_row, affirmation_create_attrs)
     affirmation_list_row.click
-
     verify_affirmation_detail(affirmation_create_attrs)
 
     # perform update
     update_affirmation_in_admin(affirmation_update_attrs)
 
     # verify update in list row
-    page.find('.search-bar-field').fill_in with: affirmation_update_attrs[:message]
+    search_list_for(affirmation_update_attrs[:message])
     affirmation_list_row = get_affirmation_list_row(affirmation_update_attrs)
     verify_affirmation_list_row(affirmation_list_row, affirmation_update_attrs)
 
@@ -71,15 +70,14 @@ RSpec.describe 'Affirmation CRUD', type: :system do
     page.find('.common-list-page-header-text', text: 'Affirmations')
 
     # basic check for the affirmation
-    page.find('.search-bar-field').fill_in with: affirmation_create_attrs[:message]
+    search_list_for(affirmation_create_attrs[:message])
     expect(page).to have_text(affirmation_create_attrs[:message])
 
     # verify data before update
-    page.find('.search-bar-field').fill_in with: affirmation_create_attrs[:message]
+    search_list_for(affirmation_create_attrs[:message])
     affirmation_list_row = get_affirmation_list_row(affirmation_create_attrs)
     verify_affirmation_list_row(affirmation_list_row, affirmation_create_attrs)
     affirmation_list_row.click
-
     verify_affirmation_detail(affirmation_create_attrs)
 
     # perform update

@@ -26,7 +26,7 @@ RSpec.describe 'Important Thing CRUD', type: :system do
     create_important_thing_in_admin(important_thing_create_attrs)
 
     # verify on list page
-    page.find('.search-bar-field').fill_in with: important_thing_create_attrs[:message]
+    search_list_for(important_thing_create_attrs[:title])
     important_thing_list_row = get_important_thing_list_row(important_thing_create_attrs)
 
     verify_important_thing_list_row(important_thing_list_row, important_thing_create_attrs)
@@ -45,7 +45,7 @@ RSpec.describe 'Important Thing CRUD', type: :system do
     page.find('.common-list-page-header-text', text: 'Important Things')
 
     # verify data before update
-    page.find('.search-bar-field').fill_in with: important_thing_create_attrs[:message]
+    search_list_for(important_thing_create_attrs[:title])
     important_thing_list_row = get_important_thing_list_row(important_thing_create_attrs)
     verify_important_thing_list_row(important_thing_list_row, important_thing_create_attrs)
     important_thing_list_row.click
@@ -56,7 +56,7 @@ RSpec.describe 'Important Thing CRUD', type: :system do
     update_important_thing_in_admin(important_thing_update_attrs)
 
     # verify update in list row
-    page.find('.search-bar-field').fill_in with: important_thing_update_attrs[:message]
+    search_list_for(important_thing_update_attrs[:title])
     important_thing_list_row = get_important_thing_list_row(important_thing_update_attrs)
     verify_important_thing_list_row(important_thing_list_row, important_thing_update_attrs)
 
@@ -73,7 +73,7 @@ RSpec.describe 'Important Thing CRUD', type: :system do
     page.find('.common-list-page-header-text', text: 'Important Things')
 
     # basic check for the important thing
-    page.find('.search-bar-field').fill_in with: important_thing_create_attrs[:message]
+    search_list_for(important_thing_create_attrs[:title])
     expect(page).to have_text(important_thing_create_attrs[:message])
 
     # verify data before update

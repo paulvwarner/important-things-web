@@ -1,4 +1,4 @@
-# Important Things
+# Important Things web app
 
 The purpose of Important Things is to track and remind myself of things I think are important. Right now that means insights, commitments, and affirmations I want to remember. I also built this to 1) demonstrate that I know how to build web/mobile applications like this and 2) to get more experience using React hooks.
 
@@ -8,11 +8,11 @@ A user management system isn't really necessary for this project, since I think 
 
 #### Links:
 - This repository is for the Rails/React web application. The mobile app's repository is: https://github.com/paulvwarner/important-things-mobile
-- Task tracking (Trello): https://trello.com/b/vLhGVm4Z/important-things-web-app (This also tracks known issues.)
+- Task tracking, known issues (Trello): https://trello.com/b/vLhGVm4Z/important-things-web-app
 
 
 
-# Installation
+# Installation (on a Mac)
 
 #### DB setup
 - Running this project locally requires you to run a local MySQL server.  I'm using MySQL version 5.6.24.

@@ -88,7 +88,7 @@ def create_user_test(create_user_attrs)
 
   # verify on list page
   create_user_full_name = create_user_attrs[:firstName] + ' ' + create_user_attrs[:lastName]
-  page.find('.search-bar-field').fill_in with: create_user_full_name
+  search_list_for(create_user_full_name)
   user_list_row = get_user_list_row(create_user_attrs)
 
   verify_user_list_row(user_list_row, create_user_attrs)
@@ -111,7 +111,7 @@ def update_user_test(create_user_attrs, update_user_attrs)
 
   # verify data before update
   create_user_full_name = create_user_attrs[:firstName] + ' ' + create_user_attrs[:lastName]
-  page.find('.search-bar-field').fill_in with: create_user_full_name
+  search_list_for(create_user_full_name)
   user_list_row = get_user_list_row(create_user_attrs)
   verify_user_list_row(user_list_row, create_user_attrs)
   user_list_row.click
@@ -123,7 +123,7 @@ def update_user_test(create_user_attrs, update_user_attrs)
 
   # verify update in list row
   update_user_full_name = update_user_attrs[:firstName] + ' ' + update_user_attrs[:lastName]
-  page.find('.search-bar-field').fill_in with: update_user_full_name
+  search_list_for(update_user_full_name)
   user_list_row = get_user_list_row(update_user_attrs)
   verify_user_list_row(user_list_row, update_user_attrs)
 
@@ -144,11 +144,11 @@ def deactivate_user_test(create_user_attrs)
 
   # basic check for the user
   user_full_name = create_user_attrs[:firstName] + ' ' + create_user_attrs[:lastName]
-  page.find('.search-bar-field').fill_in with: user_full_name
+  search_list_for(user_full_name)
   expect(page).to have_text(user_full_name)
 
   # verify data before update
-  page.find('.search-bar-field').fill_in with: user_full_name
+  search_list_for(user_full_name)
   user_list_row = get_user_list_row(create_user_attrs)
   verify_user_list_row(user_list_row, create_user_attrs)
   user_list_row.click

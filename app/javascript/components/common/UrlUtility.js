@@ -1,5 +1,5 @@
-var queryString = require('query-string');
-var _ = require('underscore');
+let queryString = require('query-string').default;
+let _ = require('underscore');
 
 export var UrlUtility = {
     getUrlQueryString: function (argumentsArray) {
