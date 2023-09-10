@@ -44,7 +44,7 @@ module ImportantThingsHelper
   def send_notification_for(important_thing)
     fcm = FCM.new(
       Rails.application.credentials.fcm_server_key,
-      File.join(Rails.root, 'config', 'importantthingsmobile-firebase-adminsdk-268dc30ff6ae.json'),
+      File.join(Rails.root, 'config', 'importantthingsmobile-firebase-adminsdk-317b9ace552d.json'),
       'importantthingsmobile'
     )
 
@@ -52,7 +52,7 @@ module ImportantThingsHelper
       {
         topic: "importantthings",
         notification: {
-          body: important_thing[:message],
+          body: important_thing[:message].to_s,
         },
       }
     )
