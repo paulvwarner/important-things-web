@@ -39,8 +39,9 @@ function listReducer(state, action) {
     throw Error('Unknown action: ' + action.type);
 }
 
-export function useManagedList(
-    props, modelIdParam, listFetchApiFunction, modelName
+// Use a list whose state is described by the URL. User actions trigger URL changes, and URL changes trigger list state updates. Certain state value changes can trigger a reload of the list.
+export function useUrlManagedList(
+    listPageProps, modelIdParamName, listFetchApiFunction, modelName
 ) {
     const initialListState = {
         selectedPage: 1,
@@ -74,7 +75,7 @@ export function useManagedList(
             });
     }
 
-    // User actions trigger URL changes, and the URL governs list state. Update state from URL changes here.
+    // Update state from URL changes here.
     useEffect(
         function () {
             let selectedPage = 1;
@@ -82,13 +83,13 @@ export function useManagedList(
             let updateModelId = null;
             let showUpdateModal = false;
 
-            let routeParams = props.match && props.match.params;
-            if (routeParams && routeParams[modelIdParam] && routeParams[modelIdParam] !== 'add') {
+            let routeParams = listPageProps.match && listPageProps.match.params;
+            if (routeParams && routeParams[modelIdParamName] && routeParams[modelIdParamName] !== 'add') {
                 showUpdateModal = true;
-                updateModelId = routeParams[modelIdParam];
+                updateModelId = routeParams[modelIdParamName];
             }
 
-            let queryParams = UrlUtility.getQueryParamsFromProps(props);
+            let queryParams = UrlUtility.getQueryParamsFromProps(listPageProps);
             if (queryParams.page) {
                 selectedPage = queryParams.page;
             }
@@ -101,19 +102,19 @@ export function useManagedList(
                 type: 'url_changed_list_config',
                 selectedPage: selectedPage,
                 searchText: searchText,
-                showCreateModal: props.showCreateModal || false,
+                showCreateModal: listPageProps.showCreateModal || false,
                 showUpdateModal: showUpdateModal || false,
                 updateModelId: updateModelId
             })
         },
         [
-            props.location && props.location.search,
-            props.match && props.match.params,
-            props.showCreateModal
+            listPageProps.location && listPageProps.location.search,
+            listPageProps.match && listPageProps.match.params,
+            listPageProps.showCreateModal
         ]
     )
 
-    // trigger reload of list data on mount and if certain values change in list state
+    // Trigger reload of list data on mount and if certain values change in list state.
     useEffect(
         function () {
             reloadList();
@@ -124,6 +125,5 @@ export function useManagedList(
         ]
     );
 
-    // pvw todo apply refactor to all lists, commit
     return [listState, reloadList];
 }

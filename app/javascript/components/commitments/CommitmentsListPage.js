@@ -9,7 +9,7 @@ import {UpdateCommitment} from "./UpdateCommitment";
 import {GlobalContext} from "../admin-frame/AdminFrame";
 import {DelayedSearchBar} from "../common/DelayedSearchBar";
 import {useLocation} from "react-router-dom";
-import {useManagedList} from "../common/hooks/useManagedList";
+import {useUrlManagedList} from "../common/hooks/useUrlManagedList";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
@@ -17,7 +17,7 @@ export const CommitmentsListPage = function (props) {
     const context = useContext(GlobalContext);
     let location = useLocation();
 
-    const [listState, reloadList] = useManagedList(
+    const [listState, reloadList] = useUrlManagedList(
         props, 'commitmentId', ApiUtility.getCommitmentsList, 'commitment'
     );
 

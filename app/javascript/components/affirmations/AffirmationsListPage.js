@@ -7,7 +7,7 @@ import {CreateAffirmation} from "./CreateAffirmation";
 import {UpdateAffirmation} from "./UpdateAffirmation";
 import {GlobalContext} from "../admin-frame/AdminFrame";
 import {useLocation} from "react-router-dom";
-import {useManagedList} from "../common/hooks/useManagedList";
+import {useUrlManagedList} from "../common/hooks/useUrlManagedList";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
@@ -15,7 +15,7 @@ export const AffirmationsListPage = function (props) {
     const context = useContext(GlobalContext);
     let location = useLocation();
 
-    const [listState, reloadList] = useManagedList(
+    const [listState, reloadList] = useUrlManagedList(
         props, 'affirmationId', ApiUtility.getAffirmationsList, 'affirmation'
     );
 

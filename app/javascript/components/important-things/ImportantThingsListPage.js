@@ -7,7 +7,7 @@ import {CreateImportantThing} from "./CreateImportantThing";
 import {UpdateImportantThing} from "./UpdateImportantThing";
 import {GlobalContext} from "../admin-frame/AdminFrame";
 import {useLocation} from "react-router-dom";
-import {useManagedList} from "../common/hooks/useManagedList";
+import {useUrlManagedList} from "../common/hooks/useUrlManagedList";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
 import {NotificationConfigDisplay} from "../notification-config/NotificationConfigDisplay";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
@@ -16,8 +16,11 @@ export const ImportantThingsListPage = function (props) {
     const context = useContext(GlobalContext);
     let location = useLocation();
 
-    const [listState, reloadList] = useManagedList(
-        props, 'importantThingId', ApiUtility.getImportantThingsList, 'important thing'
+    const [listState, reloadList] = useUrlManagedList(
+        props,
+        'importantThingId',
+        ApiUtility.getImportantThingsList,
+        'important thing',
     );
 
     function goToAddImportantThingModal() {
