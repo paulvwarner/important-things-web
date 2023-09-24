@@ -1,32 +1,34 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {AffirmationForm} from "./AffirmationForm";
-import {LoadingIndicator} from "../common/LoadingIndicator";
-import {useCommonUpdateEffects} from "../common/CommonUpdateHooks";
+import {useModelUpdateManager} from "../common/hooks/useModelUpdateManager";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
+import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 
 export let UpdateAffirmation = function (props) {
-    const [formModel, updateFormModel, deactivateFormModel] = useCommonUpdateEffects(
-        props,
+    const modelUpdateManager = useModelUpdateManager(
         ApiUtility.getAffirmation,
         ApiUtility.updateAffirmation,
         props.affirmationId,
-        'affirmation'
+        'affirmation',
+        props.afterSuccessfulSave
     );
 
-    if (formModel) {
-        return (
-            <AffirmationForm
-                cancel={props.cancel}
-                save={updateFormModel}
-                deactivate={deactivateFormModel}
-                affirmation={formModel}
-                isNew={false}
-                headerText="Update Affirmation"
-            />
-        );
-    } else {
-        return (
-            <LoadingIndicator/>
-        );
-    }
+    return (
+        <Fragment>
+            <ConditionalRenderer if={modelUpdateManager.state.loading} renderer={() => (
+                <OverlayLoadingIndicator/>
+            )}/>
+            <ConditionalRenderer if={modelUpdateManager.state.model} renderer={() => (
+                <AffirmationForm
+                    cancel={props.cancel}
+                    save={modelUpdateManager.updateModel}
+                    deactivate={modelUpdateManager.deactivateModel}
+                    affirmation={modelUpdateManager.state.model}
+                    isNew={false}
+                    headerText="Update Affirmation"
+                />
+            )}/>
+        </Fragment>
+    );
 };

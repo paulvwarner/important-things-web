@@ -1,32 +1,34 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {ImportantThingForm} from "./ImportantThingForm";
-import {LoadingIndicator} from "../common/LoadingIndicator";
-import {useCommonUpdateEffects} from "../common/CommonUpdateHooks";
+import {useModelUpdateManager} from "../common/hooks/useModelUpdateManager";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
+import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 
 export let UpdateImportantThing = function (props) {
-    const [formModel, updateFormModel, deactivateFormModel] = useCommonUpdateEffects(
-        props,
+    const modelUpdateManager = useModelUpdateManager(
         ApiUtility.getImportantThing,
         ApiUtility.updateImportantThing,
         props.importantThingId,
-        'important thing'
+        'important thing',
+        props.afterSuccessfulSave
     );
 
-    if (formModel) {
-        return (
-            <ImportantThingForm
-                cancel={props.cancel}
-                save={updateFormModel}
-                deactivate={deactivateFormModel}
-                importantThing={formModel}
-                isNew={false}
-                headerText="Update Important Thing"
-            />
-        );
-    } else {
-        return (
-            <LoadingIndicator/>
-        );
-    }
+    return (
+        <Fragment>
+            <ConditionalRenderer if={modelUpdateManager.state.loading} renderer={() => (
+                <OverlayLoadingIndicator/>
+            )}/>
+            <ConditionalRenderer if={modelUpdateManager.state.model} renderer={() => (
+                <ImportantThingForm
+                    cancel={props.cancel}
+                    save={modelUpdateManager.updateModel}
+                    deactivate={modelUpdateManager.deactivateModel}
+                    importantThing={modelUpdateManager.state.model}
+                    isNew={false}
+                    headerText="Update Important Thing"
+                />
+            )}/>
+        </Fragment>
+    );
 };

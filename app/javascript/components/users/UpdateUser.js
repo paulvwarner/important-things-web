@@ -1,32 +1,34 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {UserForm} from "./UserForm";
-import {LoadingIndicator} from "../common/LoadingIndicator";
-import {useCommonUpdateEffects} from "../common/CommonUpdateHooks";
+import {useModelUpdateManager} from "../common/hooks/useModelUpdateManager";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
+import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 
 export let UpdateUser = function (props) {
-    const [formModel, updateFormModel, deactivateFormModel] = useCommonUpdateEffects(
-        props,
+    const modelUpdateManager = useModelUpdateManager(
         ApiUtility.getUser,
         ApiUtility.updateUser,
         props.userId,
-        'user'
+        'user',
+        props.afterSuccessfulSave
     );
 
-    if (formModel) {
-        return (
-            <UserForm
-                cancel={props.cancel}
-                save={updateFormModel}
-                deactivate={deactivateFormModel}
-                user={formModel}
-                isNew={false}
-                headerText="Update User"
-            />
-        );
-    } else {
-        return (
-            <LoadingIndicator/>
-        );
-    }
+    return (
+        <Fragment>
+            <ConditionalRenderer if={modelUpdateManager.state.loading} renderer={() => (
+                <OverlayLoadingIndicator/>
+            )}/>
+            <ConditionalRenderer if={modelUpdateManager.state.model} renderer={() => (
+                <UserForm
+                    cancel={props.cancel}
+                    save={modelUpdateManager.updateModel}
+                    deactivate={modelUpdateManager.deactivateModel}
+                    user={modelUpdateManager.state.model}
+                    isNew={false}
+                    headerText="Update User"
+                />
+            )}/>
+        </Fragment>
+    );
 };

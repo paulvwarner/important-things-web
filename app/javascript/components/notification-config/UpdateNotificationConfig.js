@@ -1,32 +1,34 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {NotificationConfigForm} from "./NotificationConfigForm";
-import {useCommonUpdateEffects} from "../common/CommonUpdateHooks";
+import {useModelUpdateManager} from "../common/hooks/useModelUpdateManager";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
 export let UpdateNotificationConfig = function (props) {
-    const [formModel, updateFormModel, deactivateFormModel] = useCommonUpdateEffects(
-        props,
+    const modelUpdateManager = useModelUpdateManager(
         ApiUtility.getNotificationConfig,
         ApiUtility.updateNotificationConfig,
         null,
-        'notification config'
+        'notification config',
+        props.afterSuccessfulSave
     );
 
-    if (formModel) {
-        return (
-            <NotificationConfigForm
-                cancel={props.cancel}
-                save={updateFormModel}
-                deactivate={deactivateFormModel}
-                notificationConfig={formModel}
-                isNew={false}
-                headerText="Update Notification Config"
-            />
-        );
-    } else {
-        return (
-            <OverlayLoadingIndicator/>
-        );
-    }
+    return (
+        <Fragment>
+            <ConditionalRenderer if={modelUpdateManager.state.loading} renderer={() => (
+                <OverlayLoadingIndicator/>
+            )}/>
+            <ConditionalRenderer if={modelUpdateManager.state.model} renderer={() => (
+                <NotificationConfigForm
+                    cancel={props.cancel}
+                    save={modelUpdateManager.updateModel}
+                    deactivate={modelUpdateManager.deactivateModel}
+                    notificationConfig={modelUpdateManager.state.model}
+                    isNew={false}
+                    headerText="Update Notification Config"
+                />
+            )}/>
+        </Fragment>
+    );
 };
