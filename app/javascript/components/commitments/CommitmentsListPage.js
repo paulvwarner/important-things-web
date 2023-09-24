@@ -1,52 +1,25 @@
 import React, {Fragment, useContext} from 'react';
 import {ApiUtility} from "../common/ApiUtility";
-import {PillButton} from "../common/PillButton";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 import {ListPaginationOptions} from "../common/ListPaginationOptions";
-import {UrlUtility} from "../common/UrlUtility";
 import {CreateCommitment} from "./CreateCommitment";
 import {UpdateCommitment} from "./UpdateCommitment";
 import {GlobalContext} from "../admin-frame/AdminFrame";
-import {DelayedSearchBar} from "../common/DelayedSearchBar";
-import {useLocation} from "react-router-dom";
 import {useUrlManagedList} from "../common/hooks/useUrlManagedList";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
 export const CommitmentsListPage = function (props) {
     const context = useContext(GlobalContext);
-    let location = useLocation();
 
-    const [listState, reloadList] = useUrlManagedList(
-        props, 'commitmentId', ApiUtility.getCommitmentsList, 'commitment'
+    const listPageManager = useUrlManagedList(
+        props,
+        'commitmentId',
+        ApiUtility.getCommitmentsList,
+        'commitment',
+        '/commitments',
+        context.navigator
     );
-
-    function goToAddCommitmentModal() {
-        context.navigator.navigateTo('/commitments/add' + location.search);
-    }
-
-    function goToUpdateCommitmentModal(commitment) {
-        context.navigator.navigateTo('/commitments/' + commitment.id + location.search);
-    }
-
-    function closeModals() {
-        context.navigator.navigateTo('/commitments' + location.search);
-    }
-
-    function afterSuccessfulSave() {
-        closeModals()
-        reloadList();
-    }
-
-    function performSearch(searchText) {
-        if (listState.searchText !== searchText) {
-            let queryParams = UrlUtility.getQueryParamsFromProps(props);
-            queryParams.page = 1;
-            queryParams.searchText = searchText;
-            let queryString = UrlUtility.getUrlQueryStringFromQueryParamsObject(queryParams);
-            context.navigator.navigateTo('/commitments' + queryString);
-        }
-    }
 
     function renderCommitmentsListDisplay(commitmentsList) {
         let commitmentsListDisplay = [];
@@ -58,7 +31,7 @@ export const CommitmentsListPage = function (props) {
                 <div
                     key={i + 1}
                     className="common-list-row common-list-values-row"
-                    onClick={goToUpdateCommitmentModal.bind(null, commitment)}
+                    onClick={() => listPageManager.goToUpdateModal(commitment)}
                 >
                     <div
                         className="common-list-row-cell common-list-row-value-cell commitments-list-row-cell title"
@@ -70,21 +43,24 @@ export const CommitmentsListPage = function (props) {
         return commitmentsListDisplay;
     }
 
-    if (listState.modelList) {
+    if (listPageManager.listState.modelList) {
         return (
             <div className="common-list-page commitments-list-page">
                 <CommonListPageHeader
                     headerText="Commitments"
-                    performSearch={performSearch}
-                    searchText={listState.searchText}
+                    performSearch={listPageManager.performSearch}
+                    searchText={listPageManager.listState.searchText}
                     searchPlaceholderText="Search Commitments"
-                    onClickAddButton={goToAddCommitmentModal}
+                    onClickAddButton={listPageManager.goToAddModal}
                 />
 
                 <div className="common-list-page-content">
-                    <ConditionalRenderer if={listState.loading} renderer={() => <OverlayLoadingIndicator/>}/>
+                    <ConditionalRenderer
+                        if={listPageManager.listState.loading}
+                        renderer={() => <OverlayLoadingIndicator/>}
+                    />
                     {(() => {
-                        if (listState.modelList.length > 0) {
+                        if (listPageManager.listState.modelList.length > 0) {
                             return (
                                 <Fragment>
                                     <div className="common-list-header">
@@ -96,11 +72,11 @@ export const CommitmentsListPage = function (props) {
                                         </div>
                                     </div>
                                     <div className="common-list-content">
-                                        {renderCommitmentsListDisplay(listState.modelList)}
+                                        {renderCommitmentsListDisplay(listPageManager.listState.modelList)}
                                     </div>
                                     <ListPaginationOptions
-                                        pageCount={listState.pageCount}
-                                        selectedPage={listState.selectedPage}
+                                        pageCount={listPageManager.listState.pageCount}
+                                        selectedPage={listPageManager.listState.selectedPage}
                                         urlBase="/commitments"
                                     />
                                 </Fragment>
@@ -115,19 +91,19 @@ export const CommitmentsListPage = function (props) {
                     })()}
                 </div>
                 {(() => {
-                    if (listState.showCreateModal) {
+                    if (listPageManager.listState.showCreateModal) {
                         return (
                             <CreateCommitment
-                                cancel={closeModals}
-                                afterSuccessfulSave={afterSuccessfulSave}
+                                cancel={listPageManager.closeModals}
+                                afterSuccessfulSave={listPageManager.afterSuccessfulSave}
                             />
                         );
-                    } else if (listState.showUpdateModal) {
+                    } else if (listPageManager.listState.showUpdateModal) {
                         return (
                             <UpdateCommitment
-                                cancel={closeModals}
-                                afterSuccessfulSave={afterSuccessfulSave}
-                                commitmentId={listState.updateModelId}
+                                cancel={listPageManager.closeModals}
+                                afterSuccessfulSave={listPageManager.afterSuccessfulSave}
+                                commitmentId={listPageManager.listState.updateModelId}
                             />
                         );
                     }

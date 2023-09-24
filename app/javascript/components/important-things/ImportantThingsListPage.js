@@ -2,7 +2,6 @@ import React, {Fragment, useContext} from 'react';
 import {ApiUtility} from "../common/ApiUtility";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 import {ListPaginationOptions} from "../common/ListPaginationOptions";
-import {UrlUtility} from "../common/UrlUtility";
 import {CreateImportantThing} from "./CreateImportantThing";
 import {UpdateImportantThing} from "./UpdateImportantThing";
 import {GlobalContext} from "../admin-frame/AdminFrame";
@@ -16,42 +15,17 @@ export const ImportantThingsListPage = function (props) {
     const context = useContext(GlobalContext);
     let location = useLocation();
 
-    const [listState, reloadList] = useUrlManagedList(
+    const listPageManager = useUrlManagedList(
         props,
         'importantThingId',
         ApiUtility.getImportantThingsList,
         'important thing',
+        '/important-things',
+        context.navigator
     );
 
-    function goToAddImportantThingModal() {
-        context.navigator.navigateTo('/important-things/add' + location.search);
-    }
-
-    function goToUpdateImportantThingModal(importantThing) {
-        context.navigator.navigateTo('/important-things/' + importantThing.id + location.search);
-    }
-
     function goToNotificationConfigModal() {
-        context.navigator.navigateTo('/important-things/notification-config' + location.search);
-    }
-
-    function closeModals() {
-        context.navigator.navigateTo('/important-things' + location.search);
-    }
-
-    function afterSuccessfulSave() {
-        closeModals()
-        reloadList();
-    }
-
-    function performSearch(searchText) {
-        if (listState.searchText !== searchText) {
-            let queryParams = UrlUtility.getQueryParamsFromProps(props);
-            queryParams.page = 1;
-            queryParams.searchText = searchText;
-            let queryString = UrlUtility.getUrlQueryStringFromQueryParamsObject(queryParams);
-            context.navigator.navigateTo('/important-things' + queryString);
-        }
+        context.navigator.navigateTo(`/important-things/notification-config${location.search}`);
     }
 
     function renderImportantThingsListDisplay(importantThingsList) {
@@ -64,7 +38,7 @@ export const ImportantThingsListPage = function (props) {
                 <div
                     key={i + 1}
                     className="common-list-row common-list-values-row"
-                    onClick={goToUpdateImportantThingModal.bind(null, importantThing)}
+                    onClick={() => listPageManager.goToUpdateModal(importantThing)}
                 >
                     <div
                         className="common-list-row-cell common-list-row-value-cell important-things-list-row-cell message"
@@ -79,7 +53,7 @@ export const ImportantThingsListPage = function (props) {
         return importantThingsListDisplay;
     }
 
-    if (listState.modelList) {
+    if (listPageManager.listState.modelList) {
         return (
             <div className="common-list-page important-things-list-page">
                 <CommonListPageHeader
@@ -93,23 +67,26 @@ export const ImportantThingsListPage = function (props) {
                                         <NotificationConfigDisplay
                                             goToNotificationConfigModal={goToNotificationConfigModal}
                                             showNotificationConfigModal={props.showNotificationConfigModal}
-                                            close={closeModals}
+                                            close={listPageManager.closeModals}
                                         />
                                     </div>
                                 </div>
                             </Fragment>
                         )
                     }}
-                    performSearch={performSearch}
-                    searchText={listState.searchText}
+                    performSearch={listPageManager.performSearch}
+                    searchText={listPageManager.listState.searchText}
                     searchPlaceholderText="Search Important Things"
-                    onClickAddButton={goToAddImportantThingModal}
+                    onClickAddButton={listPageManager.goToAddModal}
                 />
 
                 <div className="common-list-page-content">
-                    <ConditionalRenderer if={listState.loading} renderer={() => <OverlayLoadingIndicator/>}/>
+                    <ConditionalRenderer
+                        if={listPageManager.listState.loading}
+                        renderer={() => <OverlayLoadingIndicator/>}
+                    />
                     {(() => {
-                        if (listState.modelList.length > 0) {
+                        if (listPageManager.listState.modelList.length > 0) {
                             return (
                                 <Fragment>
                                     <div className="common-list-header">
@@ -125,11 +102,11 @@ export const ImportantThingsListPage = function (props) {
                                         </div>
                                     </div>
                                     <div className="common-list-content">
-                                        {renderImportantThingsListDisplay(listState.modelList)}
+                                        {renderImportantThingsListDisplay(listPageManager.listState.modelList)}
                                     </div>
                                     <ListPaginationOptions
-                                        pageCount={listState.pageCount}
-                                        selectedPage={listState.selectedPage}
+                                        pageCount={listPageManager.listState.pageCount}
+                                        selectedPage={listPageManager.listState.selectedPage}
                                         urlBase="/important-things"
                                     />
                                 </Fragment>
@@ -147,19 +124,19 @@ export const ImportantThingsListPage = function (props) {
                     })()}
                 </div>
                 {(() => {
-                    if (listState.showCreateModal) {
+                    if (listPageManager.listState.showCreateModal) {
                         return (
                             <CreateImportantThing
-                                cancel={closeModals}
-                                afterSuccessfulSave={afterSuccessfulSave}
+                                cancel={listPageManager.closeModals}
+                                afterSuccessfulSave={listPageManager.afterSuccessfulSave}
                             />
                         );
-                    } else if (listState.showUpdateModal) {
+                    } else if (listPageManager.listState.showUpdateModal) {
                         return (
                             <UpdateImportantThing
-                                cancel={closeModals}
-                                afterSuccessfulSave={afterSuccessfulSave}
-                                importantThingId={listState.updateModelId}
+                                cancel={listPageManager.closeModals}
+                                afterSuccessfulSave={listPageManager.afterSuccessfulSave}
+                                importantThingId={listPageManager.listState.updateModelId}
                             />
                         );
                     }

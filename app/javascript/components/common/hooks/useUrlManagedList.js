@@ -39,9 +39,9 @@ function listReducer(state, action) {
     throw Error('Unknown action: ' + action.type);
 }
 
-// Use a list whose state is described by the URL. User actions trigger URL changes, and URL changes trigger list state updates. Certain state value changes can trigger a reload of the list.
+// Use a list whose state is described by the URL. User actions trigger URL changes, and URL changes trigger list state updates. Certain state value changes can trigger a reload of the list. Returns a "list page manager" that exposes list operations and state.
 export function useUrlManagedList(
-    listPageProps, modelIdParamName, listFetchApiFunction, modelName
+    listPageProps, modelIdParamName, listFetchApiFunction, modelName, urlBase, navigator
 ) {
     const initialListState = {
         selectedPage: 1,
@@ -55,25 +55,6 @@ export function useUrlManagedList(
     }
 
     const [listState, dispatch] = useReducer(listReducer, initialListState);
-
-    function reloadList() {
-        listFetchApiFunction(
-            listState.selectedPage,
-            listState.searchText
-        )
-            .then(function (listData) {
-                dispatch({
-                    type: 'reloaded_list',
-                    modelList: listData.modelList || [],
-                    pageCount: listData.pageCount || Constants.defaultPageCount,
-                });
-            })
-            .catch(function (error) {
-                dispatch({type: 'failed_list_reload'});
-                console && console.error(error);
-                MessageDisplayerUtility.error('An error occurred while loading the ' + modelName + ' list.');
-            });
-    }
 
     // Update state from URL changes here.
     useEffect(
@@ -125,5 +106,59 @@ export function useUrlManagedList(
         ]
     );
 
-    return [listState, reloadList];
+    function reloadList() {
+        listFetchApiFunction(
+            listState.selectedPage,
+            listState.searchText
+        )
+            .then(function (listData) {
+                dispatch({
+                    type: 'reloaded_list',
+                    modelList: listData.modelList || [],
+                    pageCount: listData.pageCount || Constants.defaultPageCount,
+                });
+            })
+            .catch(function (error) {
+                dispatch({type: 'failed_list_reload'});
+                console && console.error(error);
+                MessageDisplayerUtility.error('An error occurred while loading the ' + modelName + ' list.');
+            });
+    }
+
+    function goToAddModal() {
+        navigator.navigateTo(`${urlBase}/add${listPageProps.location.search}`);
+    }
+
+    function goToUpdateModal(model) {
+        navigator.navigateTo(`${urlBase}/${model.id}${listPageProps.location.search}`);
+    }
+
+    function closeModals() {
+        navigator.navigateTo(`${urlBase}${listPageProps.location.search}`);
+    }
+
+    function afterSuccessfulSave() {
+        closeModals()
+        reloadList();
+    }
+
+    function performSearch(searchText) {
+        if (listState.searchText !== searchText) {
+            let queryParams = UrlUtility.getQueryParamsFromProps(listPageProps);
+            queryParams.page = 1;
+            queryParams.searchText = searchText;
+            let queryString = UrlUtility.getUrlQueryStringFromQueryParamsObject(queryParams);
+            navigator.navigateTo(`${urlBase}${queryString}`);
+        }
+    }
+
+    return {
+        listState: listState,
+        reloadList: reloadList,
+        goToAddModal: goToAddModal,
+        goToUpdateModal: goToUpdateModal,
+        closeModals: closeModals,
+        afterSuccessfulSave: afterSuccessfulSave,
+        performSearch: performSearch
+    };
 }
