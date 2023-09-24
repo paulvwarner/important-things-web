@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {useHistory} from 'react-router-dom';
 import {CookieUtility} from "../common/CookieUtility";
 import {CrossComponentValueManager} from "../common/CrossComponentValueManager";

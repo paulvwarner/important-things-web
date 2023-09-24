@@ -1,22 +1,21 @@
 import React, {Fragment, useContext} from 'react';
 import {ApiUtility} from "../common/ApiUtility";
-import {PillButton} from "../common/PillButton";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 import {ListPaginationOptions} from "../common/ListPaginationOptions";
 import {UrlUtility} from "../common/UrlUtility";
 import {CreateAffirmation} from "./CreateAffirmation";
 import {UpdateAffirmation} from "./UpdateAffirmation";
 import {GlobalContext} from "../admin-frame/AdminFrame";
-import {DelayedSearchBar} from "../common/DelayedSearchBar";
 import {useLocation} from "react-router-dom";
-import {useCommonListEffects} from "../common/CommonListHooks";
+import {useManagedList} from "../common/hooks/useManagedList";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
 export const AffirmationsListPage = function (props) {
     const context = useContext(GlobalContext);
     let location = useLocation();
 
-    const [listState, loadingListData] = useCommonListEffects(
+    const [listState, reloadList] = useManagedList(
         props, 'affirmationId', ApiUtility.getAffirmationsList, 'affirmation'
     );
 
@@ -30,6 +29,11 @@ export const AffirmationsListPage = function (props) {
 
     function closeModals() {
         context.navigator.navigateTo('/affirmations' + location.search);
+    }
+
+    function afterSuccessfulSave() {
+        closeModals()
+        reloadList();
     }
 
     function performSearch(searchText) {
@@ -76,13 +80,7 @@ export const AffirmationsListPage = function (props) {
                 />
 
                 <div className="common-list-page-content">
-                    {(() => {
-                        if (loadingListData) {
-                            return (
-                                <OverlayLoadingIndicator/>
-                            );
-                        }
-                    })()}
+                    <ConditionalRenderer if={listState.loading} renderer={() => <OverlayLoadingIndicator/>}/>
                     {(() => {
                         if (listState.modelList.length > 0) {
                             return (
@@ -119,14 +117,14 @@ export const AffirmationsListPage = function (props) {
                         return (
                             <CreateAffirmation
                                 cancel={closeModals}
-                                afterSuccessfulSave={closeModals}
+                                afterSuccessfulSave={afterSuccessfulSave}
                             />
                         );
                     } else if (listState.showUpdateModal) {
                         return (
                             <UpdateAffirmation
                                 cancel={closeModals}
-                                afterSuccessfulSave={closeModals}
+                                afterSuccessfulSave={afterSuccessfulSave}
                                 affirmationId={listState.updateModelId}
                             />
                         );

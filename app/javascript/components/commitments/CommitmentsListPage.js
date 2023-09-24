@@ -9,14 +9,15 @@ import {UpdateCommitment} from "./UpdateCommitment";
 import {GlobalContext} from "../admin-frame/AdminFrame";
 import {DelayedSearchBar} from "../common/DelayedSearchBar";
 import {useLocation} from "react-router-dom";
-import {useCommonListEffects} from "../common/CommonListHooks";
+import {useManagedList} from "../common/hooks/useManagedList";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
 export const CommitmentsListPage = function (props) {
     const context = useContext(GlobalContext);
     let location = useLocation();
 
-    const [listState, loadingListData] = useCommonListEffects(
+    const [listState, reloadList] = useManagedList(
         props, 'commitmentId', ApiUtility.getCommitmentsList, 'commitment'
     );
 
@@ -30,6 +31,11 @@ export const CommitmentsListPage = function (props) {
 
     function closeModals() {
         context.navigator.navigateTo('/commitments' + location.search);
+    }
+
+    function afterSuccessfulSave() {
+        closeModals()
+        reloadList();
     }
 
     function performSearch(searchText) {
@@ -76,13 +82,7 @@ export const CommitmentsListPage = function (props) {
                 />
 
                 <div className="common-list-page-content">
-                    {(() => {
-                        if (loadingListData) {
-                            return (
-                                <OverlayLoadingIndicator/>
-                            );
-                        }
-                    })()}
+                    <ConditionalRenderer if={listState.loading} renderer={() => <OverlayLoadingIndicator/>}/>
                     {(() => {
                         if (listState.modelList.length > 0) {
                             return (
@@ -119,14 +119,14 @@ export const CommitmentsListPage = function (props) {
                         return (
                             <CreateCommitment
                                 cancel={closeModals}
-                                afterSuccessfulSave={closeModals}
+                                afterSuccessfulSave={afterSuccessfulSave}
                             />
                         );
                     } else if (listState.showUpdateModal) {
                         return (
                             <UpdateCommitment
                                 cancel={closeModals}
-                                afterSuccessfulSave={closeModals}
+                                afterSuccessfulSave={afterSuccessfulSave}
                                 commitmentId={listState.updateModelId}
                             />
                         );

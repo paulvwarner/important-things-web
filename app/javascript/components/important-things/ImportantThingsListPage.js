@@ -7,15 +7,16 @@ import {CreateImportantThing} from "./CreateImportantThing";
 import {UpdateImportantThing} from "./UpdateImportantThing";
 import {GlobalContext} from "../admin-frame/AdminFrame";
 import {useLocation} from "react-router-dom";
-import {useCommonListEffects} from "../common/CommonListHooks";
+import {useManagedList} from "../common/hooks/useManagedList";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
 import {NotificationConfigDisplay} from "../notification-config/NotificationConfigDisplay";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
 export const ImportantThingsListPage = function (props) {
     const context = useContext(GlobalContext);
     let location = useLocation();
 
-    const [listState, loadingListData] = useCommonListEffects(
+    const [listState, reloadList] = useManagedList(
         props, 'importantThingId', ApiUtility.getImportantThingsList, 'important thing'
     );
 
@@ -33,6 +34,11 @@ export const ImportantThingsListPage = function (props) {
 
     function closeModals() {
         context.navigator.navigateTo('/important-things' + location.search);
+    }
+
+    function afterSuccessfulSave() {
+        closeModals()
+        reloadList();
     }
 
     function performSearch(searchText) {
@@ -98,13 +104,7 @@ export const ImportantThingsListPage = function (props) {
                 />
 
                 <div className="common-list-page-content">
-                    {(() => {
-                        if (loadingListData) {
-                            return (
-                                <OverlayLoadingIndicator/>
-                            );
-                        }
-                    })()}
+                    <ConditionalRenderer if={listState.loading} renderer={() => <OverlayLoadingIndicator/>}/>
                     {(() => {
                         if (listState.modelList.length > 0) {
                             return (
@@ -148,14 +148,14 @@ export const ImportantThingsListPage = function (props) {
                         return (
                             <CreateImportantThing
                                 cancel={closeModals}
-                                afterSuccessfulSave={closeModals}
+                                afterSuccessfulSave={afterSuccessfulSave}
                             />
                         );
                     } else if (listState.showUpdateModal) {
                         return (
                             <UpdateImportantThing
                                 cancel={closeModals}
-                                afterSuccessfulSave={closeModals}
+                                afterSuccessfulSave={afterSuccessfulSave}
                                 importantThingId={listState.updateModelId}
                             />
                         );

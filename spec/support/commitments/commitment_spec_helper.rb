@@ -55,9 +55,13 @@ def delete_commitment
   page.find('.common-modal-header-text', text: 'Confirm Delete')
   page.find('.confirm-delete-modal-button-text', text: 'DELETE').click
 
-  # verify we're back on list page
+  # verify delete occurred
   wait_for_page_load
+  page.find('.toast-message', text: 'Successfully deleted commitment.').click
+
+  # verify we're back on list page (modal is closed)
   page.find('.common-list-page-header-text', text: 'Commitments')
+  expect(page).not_to have_css('.common-modal')
 end
 
 def create_commitment_for_test(commitment_attrs)

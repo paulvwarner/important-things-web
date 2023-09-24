@@ -68,9 +68,13 @@ def delete_user
   page.find('.common-modal-header-text', text: 'Confirm Delete')
   page.find('.confirm-delete-modal-button-text', text: 'DELETE').click
 
-  # verify we're back on list page
+  # verify delete occurred
   wait_for_page_load
+  page.find('.toast-message', text: 'Successfully deleted user.').click
+
+  # verify we're back on list page (modal is closed)
   page.find('.common-list-page-header-text', text: 'Users')
+  expect(page).not_to have_css('.common-modal')
 end
 
 def create_user_for_test(user_attrs)

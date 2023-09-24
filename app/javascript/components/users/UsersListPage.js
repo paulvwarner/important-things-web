@@ -7,14 +7,15 @@ import {CreateUser} from "./CreateUser";
 import {UpdateUser} from "./UpdateUser";
 import {GlobalContext} from "../admin-frame/AdminFrame";
 import {useLocation} from "react-router-dom";
-import {useCommonListEffects} from "../common/CommonListHooks";
+import {useManagedList} from "../common/hooks/useManagedList";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
 export const UsersListPage = function (props) {
     const context = useContext(GlobalContext);
     let location = useLocation();
 
-    const [listState, loadingListData] = useCommonListEffects(
+    const [listState, reloadList] = useManagedList(
         props, 'userId', ApiUtility.getUsersList, 'user'
     );
 
@@ -28,6 +29,11 @@ export const UsersListPage = function (props) {
 
     function closeModals() {
         context.navigator.navigateTo('/users' + location.search);
+    }
+
+    function afterSuccessfulSave() {
+        closeModals()
+        reloadList();
     }
 
     function performSearch(searchText) {
@@ -80,13 +86,7 @@ export const UsersListPage = function (props) {
                 />
 
                 <div className="common-list-page-content">
-                    {(() => {
-                        if (loadingListData) {
-                            return (
-                                <OverlayLoadingIndicator/>
-                            );
-                        }
-                    })()}
+                    <ConditionalRenderer if={listState.loading} renderer={() => <OverlayLoadingIndicator/>}/>
                     {(() => {
                         if (listState.modelList.length > 0) {
                             return (
@@ -131,14 +131,14 @@ export const UsersListPage = function (props) {
                         return (
                             <CreateUser
                                 cancel={closeModals}
-                                afterSuccessfulSave={closeModals}
+                                afterSuccessfulSave={afterSuccessfulSave}
                             />
                         );
                     } else if (listState.showUpdateModal) {
                         return (
                             <UpdateUser
                                 cancel={closeModals}
-                                afterSuccessfulSave={closeModals}
+                                afterSuccessfulSave={afterSuccessfulSave}
                                 userId={listState.updateModelId}
                             />
                         );

@@ -55,6 +55,9 @@ This project includes an end-to-end test suite using Rspec, Selenium, and Capyba
 #### Run all RSpec tests (from project root directory):
 `RAILS_ENV=e2e_test rspec --format documentation`
 
+#### Run all RSpec tests in headless mode (from project root directory):
+`HEADLESS=true RAILS_ENV=e2e_test rspec --format documentation`
+
 #### Test data
 The tests use a "e2e_test" environment database.  I set one up by running `e2e-test-db-setup` on my local MySQL server to create the database and a testing user.  The tests currently expect the e2e_test database to be populated with initial migration data and test data created via a rake task.
 

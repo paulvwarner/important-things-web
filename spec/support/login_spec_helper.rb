@@ -12,7 +12,7 @@ def perform_login(username, password, expected_user_name, is_mobile_user = false
     page.find('.toast-message', text: 'User does not have web admin access.')
   else
     # wait until user is logged in
-    page.find('.admin-header-username-display', text: 'Logged in as ' + expected_user_name)
+    page.find('.admin-header-username-display', text: 'Logged in as ' + expected_user_name, wait: 15)
   end
 end
 

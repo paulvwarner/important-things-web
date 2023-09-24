@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import {useEffect} from "react";
 
 export let AdminFrameRoot = function (props) {
     // redirect to default page on mount.

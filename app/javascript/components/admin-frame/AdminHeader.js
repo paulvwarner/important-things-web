@@ -29,8 +29,8 @@ export let AdminHeader = function (props) {
     }
 
     let location = useLocation();
-    var pathParts = location.pathname ? location.pathname.split('/') : [];
-    var selectedPagePathSegment;
+    let pathParts = location.pathname ? location.pathname.split('/') : [];
+    let selectedPagePathSegment;
     if (pathParts.length > 1) {
         selectedPagePathSegment = pathParts[1];
     } else {
