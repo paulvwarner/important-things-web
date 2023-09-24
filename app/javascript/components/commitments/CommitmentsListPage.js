@@ -5,14 +5,14 @@ import {ListPaginationOptions} from "../common/ListPaginationOptions";
 import {CreateCommitment} from "./CreateCommitment";
 import {UpdateCommitment} from "./UpdateCommitment";
 import {GlobalContext} from "../admin-frame/AdminFrame";
-import {useUrlManagedList} from "../common/hooks/useUrlManagedList";
+import {useUrlListManager} from "../common/hooks/useUrlListManager";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
 export const CommitmentsListPage = function (props) {
     const context = useContext(GlobalContext);
 
-    const listPageManager = useUrlManagedList(
+    const listPageManager = useUrlListManager(
         props,
         'commitmentId',
         ApiUtility.getCommitmentsList,
@@ -43,24 +43,24 @@ export const CommitmentsListPage = function (props) {
         return commitmentsListDisplay;
     }
 
-    if (listPageManager.listState.modelList) {
+    if (listPageManager.state.modelList) {
         return (
             <div className="common-list-page commitments-list-page">
                 <CommonListPageHeader
                     headerText="Commitments"
                     performSearch={listPageManager.performSearch}
-                    searchText={listPageManager.listState.searchText}
+                    searchText={listPageManager.state.searchText}
                     searchPlaceholderText="Search Commitments"
                     onClickAddButton={listPageManager.goToAddModal}
                 />
 
                 <div className="common-list-page-content">
                     <ConditionalRenderer
-                        if={listPageManager.listState.loading}
+                        if={listPageManager.state.loading}
                         renderer={() => <OverlayLoadingIndicator/>}
                     />
                     {(() => {
-                        if (listPageManager.listState.modelList.length > 0) {
+                        if (listPageManager.state.modelList.length > 0) {
                             return (
                                 <Fragment>
                                     <div className="common-list-header">
@@ -72,11 +72,11 @@ export const CommitmentsListPage = function (props) {
                                         </div>
                                     </div>
                                     <div className="common-list-content">
-                                        {renderCommitmentsListDisplay(listPageManager.listState.modelList)}
+                                        {renderCommitmentsListDisplay(listPageManager.state.modelList)}
                                     </div>
                                     <ListPaginationOptions
-                                        pageCount={listPageManager.listState.pageCount}
-                                        selectedPage={listPageManager.listState.selectedPage}
+                                        pageCount={listPageManager.state.pageCount}
+                                        selectedPage={listPageManager.state.selectedPage}
                                         urlBase="/commitments"
                                     />
                                 </Fragment>
@@ -91,19 +91,19 @@ export const CommitmentsListPage = function (props) {
                     })()}
                 </div>
                 {(() => {
-                    if (listPageManager.listState.showCreateModal) {
+                    if (listPageManager.state.showCreateModal) {
                         return (
                             <CreateCommitment
                                 cancel={listPageManager.closeModals}
                                 afterSuccessfulSave={listPageManager.afterSuccessfulSave}
                             />
                         );
-                    } else if (listPageManager.listState.showUpdateModal) {
+                    } else if (listPageManager.state.showUpdateModal) {
                         return (
                             <UpdateCommitment
                                 cancel={listPageManager.closeModals}
                                 afterSuccessfulSave={listPageManager.afterSuccessfulSave}
-                                commitmentId={listPageManager.listState.updateModelId}
+                                commitmentId={listPageManager.state.updateModelId}
                             />
                         );
                     }

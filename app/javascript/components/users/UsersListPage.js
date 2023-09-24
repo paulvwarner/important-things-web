@@ -5,14 +5,14 @@ import {ListPaginationOptions} from "../common/ListPaginationOptions";
 import {CreateUser} from "./CreateUser";
 import {UpdateUser} from "./UpdateUser";
 import {GlobalContext} from "../admin-frame/AdminFrame";
-import {useUrlManagedList} from "../common/hooks/useUrlManagedList";
+import {useUrlListManager} from "../common/hooks/useUrlListManager";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
 export const UsersListPage = function (props) {
     const context = useContext(GlobalContext);
 
-    const listPageManager = useUrlManagedList(
+    const listPageManager = useUrlListManager(
         props,
         'userId',
         ApiUtility.getUsersList,
@@ -49,24 +49,24 @@ export const UsersListPage = function (props) {
         return usersListDisplay;
     }
 
-    if (listPageManager.listState.modelList) {
+    if (listPageManager.state.modelList) {
         return (
             <div className="common-list-page users-list-page">
                 <CommonListPageHeader
                     headerText="Users"
                     performSearch={listPageManager.performSearch}
-                    searchText={listPageManager.listState.searchText}
+                    searchText={listPageManager.state.searchText}
                     searchPlaceholderText="Search Users"
                     onClickAddButton={listPageManager.goToAddModal}
                 />
 
                 <div className="common-list-page-content">
                     <ConditionalRenderer
-                        if={listPageManager.listState.loading}
+                        if={listPageManager.state.loading}
                         renderer={() => <OverlayLoadingIndicator/>}
                     />
                     {(() => {
-                        if (listPageManager.listState.modelList.length > 0) {
+                        if (listPageManager.state.modelList.length > 0) {
                             return (
                                 <Fragment>
                                     <div className="common-list-header">
@@ -86,11 +86,11 @@ export const UsersListPage = function (props) {
                                         </div>
                                     </div>
                                     <div className="common-list-content">
-                                        {renderUsersListDisplay(listPageManager.listState.modelList)}
+                                        {renderUsersListDisplay(listPageManager.state.modelList)}
                                     </div>
                                     <ListPaginationOptions
-                                        pageCount={listPageManager.listState.pageCount}
-                                        selectedPage={listPageManager.listState.selectedPage}
+                                        pageCount={listPageManager.state.pageCount}
+                                        selectedPage={listPageManager.state.selectedPage}
                                         urlBase="/users"
                                     />
                                 </Fragment>
@@ -105,19 +105,19 @@ export const UsersListPage = function (props) {
                     })()}
                 </div>
                 {(() => {
-                    if (listPageManager.listState.showCreateModal) {
+                    if (listPageManager.state.showCreateModal) {
                         return (
                             <CreateUser
                                 cancel={listPageManager.closeModals}
                                 afterSuccessfulSave={listPageManager.afterSuccessfulSave}
                             />
                         );
-                    } else if (listPageManager.listState.showUpdateModal) {
+                    } else if (listPageManager.state.showUpdateModal) {
                         return (
                             <UpdateUser
                                 cancel={listPageManager.closeModals}
                                 afterSuccessfulSave={listPageManager.afterSuccessfulSave}
-                                userId={listPageManager.listState.updateModelId}
+                                userId={listPageManager.state.updateModelId}
                             />
                         );
                     }

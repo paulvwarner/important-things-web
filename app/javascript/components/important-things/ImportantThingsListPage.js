@@ -6,7 +6,7 @@ import {CreateImportantThing} from "./CreateImportantThing";
 import {UpdateImportantThing} from "./UpdateImportantThing";
 import {GlobalContext} from "../admin-frame/AdminFrame";
 import {useLocation} from "react-router-dom";
-import {useUrlManagedList} from "../common/hooks/useUrlManagedList";
+import {useUrlListManager} from "../common/hooks/useUrlListManager";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
 import {NotificationConfigDisplay} from "../notification-config/NotificationConfigDisplay";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
@@ -15,7 +15,7 @@ export const ImportantThingsListPage = function (props) {
     const context = useContext(GlobalContext);
     let location = useLocation();
 
-    const listPageManager = useUrlManagedList(
+    const listPageManager = useUrlListManager(
         props,
         'importantThingId',
         ApiUtility.getImportantThingsList,
@@ -53,7 +53,7 @@ export const ImportantThingsListPage = function (props) {
         return importantThingsListDisplay;
     }
 
-    if (listPageManager.listState.modelList) {
+    if (listPageManager.state.modelList) {
         return (
             <div className="common-list-page important-things-list-page">
                 <CommonListPageHeader
@@ -75,18 +75,18 @@ export const ImportantThingsListPage = function (props) {
                         )
                     }}
                     performSearch={listPageManager.performSearch}
-                    searchText={listPageManager.listState.searchText}
+                    searchText={listPageManager.state.searchText}
                     searchPlaceholderText="Search Important Things"
                     onClickAddButton={listPageManager.goToAddModal}
                 />
 
                 <div className="common-list-page-content">
                     <ConditionalRenderer
-                        if={listPageManager.listState.loading}
+                        if={listPageManager.state.loading}
                         renderer={() => <OverlayLoadingIndicator/>}
                     />
                     {(() => {
-                        if (listPageManager.listState.modelList.length > 0) {
+                        if (listPageManager.state.modelList.length > 0) {
                             return (
                                 <Fragment>
                                     <div className="common-list-header">
@@ -102,11 +102,11 @@ export const ImportantThingsListPage = function (props) {
                                         </div>
                                     </div>
                                     <div className="common-list-content">
-                                        {renderImportantThingsListDisplay(listPageManager.listState.modelList)}
+                                        {renderImportantThingsListDisplay(listPageManager.state.modelList)}
                                     </div>
                                     <ListPaginationOptions
-                                        pageCount={listPageManager.listState.pageCount}
-                                        selectedPage={listPageManager.listState.selectedPage}
+                                        pageCount={listPageManager.state.pageCount}
+                                        selectedPage={listPageManager.state.selectedPage}
                                         urlBase="/important-things"
                                     />
                                 </Fragment>
@@ -124,19 +124,19 @@ export const ImportantThingsListPage = function (props) {
                     })()}
                 </div>
                 {(() => {
-                    if (listPageManager.listState.showCreateModal) {
+                    if (listPageManager.state.showCreateModal) {
                         return (
                             <CreateImportantThing
                                 cancel={listPageManager.closeModals}
                                 afterSuccessfulSave={listPageManager.afterSuccessfulSave}
                             />
                         );
-                    } else if (listPageManager.listState.showUpdateModal) {
+                    } else if (listPageManager.state.showUpdateModal) {
                         return (
                             <UpdateImportantThing
                                 cancel={listPageManager.closeModals}
                                 afterSuccessfulSave={listPageManager.afterSuccessfulSave}
-                                importantThingId={listPageManager.listState.updateModelId}
+                                importantThingId={listPageManager.state.updateModelId}
                             />
                         );
                     }

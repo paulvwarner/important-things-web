@@ -3,7 +3,7 @@ import {UrlUtility} from "../UrlUtility";
 import {Constants} from "../Constants";
 import {MessageDisplayerUtility} from "../MessageDisplayerUtility";
 
-function listReducer(state, action) {
+function reducer(state, action) {
     switch (action.type) {
         case 'started_loading_list': {
             return {
@@ -40,7 +40,7 @@ function listReducer(state, action) {
 }
 
 // Use a list whose state is described by the URL. User actions trigger URL changes, and URL changes trigger list state updates. Certain state value changes can trigger a reload of the list. Returns a "list page manager" that exposes list operations and state.
-export function useUrlManagedList(
+export function useUrlListManager(
     listPageProps, modelIdParamName, listFetchApiFunction, modelName, urlBase, navigator
 ) {
     const initialListState = {
@@ -54,7 +54,7 @@ export function useUrlManagedList(
         loading: false
     }
 
-    const [listState, dispatch] = useReducer(listReducer, initialListState);
+    const [state, dispatch] = useReducer(reducer, initialListState);
 
     // Update state from URL changes here.
     useEffect(
@@ -101,15 +101,15 @@ export function useUrlManagedList(
             reloadList();
         },
         [
-            '' + listState.selectedPage,
-            '' + listState.searchText
+            '' + state.selectedPage,
+            '' + state.searchText
         ]
     );
 
     function reloadList() {
         listFetchApiFunction(
-            listState.selectedPage,
-            listState.searchText
+            state.selectedPage,
+            state.searchText
         )
             .then(function (listData) {
                 dispatch({
@@ -143,7 +143,7 @@ export function useUrlManagedList(
     }
 
     function performSearch(searchText) {
-        if (listState.searchText !== searchText) {
+        if (state.searchText !== searchText) {
             let queryParams = UrlUtility.getQueryParamsFromProps(listPageProps);
             queryParams.page = 1;
             queryParams.searchText = searchText;
@@ -153,7 +153,7 @@ export function useUrlManagedList(
     }
 
     return {
-        listState: listState,
+        state: state,
         reloadList: reloadList,
         goToAddModal: goToAddModal,
         goToUpdateModal: goToUpdateModal,
