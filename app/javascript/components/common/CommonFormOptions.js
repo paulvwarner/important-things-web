@@ -43,7 +43,7 @@ export let CommonFormOptions = function (props) {
                             <PillButton
                                 containerClasses="common-form-button-container"
                                 buttonClasses="common-form-button delete-button white-button"
-                                onClick={props.confirmDeactivate}
+                                onClick={props.onClickDeactivate}
                                 buttonText="DELETE"
                             />
                         )

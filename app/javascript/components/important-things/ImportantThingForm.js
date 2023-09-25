@@ -130,7 +130,7 @@ export let ImportantThingForm = function (props) {
                                 allowDelete={!props.isNew}
                                 onClickCancel={props.cancel}
                                 onClickSave={formManager.onClickSave}
-                                confirmDeactivate={formManager.confirmDeactivate}
+                                onClickDeactivate={props.onClickDeactivate}
                                 renderAdditionalOptions={function () {
                                     return (
                                         <PillButton
@@ -145,17 +145,6 @@ export let ImportantThingForm = function (props) {
                         </div>
                     </div>
                 </div>
-                {(() => {
-                    if (formManager.confirmingDeactivate) {
-                        return (
-                            <ConfirmDeleteModal
-                                cancel={formManager.cancelDeactivate}
-                                deactivate={props.deactivate}
-                                modelTypeName="important thing"
-                            />
-                        );
-                    }
-                })()}
             </div>
         </Modal>
     );

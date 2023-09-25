@@ -4,6 +4,7 @@ import {UserForm} from "./UserForm";
 import {useModelUpdateManager} from "../common/hooks/useModelUpdateManager";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
+import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
 
 export let UpdateUser = function (props) {
     const modelUpdateManager = useModelUpdateManager(
@@ -23,10 +24,17 @@ export let UpdateUser = function (props) {
                 <UserForm
                     cancel={props.cancel}
                     save={modelUpdateManager.updateModel}
-                    deactivate={modelUpdateManager.deactivateModel}
+                    onClickDeactivate={modelUpdateManager.showConfirmDeactivateModal}
                     user={modelUpdateManager.state.model}
                     isNew={false}
                     headerText="Update User"
+                />
+            )}/>
+            <ConditionalRenderer if={modelUpdateManager.state.showConfirmDeactivateModal} renderer={() => (
+                <ConfirmDeleteModal
+                    cancel={modelUpdateManager.showConfirmDeactivateModal}
+                    deactivate={modelUpdateManager.deactivateModel}
+                    modelTypeName="user"
                 />
             )}/>
         </Fragment>

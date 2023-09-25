@@ -4,6 +4,7 @@ import {NotificationConfigForm} from "./NotificationConfigForm";
 import {useModelUpdateManager} from "../common/hooks/useModelUpdateManager";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
+import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
 
 export let UpdateNotificationConfig = function (props) {
     const modelUpdateManager = useModelUpdateManager(
@@ -23,7 +24,7 @@ export let UpdateNotificationConfig = function (props) {
                 <NotificationConfigForm
                     cancel={props.cancel}
                     save={modelUpdateManager.updateModel}
-                    deactivate={modelUpdateManager.deactivateModel}
+                    onClickDeactivate={modelUpdateManager.showConfirmDeactivateModal}
                     notificationConfig={modelUpdateManager.state.model}
                     isNew={false}
                     headerText="Update Notification Config"

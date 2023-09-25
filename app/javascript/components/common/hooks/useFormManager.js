@@ -3,31 +3,32 @@ import {MessageDisplayerUtility} from "../MessageDisplayerUtility";
 import {LeaveWithoutSavingWarningUtility} from "../LeaveWithoutSavingWarningUtility";
 import _ from "underscore";
 import {GlobalContext} from "../../admin-frame/AdminFrame";
+import {useDebouncedFunction} from "./useDebouncedFunction";
 
 function reducer(state, action) {
     switch (action.type) {
-        case 'failed_validation': {
+        case 'form/validationFailure': {
             return {
                 ...state,
                 invalidFields: action.invalidFields,
                 validationErrors: action.validationErrors
             }
         }
-        case 'passed_validation': {
+        case 'form/validationSuccess': {
             return {
                 ...state,
                 invalidFields: {},
                 validationErrors: []
             }
         }
-        case 'user_updated_field': {
+        case 'form/userUpdatedField': {
             return {
                 ...state,
                 [action.fieldName]: action.value,
                 saved: false
             }
         }
-        case 'auto_updated_field': {
+        case 'form/systemAutoUpdatedField': {
             return {
                 ...state,
                 saved: false
@@ -49,25 +50,7 @@ export function useFormManager(
         ...initialModelSpecificState,
     }
     const [state, dispatch] = useReducer(reducer, initialState);
-    const [confirmingDeactivate, setConfirmingDeactivate] = useState(false);
-
-    // display validation errors if they change in state
-    // pvw todo does this require an effect?
-    useEffect(function () {
-        if (state.validationErrors && state.validationErrors.length > 0) {
-            for (let e = 0; e < state.validationErrors.length; e++) {
-                MessageDisplayerUtility.error(state.validationErrors[e]);
-            }
-        }
-    }, [state.validationErrors]);
-
-    function dispatchFormContentUpdate(action) {
-        LeaveWithoutSavingWarningUtility.enableLeaveWithoutSavingWarnings(context);
-        dispatch(action);
-    }
-
-    function onClickSave() {
-        // pvw todo debounce - do at form button level? may need to use useCallback
+    const onClickSave = useDebouncedFunction(() => {
         validateData(handleValidationResult)
             .then(function (validationPasses) {
                 if (validationPasses) {
@@ -82,6 +65,11 @@ export function useFormManager(
                 console.log("Error validating form: ", error);
                 MessageDisplayerUtility.error("An error occurred while saving.")
             });
+    });
+
+    function dispatchFormContentUpdate(action) {
+        LeaveWithoutSavingWarningUtility.enableLeaveWithoutSavingWarnings(context);
+        dispatch(action);
     }
 
     function handleValidationResult(validationErrors, invalidFields, resolve) {
@@ -91,24 +79,19 @@ export function useFormManager(
                 invalidFields['' + invalidFields[y] + '_invalid'] = true;
             }
             dispatch({
-                type: 'failed_validation',
+                type: 'form/validationFailure',
                 invalidFields: invalidFields,
                 validationErrors: validationErrors
             })
+            // display validation errors
+            for (let e = 0; e < validationErrors.length; e++) {
+                MessageDisplayerUtility.error(validationErrors[e]);
+            }
             resolve(false);
         } else {
-            dispatch({type: 'passed_validation'})
+            dispatch({type: 'form/validationSuccess'})
             resolve(true);
         }
-    }
-
-    // pvw todo move confirm-cancel handling out of here
-    function confirmDeactivate() {
-        setConfirmingDeactivate(true);
-    }
-
-    function cancelDeactivate() {
-        setConfirmingDeactivate(false);
     }
 
     function getFormFieldClasses(originalClasses, fieldName) {
@@ -135,7 +118,7 @@ export function useFormManager(
     function handleTextFieldChange(fieldName, event) {
         if (event && event.target) {
             dispatchFormContentUpdate({
-                type: 'user_updated_field',
+                type: 'form/userUpdatedField',
                 fieldName: fieldName,
                 value: event.target.value
             })
@@ -145,7 +128,7 @@ export function useFormManager(
     function handleRadioOptionChange(fieldName, selectedOption) {
         if (selectedOption) {
             dispatchFormContentUpdate({
-                type: 'user_updated_field',
+                type: 'form/userUpdatedField',
                 fieldName: fieldName,
                 value: selectedOption
             })
@@ -154,7 +137,7 @@ export function useFormManager(
 
     function handleCheckboxChange(fieldName, value) {
         dispatchFormContentUpdate({
-            type: 'user_updated_field',
+            type: 'form/userUpdatedField',
             fieldName: fieldName,
             value: value
         })
@@ -163,7 +146,7 @@ export function useFormManager(
     function forceValueToNumeric(fieldName) {
         if (state[fieldName] !== parseInt(state[fieldName]) || 0) {
             dispatchFormContentUpdate({
-                type: 'auto_updated_field',
+                type: 'form/systemAutoUpdatedField',
                 fieldName: fieldName,
                 value: parseInt(state[fieldName]) || 0
             })
@@ -173,9 +156,6 @@ export function useFormManager(
     return {
         state: state,
         onClickSave: onClickSave,
-        confirmDeactivate: confirmDeactivate,
-        confirmingDeactivate: confirmingDeactivate,
-        cancelDeactivate: cancelDeactivate,
         getFormFieldClasses: getFormFieldClasses,
         handleTextFieldChange: handleTextFieldChange,
         handleRadioOptionChange: handleRadioOptionChange,

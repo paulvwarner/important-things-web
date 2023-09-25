@@ -5,13 +5,13 @@ import {MessageDisplayerUtility} from "../MessageDisplayerUtility";
 
 function reducer(state, action) {
     switch (action.type) {
-        case 'started_loading_list': {
+        case 'list/readStart': {
             return {
                 ...state,
                 loading: true
             }
         }
-        case 'reloaded_list': {
+        case 'list/readSuccess': {
             return {
                 ...state,
                 modelList: action.modelList,
@@ -19,13 +19,13 @@ function reducer(state, action) {
                 loading: false
             }
         }
-        case 'failed_list_reload': {
+        case 'list/readFailure': {
             return {
                 ...state,
                 loading: false
             }
         }
-        case 'url_changed_list_config': {
+        case 'list/urlChangedConfig': {
             return {
                 ...state,
                 selectedPage: action.selectedPage,
@@ -80,7 +80,7 @@ export function useUrlListManager(
             }
 
             dispatch({
-                type: 'url_changed_list_config',
+                type: 'list/urlChangedConfig',
                 selectedPage: selectedPage,
                 searchText: searchText,
                 showCreateModal: listPageProps.showCreateModal || false,
@@ -107,19 +107,20 @@ export function useUrlListManager(
     );
 
     function reloadList() {
+        dispatch({type: 'list/readStart'})
         listFetchApiFunction(
             state.selectedPage,
             state.searchText
         )
             .then(function (listData) {
                 dispatch({
-                    type: 'reloaded_list',
+                    type: 'list/readSuccess',
                     modelList: listData.modelList || [],
                     pageCount: listData.pageCount || Constants.defaultPageCount,
                 });
             })
             .catch(function (error) {
-                dispatch({type: 'failed_list_reload'});
+                dispatch({type: 'list/readFailure'});
                 console && console.error(error);
                 MessageDisplayerUtility.error('An error occurred while loading the ' + modelName + ' list.');
             });

@@ -4,6 +4,7 @@ import {AffirmationForm} from "./AffirmationForm";
 import {useModelUpdateManager} from "../common/hooks/useModelUpdateManager";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
+import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
 
 export let UpdateAffirmation = function (props) {
     const modelUpdateManager = useModelUpdateManager(
@@ -23,10 +24,17 @@ export let UpdateAffirmation = function (props) {
                 <AffirmationForm
                     cancel={props.cancel}
                     save={modelUpdateManager.updateModel}
-                    deactivate={modelUpdateManager.deactivateModel}
+                    onClickDeactivate={modelUpdateManager.showConfirmDeactivateModal}
                     affirmation={modelUpdateManager.state.model}
                     isNew={false}
                     headerText="Update Affirmation"
+                />
+            )}/>
+            <ConditionalRenderer if={modelUpdateManager.state.showConfirmDeactivateModal} renderer={() => (
+                <ConfirmDeleteModal
+                    cancel={modelUpdateManager.showConfirmDeactivateModal}
+                    deactivate={modelUpdateManager.deactivateModel}
+                    modelTypeName="affirmation"
                 />
             )}/>
         </Fragment>

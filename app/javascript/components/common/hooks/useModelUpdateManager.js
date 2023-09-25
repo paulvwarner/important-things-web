@@ -1,29 +1,40 @@
-import {useContext, useEffect, useReducer} from 'react';
+import {useContext, useEffect, useReducer, useState} from 'react';
 import {MessageDisplayerUtility} from "../MessageDisplayerUtility";
 import {LeaveWithoutSavingWarningUtility} from "../LeaveWithoutSavingWarningUtility";
 import {GlobalContext} from "../../admin-frame/AdminFrame";
 
 function reducer(state, action) {
     switch (action.type) {
-        case 'started_loading_operation': {
+        case 'model/readStart':
+        case 'model/updateStart':
+        case 'model/deactivateStart':
             return {
                 ...state,
                 loading: true
             }
-        }
-        case 'loaded_model': {
+        case 'model/readSuccess':
             return {
                 ...state,
                 model: action.model,
                 loading: false
             }
-        }
-        case 'failed_loading_operation': {
+        case 'model/readFailure':
+        case 'model/updateFailure':
+        case 'model/deactivateFailure':
             return {
                 ...state,
                 loading: false
             }
-        }
+        case 'model/showConfirmDeactivateModal':
+            return {
+                ...state,
+                showConfirmDeactivateModal: true
+            }
+        case 'model/hideConfirmDeactivateModal':
+            return {
+                ...state,
+                showConfirmDeactivateModal: false
+            }
     }
     throw Error('Unknown action: ' + action.type);
 }
@@ -37,23 +48,23 @@ export function useModelUpdateManager(
 
     // on mount, fetch model from API and put it in state
     useEffect(function () {
-        dispatch({type: 'started_loading_operation'});
+        dispatch({type: 'model/readStart'});
         modelFetchApiFunction(modelId)
             .then(function (model) {
                 dispatch({
-                    type: 'loaded_model',
+                    type: 'model/readSuccess',
                     model: model
                 });
             })
             .catch(function (error) {
-                dispatch({type: 'failed_loading_operation'});
+                dispatch({type: 'model/readFailure'});
                 console.log(`Error fetching ${modelName}: `, error);
                 MessageDisplayerUtility.error(`Error fetching ${modelName}.`);
             });
     }, []);
 
     function updateModel(formModelData) {
-        dispatch({type: 'started_loading_operation'});
+        dispatch({type: 'model/updateStart'});
         modelUpdateApiFunction(formModelData)
             .then((response) => {
                 LeaveWithoutSavingWarningUtility.disableLeaveWithoutSavingWarnings(context);
@@ -63,7 +74,7 @@ export function useModelUpdateManager(
                 }
             })
             .catch((err) => {
-                dispatch({type: 'failed_loading_operation'});
+                dispatch({type: 'model/updateFailure'});
                 console && console.error(err);
                 MessageDisplayerUtility.error(`An error occurred while updating the ${modelName}.`);
             });
@@ -71,7 +82,7 @@ export function useModelUpdateManager(
 
     // "deletes" are just updates where active is changed to false
     function deactivateModel() {
-        dispatch({type: 'started_loading_operation'});
+        dispatch({type: 'model/deactivateStart'});
         modelUpdateApiFunction({id: modelId, active: false})
             .then((response) => {
                 LeaveWithoutSavingWarningUtility.disableLeaveWithoutSavingWarnings(context);
@@ -81,15 +92,25 @@ export function useModelUpdateManager(
                 }
             })
             .catch((err) => {
-                dispatch({type: 'failed_loading_operation'});
+                dispatch({type: 'model/deactivateFailure'});
                 console && console.error(err);
                 MessageDisplayerUtility.error(`An error occurred while deleting the ${modelName}.`);
             });
     }
 
+    function showConfirmDeactivateModal() {
+        dispatch({type: 'model/showConfirmDeactivateModal'});
+    }
+
+    function hideConfirmDeactivateModal() {
+        dispatch({type: 'model/hideConfirmDeactivateModal'});
+    }
+
     return {
         state: state,
         updateModel: updateModel,
-        deactivateModel: deactivateModel
+        deactivateModel: deactivateModel,
+        showConfirmDeactivateModal: showConfirmDeactivateModal,
+        hideConfirmDeactivateModal: hideConfirmDeactivateModal,
     };
 }

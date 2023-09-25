@@ -15,4 +15,5 @@ export let Constants = {
     defaultPageNumber: 1,
     defaultPageCount: 1,
     searchDelayMs: 1000,
+    debounceTimeoutMs: 400,
 };
