@@ -2,9 +2,9 @@ import React from 'react';
 import {CookieUtility} from "./CookieUtility";
 import {UrlUtility} from "./UrlUtility";
 
-var _ = require('underscore');
+let _ = require('underscore');
 
-export var ApiUtility = {
+export let ApiUtility = {
     login: function (username, password) {
         return new Promise(function (resolve, reject) {
             jQuery.ajax('/api/users/login', {
@@ -33,8 +33,8 @@ export var ApiUtility = {
 
     apiRequest: function (url, options) {
         // fetch from API - pass auth token
-        var extendedHeaders = (options && options.headers) || {};
-        var token = CookieUtility.load('token');
+        let extendedHeaders = (options && options.headers) || {};
+        let token = CookieUtility.load('token');
         extendedHeaders['wwwauthenticate'] = '' + token;
 
         return new Promise(function (resolve, reject) {

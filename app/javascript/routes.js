@@ -9,7 +9,7 @@ import {CommitmentsListPage} from "./components/commitments/CommitmentsListPage"
 import {AffirmationsListPage} from "./components/affirmations/AffirmationsListPage";
 
 // placeholder BrowserRouter confirmation function to be overwritten by AdminFrame
-var getUserConfirmationFunction = function (message, callback) {
+let getUserConfirmationFunction = function (message, callback) {
     const allowTransition = window.confirm(message);
     callback(allowTransition);
 };

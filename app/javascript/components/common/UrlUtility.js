@@ -1,13 +1,13 @@
 let queryString = require('query-string').default;
 let _ = require('underscore');
 
-export var UrlUtility = {
+export let UrlUtility = {
     getUrlQueryString: function (argumentsArray) {
-        var queryString = '';
-        var separator = '?';
+        let queryString = '';
+        let separator = '?';
 
-        for (var i = 0; i < argumentsArray.length; i++) {
-            var arg = argumentsArray[i];
+        for (let i = 0; i < argumentsArray.length; i++) {
+            let arg = argumentsArray[i];
             if (arg.value) {
                 queryString += separator + arg.label + '=' + arg.value;
                 if (i === 0) {
@@ -20,7 +20,7 @@ export var UrlUtility = {
     },
 
     getQueryParamsFromProps: function (props) {
-        var queryParams = {};
+        let queryParams = {};
         if (props.location && props.location.search) {
             queryParams = queryString.parse(props.location.search);
         }
@@ -28,10 +28,10 @@ export var UrlUtility = {
     },
 
     getUrlQueryStringFromQueryParamsObject: function (queryParams) {
-        var argumentsArray = [];
-        var queryParamNames = _.keys(queryParams);
-        for (var i = 0; i < queryParamNames.length; i++) {
-            var name = queryParamNames[i];
+        let argumentsArray = [];
+        let queryParamNames = _.keys(queryParams);
+        for (let i = 0; i < queryParamNames.length; i++) {
+            let name = queryParamNames[i];
             argumentsArray.push({
                 label: name,
                 value: queryParams[name]

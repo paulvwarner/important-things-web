@@ -1,4 +1,4 @@
-export var LeaveWithoutSavingWarningUtility = {
+export let LeaveWithoutSavingWarningUtility = {
     enableWindowOnBeforeUnload: function (message) {
         window.onbeforeunload = function (e) {
             // If we haven't been passed the event, get the window.event

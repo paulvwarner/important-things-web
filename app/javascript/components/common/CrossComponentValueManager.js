@@ -1,10 +1,10 @@
-export var CrossComponentValueManager = (function () {
+export let CrossComponentValueManager = (function () {
     function CrossComponentValueManager() {
         this.valueChangeReactionFunctions = [];
     }
 
     CrossComponentValueManager.prototype.createValueSetter = function () {
-        var self = this;
+        let self = this;
         return (function (value) {
             self.value = value;
             self.valueChangeReactionFunctions.forEach(function (valueChangeReactionFunction) {

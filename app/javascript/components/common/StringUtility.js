@@ -1,4 +1,4 @@
-export var StringUtility = {
+export let StringUtility = {
     containsUpperCaseLetter: function (string) {
         return /[A-Z]+/.test(string);
     },

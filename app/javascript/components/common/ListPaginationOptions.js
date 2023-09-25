@@ -18,8 +18,8 @@ export let ListPaginationOptions = function (props) {
     const maxPaginationNumberLinksDisplayed = 5;
 
     if (pageCountNumeric > 1) {
-        var leftOffset = 2;
-        var rightOffset = 2;
+        let leftOffset = 2;
+        let rightOffset = 2;
 
         if (selectedPageNumeric === 1 || selectedPageNumeric === 2) {
             rightOffset = maxPaginationNumberLinksDisplayed - selectedPageNumeric;
@@ -31,10 +31,10 @@ export let ListPaginationOptions = function (props) {
             leftOffset = maxPaginationNumberLinksDisplayed - 2;
         }
 
-        var startDisplayNumber = Math.max(1, selectedPageNumeric - leftOffset);
-        var endDisplayNumber = Math.min(pageCountNumeric, selectedPageNumeric + rightOffset);
+        let startDisplayNumber = Math.max(1, selectedPageNumeric - leftOffset);
+        let endDisplayNumber = Math.min(pageCountNumeric, selectedPageNumeric + rightOffset);
 
-        var pageNumbers = [];
+        let pageNumbers = [];
         for (let i = startDisplayNumber; i <= endDisplayNumber; i++) {
             let outerClasses = "pagination-element pagination-link ";
             const index = i;
@@ -53,10 +53,10 @@ export let ListPaginationOptions = function (props) {
             );
         }
 
-        var leftButtonClasses = "circle-button-container invisible";
-        var leftEllipsisClasses = "pagination-ellipsis invisible";
-        var rightEllipsisClasses = "pagination-ellipsis invisible"
-        var rightButtonClasses = "circle-button-container invisible";
+        let leftButtonClasses = "circle-button-container invisible";
+        let leftEllipsisClasses = "pagination-ellipsis invisible";
+        let rightEllipsisClasses = "pagination-ellipsis invisible"
+        let rightButtonClasses = "circle-button-container invisible";
 
         if (props.selectedPage > 1) {
             leftButtonClasses = "circle-button-container ";
