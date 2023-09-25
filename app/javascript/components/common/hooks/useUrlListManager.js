@@ -1,4 +1,4 @@
-import {useEffect, useReducer} from 'react';
+import {useEffect, useReducer, useState} from 'react';
 import {UrlUtility} from "../UrlUtility";
 import {Constants} from "../Constants";
 import {MessageDisplayerUtility} from "../MessageDisplayerUtility";
@@ -32,7 +32,11 @@ function reducer(state, action) {
                 searchText: action.searchText,
                 showCreateModal: action.showCreateModal,
                 showUpdateModal: action.showUpdateModal,
-                updateModelId: action.updateModelId
+                updateModelId: action.updateModelId,
+
+                prevSearch: action.prevSearch,
+                prevParams: action.prevParams,
+                prevShowCreateModal: action.prevShowCreateModal
             }
         }
     }
@@ -51,49 +55,54 @@ export function useUrlListManager(
         updateModelId: null,
         modelList: [],
         pageCount: 0,
-        loading: false
+        loading: false,
+
+        prevSearch: listPageProps.location && listPageProps.location.search,
+        prevParams: listPageProps.match && listPageProps.match.params,
+        prevShowCreateModal: listPageProps.showCreateModal
     }
 
     const [state, dispatch] = useReducer(reducer, initialListState);
 
-    // Update state from URL changes here.
-    useEffect(
-        function () {
-            let selectedPage = 1;
-            let searchText = '';
-            let updateModelId = null;
-            let showUpdateModal = false;
+    // Update state if URL changes.
+    if (
+        (listPageProps.location && listPageProps.location.search) !== state.prevSearch ||
+        (listPageProps.match && listPageProps.match.params) !== state.prevParams ||
+        listPageProps.showCreateModal !== state.prevShowCreateModal
+    ) {
+        let selectedPage = 1;
+        let searchText = '';
+        let updateModelId = null;
+        let showUpdateModal = false;
 
-            let routeParams = listPageProps.match && listPageProps.match.params;
-            if (routeParams && routeParams[modelIdParamName] && routeParams[modelIdParamName] !== 'add') {
-                showUpdateModal = true;
-                updateModelId = routeParams[modelIdParamName];
-            }
+        let routeParams = listPageProps.match && listPageProps.match.params;
+        if (routeParams && routeParams[modelIdParamName] && routeParams[modelIdParamName] !== 'add') {
+            showUpdateModal = true;
+            updateModelId = routeParams[modelIdParamName];
+        }
 
-            let queryParams = UrlUtility.getQueryParamsFromProps(listPageProps);
-            if (queryParams.page) {
-                selectedPage = queryParams.page;
-            }
+        let queryParams = UrlUtility.getQueryParamsFromProps(listPageProps);
+        if (queryParams.page) {
+            selectedPage = queryParams.page;
+        }
 
-            if (queryParams.searchText) {
-                searchText = queryParams.searchText;
-            }
+        if (queryParams.searchText) {
+            searchText = queryParams.searchText;
+        }
 
-            dispatch({
-                type: 'list/urlChangedConfig',
-                selectedPage: selectedPage,
-                searchText: searchText,
-                showCreateModal: listPageProps.showCreateModal || false,
-                showUpdateModal: showUpdateModal || false,
-                updateModelId: updateModelId
-            })
-        },
-        [
-            listPageProps.location && listPageProps.location.search,
-            listPageProps.match && listPageProps.match.params,
-            listPageProps.showCreateModal
-        ]
-    )
+        dispatch({
+            type: 'list/urlChangedConfig',
+            selectedPage: selectedPage,
+            searchText: searchText,
+            showCreateModal: listPageProps.showCreateModal || false,
+            showUpdateModal: showUpdateModal || false,
+            updateModelId: updateModelId,
+
+            prevSearch: listPageProps.location && listPageProps.location.search,
+            prevParams: listPageProps.match && listPageProps.match.params,
+            prevShowCreateModal: listPageProps.showCreateModal
+        })
+    }
 
     // Trigger reload of list data on mount and if certain values change in list state.
     useEffect(

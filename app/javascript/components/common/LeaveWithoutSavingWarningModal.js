@@ -9,13 +9,13 @@ export let LeaveWithoutSavingWarningModal = function (props) {
         props.confirmBeforeNavValueManager.reactToValueChangeWith(handleConfirmBeforeNavRequest);
     }, []);
 
-    let [warningModalState, setWarningModalState] = useState({
+    const [warningModalState, setWarningModalState] = useState({
         showLeaveWithoutSavingWarningModal: false,
         confirmBeforeNav: false,
         getUserConfirmationCallback: null
     });
 
-    let [userConfirmationCallbackToRun, setUserConfirmationCallbackToRun] = useState(null);
+    const [userConfirmationCallbackToRun, setUserConfirmationCallbackToRun] = useState(null);
 
     function mergeWarningModalState(prevState, stateChange) {
         if (stateChange) {

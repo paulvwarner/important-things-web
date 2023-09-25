@@ -46,23 +46,18 @@ export let ImportantThingForm = function (props) {
         });
     }
 
-    useEffect(function () {
-        if (notifying) {
-            ApiUtility.notifyImportantThingNow(formManager.state.id)
-                .then(function () {
-                    setNotifying(false);
-                    MessageDisplayerUtility.success("Notified app users.")
-                })
-                .catch(function (error) {
-                    console.log("Error notifying about important thing: ", error)
-                    MessageDisplayerUtility.error("An error occurred while notifying users.")
-                    setNotifying(false);
-                });
-        }
-    }, [notifying]);
-
     function notifyAppUsersNow() {
         setNotifying(true);
+        ApiUtility.notifyImportantThingNow(formManager.state.id)
+            .then(function () {
+                setNotifying(false);
+                MessageDisplayerUtility.success("Notified app users.")
+            })
+            .catch(function (error) {
+                setNotifying(false);
+                console.log("Error notifying about important thing: ", error)
+                MessageDisplayerUtility.error("An error occurred while notifying users.")
+            });
     }
 
     return (
@@ -70,7 +65,7 @@ export let ImportantThingForm = function (props) {
             headerText={props.headerText}
             onClickCloseOption={props.cancel}
         >
-            <ConditionalRenderer if={formManager.state.showOverlayLoadingIndicator || notifying} renderer={()=>(
+            <ConditionalRenderer if={formManager.state.showOverlayLoadingIndicator || notifying} renderer={() => (
                 <OverlayLoadingIndicator/>
             )}/>
             <div className="common-form important-thing-form">

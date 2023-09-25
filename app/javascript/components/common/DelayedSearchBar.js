@@ -2,19 +2,16 @@ import React, {useEffect, useState} from 'react';
 import {Constants} from "./Constants";
 import {LoadingIndicator} from "./LoadingIndicator";
 
-let _ = require('underscore');
 let delayedSearchTimeout = null;
 
 export let DelayedSearchBar = function (props) {
-    let [searchText, setSearchText] = useState(props.value);
+    const [searchText, setSearchText] = useState(props.value || '');
+    const [prevValue, setPrevValue] = useState(props.value || '');
 
-    useEffect(function () {
-        if (
-            searchText !== props.value
-        ) {
-            setSearchText(props.value || '');
-        }
-    }, [props.value]);
+    if (props.value !== prevValue) {
+        setPrevValue(props.value);
+        setSearchText(props.value || '');
+    }
 
     function clearDelayedSearchTimeout() {
         window.clearTimeout(delayedSearchTimeout);

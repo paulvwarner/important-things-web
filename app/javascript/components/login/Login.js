@@ -12,7 +12,7 @@ let _ = require('underscore');
 export let Login = function (props) {
     let history = useHistory();
 
-    let [formState, setFormState] = useState({
+    const [formState, setFormState] = useState({
         username: '',
         password: ''
     });
