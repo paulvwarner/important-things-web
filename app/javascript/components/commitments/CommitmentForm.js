@@ -5,6 +5,8 @@ import {Modal} from "../common/Modal";
 import {useFormManager} from "../common/hooks/useFormManager";
 import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
 import {CommonFormOptions} from "../common/CommonFormOptions";
+import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
 let _ = require('underscore');
 
@@ -14,9 +16,9 @@ export let CommitmentForm = function (props) {
         title: (commitment && commitment.title) || '',
         notes: (commitment && commitment.notes) || '',
     };
-    const formManager = useFormManager(initialModelState, commitment, validateData, null, props.save);
+    const formManager = useFormManager(initialModelState, commitment, null, validateForm, null, props.save);
 
-    function validateData(handleValidationResult) {
+    function validateForm(handleValidationResult) {
         return new Promise(function (resolve, reject) {
             let validationErrors = [];
             let invalidFields = [];
@@ -35,6 +37,9 @@ export let CommitmentForm = function (props) {
             headerText={props.headerText}
             onClickCloseOption={props.cancel}
         >
+            <ConditionalRenderer if={formManager.state.showOverlayLoadingIndicator} renderer={()=>(
+                <OverlayLoadingIndicator/>
+            )}/>
             <div className="common-form commitment-form">
                 <div className="common-form-body">
                     <div className="common-form-body-row">

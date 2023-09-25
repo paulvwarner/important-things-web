@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useReducer, useState} from 'react';
+import {useContext, useEffect, useReducer} from 'react';
 import {MessageDisplayerUtility} from "../MessageDisplayerUtility";
 import {LeaveWithoutSavingWarningUtility} from "../LeaveWithoutSavingWarningUtility";
 import _ from "underscore";
@@ -7,39 +7,55 @@ import {useDebouncedFunction} from "./useDebouncedFunction";
 
 function reducer(state, action) {
     switch (action.type) {
-        case 'form/validationFailure': {
+        case 'form/loadSupportingDataStart':
+        case 'form/validationStart':
             return {
                 ...state,
+                showOverlayLoadingIndicator: true
+            }
+        case 'form/loadSupportingDataSuccess':
+            return {
+                ...state,
+                supportingData: action.supportingData,
+                showOverlayLoadingIndicator: false
+            }
+        case 'form/loadSupportingDataFailure':
+        case 'form/loadSupportingDataSkip':
+            return {
+                ...state,
+                showOverlayLoadingIndicator: false
+            }
+        case 'form/validationFailure':
+            return {
+                ...state,
+                showOverlayLoadingIndicator: false,
                 invalidFields: action.invalidFields,
                 validationErrors: action.validationErrors
             }
-        }
-        case 'form/validationSuccess': {
+        case 'form/validationSuccess':
             return {
                 ...state,
+                showOverlayLoadingIndicator: false,
                 invalidFields: {},
                 validationErrors: []
             }
-        }
-        case 'form/userUpdatedField': {
+        case 'form/userUpdatedField':
             return {
                 ...state,
                 [action.fieldName]: action.value,
                 saved: false
             }
-        }
-        case 'form/systemAutoUpdatedField': {
+        case 'form/systemAutoUpdatedField':
             return {
                 ...state,
                 saved: false
             }
-        }
     }
     throw Error('Unknown action: ' + action.type);
 }
 
 export function useFormManager(
-    initialModelSpecificState, initialModel, validateData, formStateToSaveData, save
+    initialModelSpecificState, initialModel, fetchSupportingData, validateForm, formStateToSaveData, save
 ) {
     const context = useContext(GlobalContext);
     const initialState = {
@@ -47,11 +63,15 @@ export function useFormManager(
         invalidFields: {},
         validationErrors: [],
         saved: true,
+        supportingData: null,
+        validating: false,
         ...initialModelSpecificState,
     }
     const [state, dispatch] = useReducer(reducer, initialState);
+
     const onClickSave = useDebouncedFunction(() => {
-        validateData(handleValidationResult)
+        dispatch({type: 'form/validationStart'})
+        validateForm(handleValidationResult)
             .then(function (validationPasses) {
                 if (validationPasses) {
                     let saveData = _.clone(state);
@@ -66,6 +86,27 @@ export function useFormManager(
                 MessageDisplayerUtility.error("An error occurred while saving.")
             });
     });
+
+    // on mount, load supporting data if there is any that needs to be loaded
+    useEffect(function () {
+        if (fetchSupportingData) {
+            dispatch({type: 'form/loadSupportingDataStart'})
+            fetchSupportingData()
+                .then(function (supportingData) {
+                    dispatch({
+                        type: 'form/loadSupportingDataSuccess',
+                        supportingData: supportingData,
+                    })
+                })
+                .catch(function (error) {
+                    dispatch({type: 'form/loadSupportingDataFailure'})
+                    console.log("Error loading form data: ", error);
+                    MessageDisplayerUtility.error("An error occurred while loading form data.")
+                });
+        } else {
+            dispatch({type: 'form/loadSupportingDataSkip'})
+        }
+    }, []);
 
     function dispatchFormContentUpdate(action) {
         LeaveWithoutSavingWarningUtility.enableLeaveWithoutSavingWarnings(context);

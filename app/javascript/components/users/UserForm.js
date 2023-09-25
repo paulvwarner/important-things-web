@@ -10,6 +10,8 @@ import {ApiUtility} from "../common/ApiUtility";
 import {RadioOptionSet} from "../common/RadioOptionSet";
 import {EmailUtility} from "../common/EmailUtility";
 import {StringUtility} from "../common/StringUtility";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
+import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 
 let _ = require('underscore');
 
@@ -32,29 +34,26 @@ export let UserForm = function (props) {
         confirmPassword: user ? Constants.placeholderPassword : '',
         selectedRoleOption: initialSelectedRoleOption,
     };
-    const formManager = useFormManager(initialModelState, user, validateData, formStateToSaveData, props.save);
-    // pvw todo update approach
-    const [roleOptions, setRoleOptions] = useState(null);
 
-    // load form data (roles list) on mount
-    useEffect(function () {
-        ApiUtility.getRolesList()
-            .then(function (rolesList) {
-                setRoleOptions(_.map(rolesList, function (role) {
+    const fetchSupportingData = function () {
+        return ApiUtility.getRolesList()
+            .then(function (roles) {
+                return Promise.resolve({
+                    roleOptions: _.map(roles, function (role) {
                         return {
                             value: role.id,
                             label: role.name
                         }
                     })
-                );
+                });
             })
-            .catch(function (error) {
-                console.log("Error loading form data: ", error);
-                MessageDisplayerUtility.error("An error occurred while loading form data.")
-            });
-    }, []);
+    }
 
-    function validateData(handleValidationResult) {
+    const formManager = useFormManager(
+        initialModelState, user, fetchSupportingData, validateForm, formStateToSaveData, props.save
+    );
+
+    function validateForm(handleValidationResult) {
         return new Promise(function (resolve, reject) {
             let validationErrors = [];
             let invalidFields = [];
@@ -169,135 +168,129 @@ export let UserForm = function (props) {
             headerText={props.headerText}
             onClickCloseOption={props.cancel}
         >
-            {(() => {
-                // pvw todo fetch in wrapper and pass? use suspense?
-                if (!roleOptions) {
-                    return (
-                        <LoadingIndicator/>
-                    );
-                } else {
-                    return (
-                        <div className="common-form user-form">
-                            <div className="common-form-body">
-                                <div className="common-form-body-row">
-                                    <div className={formManager.getFormFieldClasses("common-form-field", "firstName")}>
-                                        <div className="common-form-field-label">
-                                            First Name
-                                        </div>
-                                        <div className="common-form-field-input-container">
-                                            <input
-                                                id="firstName"
-                                                type="text"
-                                                className="common-form-input"
-                                                value={formManager.state.firstName}
-                                                onChange={(event) => formManager.handleTextFieldChange("firstName", event)}
-                                            />
-                                        </div>
-                                    </div>
+            <ConditionalRenderer if={formManager.state.showOverlayLoadingIndicator} renderer={() => (
+                <OverlayLoadingIndicator/>
+            )}/>
+            <ConditionalRenderer if={formManager.state.supportingData} renderer={() => (
+                <div className="common-form user-form">
+                    <div className="common-form-body">
+                        <div className="common-form-body-row">
+                            <div className={formManager.getFormFieldClasses("common-form-field", "firstName")}>
+                                <div className="common-form-field-label">
+                                    First Name
                                 </div>
-
-                                <div className="common-form-body-row">
-                                    <div className={formManager.getFormFieldClasses("common-form-field", "lastName")}>
-                                        <div className="common-form-field-label">
-                                            Last Name
-                                        </div>
-                                        <div className="common-form-field-input-container">
-                                            <input
-                                                id="lastName"
-                                                type="text"
-                                                className="common-form-input"
-                                                value={formManager.state.lastName}
-                                                onChange={(event) => formManager.handleTextFieldChange("lastName", event)}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="common-form-body-row">
-                                    <div className={formManager.getFormFieldClasses("common-form-field", "email")}>
-                                        <div className="common-form-field-label">
-                                            Email (Username)
-                                        </div>
-                                        <div className="common-form-field-input-container">
-                                            <input
-                                                id="email"
-                                                type="text"
-                                                className="common-form-input"
-                                                value={formManager.state.email}
-                                                onChange={(event) => formManager.handleTextFieldChange("email", event)}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div className="common-form-body-row">
-                                    <div className={formManager.getFormFieldClasses("common-form-field", "password")}>
-                                        <div className="common-form-field-label">
-                                            Password
-                                        </div>
-                                        <div className="common-form-field-input-container">
-                                            <input
-                                                id="password"
-                                                type="password"
-                                                className="common-form-input"
-                                                value={formManager.state.password}
-                                                onChange={(event) => formManager.handleTextFieldChange("password", event)}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="common-form-body-row">
-                                    <div
-                                        className={formManager.getFormFieldClasses("common-form-field", "confirmPassword")}>
-                                        <div className="common-form-field-label">
-                                            Confirm Password
-                                        </div>
-                                        <div className="common-form-field-input-container">
-                                            <input
-                                                id="confirmPassword"
-                                                type="password"
-                                                className="common-form-input"
-                                                value={formManager.state.confirmPassword}
-                                                onChange={(event) => formManager.handleTextFieldChange("confirmPassword", event)}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="common-form-body-row">
-                                    <div className={formManager.getFormFieldClasses(
-                                        "common-form-field common-radio-option-set-form-field role-selector",
-                                        "selectedRoleOption"
-                                    )}>
-                                        <div className="common-form-field-label">
-                                            Role
-                                        </div>
-                                        <div className="common-form-field-input-container">
-                                            <RadioOptionSet
-                                                options={roleOptions}
-                                                onSelectRadioOption={formManager.handleRadioOptionChange}
-                                                selectedOption={formManager.state.selectedRoleOption}
-                                                fieldName="selectedRoleOption"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="common-form-body-row">
-                                    <CommonFormOptions
-                                        allowDelete={!props.isNew}
-                                        onClickCancel={props.cancel}
-                                        onClickSave={formManager.onClickSave}
-                                        onClickDeactivate={props.onClickDeactivate}
+                                <div className="common-form-field-input-container">
+                                    <input
+                                        id="firstName"
+                                        type="text"
+                                        className="common-form-input"
+                                        value={formManager.state.firstName}
+                                        onChange={(event) => formManager.handleTextFieldChange("firstName", event)}
                                     />
                                 </div>
                             </div>
                         </div>
-                    );
-                }
-            })()}
+
+                        <div className="common-form-body-row">
+                            <div className={formManager.getFormFieldClasses("common-form-field", "lastName")}>
+                                <div className="common-form-field-label">
+                                    Last Name
+                                </div>
+                                <div className="common-form-field-input-container">
+                                    <input
+                                        id="lastName"
+                                        type="text"
+                                        className="common-form-input"
+                                        value={formManager.state.lastName}
+                                        onChange={(event) => formManager.handleTextFieldChange("lastName", event)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="common-form-body-row">
+                            <div className={formManager.getFormFieldClasses("common-form-field", "email")}>
+                                <div className="common-form-field-label">
+                                    Email (Username)
+                                </div>
+                                <div className="common-form-field-input-container">
+                                    <input
+                                        id="email"
+                                        type="text"
+                                        className="common-form-input"
+                                        value={formManager.state.email}
+                                        onChange={(event) => formManager.handleTextFieldChange("email", event)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div className="common-form-body-row">
+                            <div className={formManager.getFormFieldClasses("common-form-field", "password")}>
+                                <div className="common-form-field-label">
+                                    Password
+                                </div>
+                                <div className="common-form-field-input-container">
+                                    <input
+                                        id="password"
+                                        type="password"
+                                        className="common-form-input"
+                                        value={formManager.state.password}
+                                        onChange={(event) => formManager.handleTextFieldChange("password", event)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="common-form-body-row">
+                            <div
+                                className={formManager.getFormFieldClasses("common-form-field", "confirmPassword")}>
+                                <div className="common-form-field-label">
+                                    Confirm Password
+                                </div>
+                                <div className="common-form-field-input-container">
+                                    <input
+                                        id="confirmPassword"
+                                        type="password"
+                                        className="common-form-input"
+                                        value={formManager.state.confirmPassword}
+                                        onChange={(event) => formManager.handleTextFieldChange("confirmPassword", event)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="common-form-body-row">
+                            <div className={formManager.getFormFieldClasses(
+                                "common-form-field common-radio-option-set-form-field role-selector",
+                                "selectedRoleOption"
+                            )}>
+                                <div className="common-form-field-label">
+                                    Role
+                                </div>
+                                <div className="common-form-field-input-container">
+                                    <RadioOptionSet
+                                        options={formManager.state.supportingData.roleOptions}
+                                        onSelectRadioOption={formManager.handleRadioOptionChange}
+                                        selectedOption={formManager.state.selectedRoleOption}
+                                        fieldName="selectedRoleOption"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="common-form-body-row">
+                            <CommonFormOptions
+                                allowDelete={!props.isNew}
+                                onClickCancel={props.cancel}
+                                onClickSave={formManager.onClickSave}
+                                onClickDeactivate={props.onClickDeactivate}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}/>
         </Modal>
     );
 };

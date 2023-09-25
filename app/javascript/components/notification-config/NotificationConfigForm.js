@@ -8,6 +8,8 @@ import {CommonFormOptions} from "../common/CommonFormOptions";
 import {ApiUtility} from "../common/ApiUtility";
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
 import {CheckBox} from "../common/CheckBox";
+import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
 let _ = require('underscore');
 
@@ -19,9 +21,9 @@ export let NotificationConfigForm = function (props) {
         min_notify_interval_hours: (notificationConfig && notificationConfig.min_notify_interval_hours) || 0,
         max_notify_interval_hours: (notificationConfig && notificationConfig.max_notify_interval_hours) || 0,
     };
-    const formManager = useFormManager(initialModelState, notificationConfig, validateData, null, props.save);
+    const formManager = useFormManager(initialModelState, notificationConfig, null, validateForm, null, props.save);
 
-    function validateData(handleValidationResult) {
+    function validateForm(handleValidationResult) {
         return new Promise(function (resolve, reject) {
             let validationErrors = [];
             let invalidFields = [];
@@ -52,6 +54,9 @@ export let NotificationConfigForm = function (props) {
             headerText={props.headerText}
             onClickCloseOption={props.cancel}
         >
+            <ConditionalRenderer if={formManager.state.showOverlayLoadingIndicator} renderer={()=>(
+                <OverlayLoadingIndicator/>
+            )}/>
             <div className="common-form notification-config-form">
                 <div className="common-form-body">
                     <div className="common-form-body-row">

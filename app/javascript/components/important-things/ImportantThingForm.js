@@ -20,10 +20,10 @@ export let ImportantThingForm = function (props) {
         notes: (importantThing && importantThing.notes) || '',
         weight: (importantThing && importantThing.weight) || 1,
     };
-    const formManager = useFormManager(initialModelState, importantThing, validateData, null, props.save);
+    const formManager = useFormManager(initialModelState, importantThing, null, validateForm, null, props.save);
     const [notifying, setNotifying] = useState(false);
 
-    function validateData(handleValidationResult) {
+    function validateForm(handleValidationResult) {
         return new Promise(function (resolve, reject) {
             let validationErrors = [];
             let invalidFields = [];
@@ -70,7 +70,9 @@ export let ImportantThingForm = function (props) {
             headerText={props.headerText}
             onClickCloseOption={props.cancel}
         >
-            <ConditionalRenderer if={notifying} renderer={() => (<OverlayLoadingIndicator/>)}/>
+            <ConditionalRenderer if={formManager.state.showOverlayLoadingIndicator || notifying} renderer={()=>(
+                <OverlayLoadingIndicator/>
+            )}/>
             <div className="common-form important-thing-form">
                 <div className="common-form-body">
                     <div className="common-form-body-row">
