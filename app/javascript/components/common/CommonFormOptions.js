@@ -9,14 +9,14 @@ export let CommonFormOptions = function (props) {
             key={1}
             containerClasses="common-form-button-container"
             buttonClasses="common-form-button cancel-button"
-            onClick={props.cancel}
+            onClick={props.onClickCancel}
             buttonText={"CANCEL"}
         />,
         <PillButton
             key={2}
             containerClasses="common-form-button-container"
             buttonClasses="common-form-button save-button"
-            onClick={props.save}
+            onClick={props.onClickSave}
             buttonText={"SAVE"}
         />
     ];

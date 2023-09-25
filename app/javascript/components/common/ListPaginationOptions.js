@@ -35,8 +35,9 @@ export let ListPaginationOptions = function (props) {
         var endDisplayNumber = Math.min(pageCountNumeric, selectedPageNumeric + rightOffset);
 
         var pageNumbers = [];
-        for (var i = startDisplayNumber; i <= endDisplayNumber; i++) {
-            var outerClasses = "pagination-element pagination-link ";
+        for (let i = startDisplayNumber; i <= endDisplayNumber; i++) {
+            let outerClasses = "pagination-element pagination-link ";
+            const index = i;
             if (i === selectedPageNumeric) {
                 outerClasses += 'pagination-link-selected';
             }
@@ -44,10 +45,10 @@ export let ListPaginationOptions = function (props) {
             pageNumbers.push(
                 <div
                     className={outerClasses}
-                    key={i}
-                    onClick={changePage.bind(null, i)}
+                    key={index}
+                    onClick={() => changePage(index)}
                 >
-                    {i}
+                    {index}
                 </div>
             );
         }
@@ -78,7 +79,7 @@ export let ListPaginationOptions = function (props) {
                         <div className="pagination-element">
                             <div
                                 className={"pagination-nav-button-container " + (leftButtonClasses || '')}
-                                onClick={changePage.bind(null, parseInt(props.selectedPage) - 1)}
+                                onClick={() => changePage(parseInt(props.selectedPage) - 1)}
                             >
                                 <img
                                     src="/static/images/chevron-left-black.svg"
@@ -118,7 +119,7 @@ export let ListPaginationOptions = function (props) {
                         <div className="pagination-element">
                             <div
                                 className={"pagination-nav-button-container " + (rightButtonClasses || '')}
-                                onClick={changePage.bind(null, parseInt(props.selectedPage) + 1)}
+                                onClick={() => changePage(parseInt(props.selectedPage) + 1)}
                             >
                                 <img
                                     src="/static/images/chevron-right-black.svg"

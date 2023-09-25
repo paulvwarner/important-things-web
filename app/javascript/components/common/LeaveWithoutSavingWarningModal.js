@@ -59,7 +59,7 @@ export let LeaveWithoutSavingWarningModal = function (props) {
         );
 
         if (getUserConfirmationCallback) {
-            setUserConfirmationCallbackToRun(getUserConfirmationCallback.bind(null, false))
+            setUserConfirmationCallbackToRun(() => getUserConfirmationCallback(false))
         }
     }
 
@@ -74,7 +74,7 @@ export let LeaveWithoutSavingWarningModal = function (props) {
             }
         );
 
-        setUserConfirmationCallbackToRun(getUserConfirmationCallback.bind(null, true));
+        setUserConfirmationCallbackToRun(() => getUserConfirmationCallback(true));
     }
 
     // run user conf callback after renders where it changes

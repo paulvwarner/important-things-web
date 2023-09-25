@@ -87,7 +87,7 @@ export let Login = function (props) {
                                 className="common-form-input login-input"
                                 type="text"
                                 placeholder="Email Address"
-                                onChange={handleTextFieldChange.bind(null, 'username')}
+                                onChange={(event) => handleTextFieldChange('username', event)}
                                 value={formState.username}
                             />
                         </div>
@@ -97,7 +97,7 @@ export let Login = function (props) {
                                 className="common-form-input login-input"
                                 type="password"
                                 placeholder="Password"
-                                onChange={handleTextFieldChange.bind(null, 'password')}
+                                onChange={(event) => handleTextFieldChange('password', event)}
                                 value={formState.password}
                             />
                         </div>

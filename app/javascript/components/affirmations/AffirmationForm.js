@@ -1,8 +1,6 @@
 import React from 'react';
-import {LoadingIndicator} from "../common/LoadingIndicator";
-import {PillButton} from "../common/PillButton";
 import {Modal} from "../common/Modal";
-import {useCommonFormEffects} from "../common/CommonFormHooks";
+import {useFormManager} from "../common/hooks/useFormManager";
 import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
 import {CommonFormOptions} from "../common/CommonFormOptions";
 
@@ -14,27 +12,14 @@ export let AffirmationForm = function (props) {
         message: (affirmation && affirmation.message) || '',
         notes: (affirmation && affirmation.notes) || '',
     };
+    const formManager = useFormManager(initialModelState, affirmation, validateData, null, props.save);
 
-    const [
-        formState,
-        save,
-        saving,
-        deactivate,
-        deactivating,
-        confirmDeactivate,
-        confirmingDeactivate,
-        cancelDeactivate,
-        handleValidationResult,
-        getFormFieldClasses,
-        handleTextFieldChange
-    ] = useCommonFormEffects(props, initialModelState, affirmation, validateData);
-
-    function validateData() {
+    function validateData(handleValidationResult) {
         return new Promise(function (resolve, reject) {
             let validationErrors = [];
             let invalidFields = [];
 
-            if (!formState.message) {
+            if (!formManager.state.message) {
                 validationErrors.push('Please enter a message.');
                 invalidFields.push('message');
             }
@@ -48,72 +33,62 @@ export let AffirmationForm = function (props) {
             headerText={props.headerText}
             onClickCloseOption={props.cancel}
         >
-            {(() => {
-                if (saving || deactivating) {
-                    return (
-                        <LoadingIndicator/>
-                    );
-                } else {
-                    return (
-                        <div className="common-form affirmation-form">
-                            <div className="common-form-body">
-                                <div className="common-form-body-row">
-                                    <div className={getFormFieldClasses("common-form-field", "message")}>
-                                        <div className="common-form-field-label">
-                                            Message
-                                        </div>
-                                        <div className="common-form-field-input-container">
-                                            <input
-                                                id="message"
-                                                type="text"
-                                                className="common-form-input"
-                                                value={formState.message}
-                                                onChange={handleTextFieldChange.bind(null, "message")}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="common-form-body-row">
-                                    <div className={getFormFieldClasses("common-form-field", "notes")}>
-                                        <div className="common-form-field-label">
-                                            Notes
-                                        </div>
-                                        <div className="common-form-field-input-container">
-                                            <textarea
-                                                id="notes"
-                                                className="common-form-textarea"
-                                                value={formState.notes}
-                                                onChange={handleTextFieldChange.bind(null, "notes")}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="common-form-body-row">
-                                    <CommonFormOptions
-                                        allowDelete={!props.isNew}
-                                        cancel={props.cancel}
-                                        save={save}
-                                        confirmDeactivate={confirmDeactivate}
-                                    />
-                                </div>
+            <div className="common-form affirmation-form">
+                <div className="common-form-body">
+                    <div className="common-form-body-row">
+                        <div className={formManager.getFormFieldClasses("common-form-field", "message")}>
+                            <div className="common-form-field-label">
+                                Message
                             </div>
-                            {(() => {
-                                if (confirmingDeactivate) {
-                                    return (
-                                        <ConfirmDeleteModal
-                                            cancel={cancelDeactivate}
-                                            deactivate={deactivate}
-                                            modelTypeName="affirmation"
-                                        />
-                                    );
-                                }
-                            })()}
+                            <div className="common-form-field-input-container">
+                                <input
+                                    id="message"
+                                    type="text"
+                                    className="common-form-input"
+                                    value={formManager.state.message}
+                                    onChange={(event) => formManager.handleTextFieldChange("message", event)}
+                                />
+                            </div>
                         </div>
-                    );
-                }
-            })()}
+                    </div>
+
+                    <div className="common-form-body-row">
+                        <div className={formManager.getFormFieldClasses("common-form-field", "notes")}>
+                            <div className="common-form-field-label">
+                                Notes
+                            </div>
+                            <div className="common-form-field-input-container">
+                                <textarea
+                                    id="notes"
+                                    className="common-form-textarea"
+                                    value={formManager.state.notes}
+                                    onChange={(event) => formManager.handleTextFieldChange("notes", event)}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="common-form-body-row">
+                        <CommonFormOptions
+                            allowDelete={!props.isNew}
+                            onClickCancel={props.cancel}
+                            onClickSave={formManager.onClickSave}
+                            confirmDeactivate={formManager.confirmDeactivate}
+                        />
+                    </div>
+                </div>
+                {(() => {
+                    if (formManager.confirmingDeactivate) {
+                        return (
+                            <ConfirmDeleteModal
+                                cancel={formManager.cancelDeactivate}
+                                deactivate={props.deactivate}
+                                modelTypeName="affirmation"
+                            />
+                        );
+                    }
+                })()}
+            </div>
         </Modal>
     );
 };
