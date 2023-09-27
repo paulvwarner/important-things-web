@@ -1,38 +1,28 @@
-import React, {useContext} from "react";
+import React, {Fragment} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {UserForm} from "./UserForm";
-import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
-import {LeaveWithoutSavingWarningUtility} from "../common/LeaveWithoutSavingWarningUtility";
-import {GlobalContext} from "../admin-frame/AdminFrame";
+import {useModelCreateManager} from "../common/hooks/useModelCreateManager";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
+import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 
 export let CreateUser = function (props) {
-    const context = useContext(GlobalContext);
-
-    function createUser(userData, callback) {
-        ApiUtility.createUser(userData)
-            .then((response) => {
-                LeaveWithoutSavingWarningUtility.disableLeaveWithoutSavingWarnings(context);
-                MessageDisplayerUtility.success("Successfully created user.");
-
-                if (callback) {
-                    callback();
-                }
-                if (props.afterSuccessfulSave) {
-                    props.afterSuccessfulSave();
-                }
-            })
-            .catch((error) => {
-                console && console.log(error);
-                MessageDisplayerUtility.error('An error occurred while creating the user.');
-            })
-    }
+    const modelCreateManager = useModelCreateManager(
+        ApiUtility.createUser,
+        'user',
+        props.afterSuccessfulSave
+    );
 
     return (
-        <UserForm
-            cancel={props.cancel}
-            save={createUser}
-            isNew={true}
-            headerText="New User"
-        />
+        <Fragment>
+            <ConditionalRenderer if={modelCreateManager.state.loading} renderer={() => (
+                <OverlayLoadingIndicator/>
+            )}/>
+            <UserForm
+                cancel={props.cancel}
+                save={modelCreateManager.createModel}
+                isNew={true}
+                headerText="New User"
+            />
+        </Fragment>
     );
 };

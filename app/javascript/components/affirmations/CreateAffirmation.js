@@ -1,38 +1,28 @@
-import React, {useContext} from "react";
+import React, {Fragment} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {AffirmationForm} from "./AffirmationForm";
-import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
-import {LeaveWithoutSavingWarningUtility} from "../common/LeaveWithoutSavingWarningUtility";
-import {GlobalContext} from "../admin-frame/AdminFrame";
+import {useModelCreateManager} from "../common/hooks/useModelCreateManager";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
+import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 
 export let CreateAffirmation = function (props) {
-    const context = useContext(GlobalContext);
-
-    function createAffirmation(affirmationData, callback) {
-        ApiUtility.createAffirmation(affirmationData)
-            .then((response) => {
-                LeaveWithoutSavingWarningUtility.disableLeaveWithoutSavingWarnings(context);
-                MessageDisplayerUtility.success("Successfully created affirmation.");
-
-                if (callback) {
-                    callback();
-                }
-                if (props.afterSuccessfulSave) {
-                    props.afterSuccessfulSave();
-                }
-            })
-            .catch((error) => {
-                console && console.log(error);
-                MessageDisplayerUtility.error('An error occurred while creating the affirmation.');
-            })
-    }
+    const modelCreateManager = useModelCreateManager(
+        ApiUtility.createAffirmation,
+        'affirmation',
+        props.afterSuccessfulSave
+    );
 
     return (
-        <AffirmationForm
-            cancel={props.cancel}
-            save={createAffirmation}
-            isNew={true}
-            headerText="New Affirmation"
-        />
+        <Fragment>
+            <ConditionalRenderer if={modelCreateManager.state.loading} renderer={() => (
+                <OverlayLoadingIndicator/>
+            )}/>
+            <AffirmationForm
+                cancel={props.cancel}
+                save={modelCreateManager.createModel}
+                isNew={true}
+                headerText="New Affirmation"
+            />
+        </Fragment>
     );
 };

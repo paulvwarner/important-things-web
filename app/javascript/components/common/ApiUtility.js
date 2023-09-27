@@ -64,7 +64,8 @@ export let ApiUtility = {
     },
 
     logout: function () {
-        return ApiUtility.apiRequest('/api/users/' + encodeURIComponent(CookieUtility.load('token')) + '/logout', {
+        let encodedToken = encodeURIComponent(CookieUtility.load('token'));
+        return ApiUtility.apiRequest(`/api/users/${encodedToken}/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -89,7 +90,7 @@ export let ApiUtility = {
     },
 
     getImportantThing: function (importantThingId) {
-        return ApiUtility.apiRequest('/api/important-things/' + importantThingId);
+        return ApiUtility.apiRequest(`/api/important-things/${importantThingId}`);
     },
 
     createImportantThing: function (importantThingData) {
@@ -107,7 +108,7 @@ export let ApiUtility = {
 
     updateImportantThing: function (importantThingData) {
         return ApiUtility.apiRequest(
-            '/api/important-things/' + importantThingData.id,
+            `/api/important-things/${importantThingData.id}`,
             {
                 method: 'PUT',
                 headers: {
@@ -120,7 +121,7 @@ export let ApiUtility = {
 
     notifyImportantThingNow: function (importantThingId) {
         return ApiUtility.apiRequest(
-            '/api/important-things/' + importantThingId + '/notify-now',
+            `/api/important-things/${importantThingId}/notify-now`,
             {
                 method: 'POST',
                 headers: {
@@ -147,7 +148,7 @@ export let ApiUtility = {
     },
 
     getCommitment: function (commitmentId) {
-        return ApiUtility.apiRequest('/api/commitments/' + commitmentId);
+        return ApiUtility.apiRequest(`/api/commitments/${commitmentId}`);
     },
 
     createCommitment: function (commitmentData) {
@@ -165,7 +166,7 @@ export let ApiUtility = {
 
     updateCommitment: function (commitmentData) {
         return ApiUtility.apiRequest(
-            '/api/commitments/' + commitmentData.id,
+            `/api/commitments/${commitmentData.id}`,
             {
                 method: 'PUT',
                 headers: {
@@ -193,7 +194,7 @@ export let ApiUtility = {
     },
 
     getAffirmation: function (affirmationId) {
-        return ApiUtility.apiRequest('/api/affirmations/' + affirmationId);
+        return ApiUtility.apiRequest(`/api/affirmations/${affirmationId}`);
     },
 
     createAffirmation: function (affirmationData) {
@@ -211,7 +212,7 @@ export let ApiUtility = {
 
     updateAffirmation: function (affirmationData) {
         return ApiUtility.apiRequest(
-            '/api/affirmations/' + affirmationData.id,
+            `/api/affirmations/${affirmationData.id}`,
             {
                 method: 'PUT',
                 headers: {
@@ -222,8 +223,8 @@ export let ApiUtility = {
         );
     },
 
-    getIsPersonEmailAvailable: function (email, isNew) {
-        return ApiUtility.apiRequest('/api/users/is-person-email-available/' + encodeURIComponent(email));
+    getIsPersonEmailAvailable: function (email) {
+        return ApiUtility.apiRequest(`/api/users/is-person-email-available/${encodeURIComponent(email)}`);
     },
 
     getUsersList: function (pageNumber, searchText) {
@@ -243,7 +244,7 @@ export let ApiUtility = {
     },
 
     getUser: function (userId) {
-        return ApiUtility.apiRequest('/api/users/' + userId);
+        return ApiUtility.apiRequest(`/api/users/${userId}`);
     },
 
     createUser: function (userData) {
@@ -261,7 +262,7 @@ export let ApiUtility = {
 
     updateUser: function (userData) {
         return ApiUtility.apiRequest(
-            '/api/users/' + userData.id,
+            `/api/users/${userData.id}`,
             {
                 method: 'PUT',
                 headers: {

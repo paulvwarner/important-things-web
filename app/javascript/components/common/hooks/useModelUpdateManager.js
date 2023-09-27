@@ -36,7 +36,7 @@ function reducer(state, action) {
                 showConfirmDeactivateModal: false
             }
     }
-    throw Error('Unknown action: ' + action.type);
+    throw Error(`Unknown action: ${action.type}`);
 }
 
 export function useModelUpdateManager(

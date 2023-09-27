@@ -78,7 +78,7 @@ export let ListPaginationOptions = function (props) {
                     <div className="paging-nav-cell ">
                         <div className="pagination-element">
                             <div
-                                className={"pagination-nav-button-container " + (leftButtonClasses || '')}
+                                className={`pagination-nav-button-container ${leftButtonClasses || ''}`}
                                 onClick={() => changePage(parseInt(props.selectedPage) - 1)}
                             >
                                 <img
@@ -118,7 +118,7 @@ export let ListPaginationOptions = function (props) {
                         })()}
                         <div className="pagination-element">
                             <div
-                                className={"pagination-nav-button-container " + (rightButtonClasses || '')}
+                                className={`pagination-nav-button-container ${rightButtonClasses || ''}`}
                                 onClick={() => changePage(parseInt(props.selectedPage) + 1)}
                             >
                                 <img

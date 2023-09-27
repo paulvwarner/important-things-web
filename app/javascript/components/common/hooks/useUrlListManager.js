@@ -40,7 +40,7 @@ function reducer(state, action) {
             }
         }
     }
-    throw Error('Unknown action: ' + action.type);
+    throw Error(`Unknown action: ${action.type}`);
 }
 
 // Use a list whose state is described by the URL. User actions trigger URL changes, and URL changes trigger list state updates. Certain state value changes can trigger a reload of the list. Returns a "list page manager" that exposes list operations and state.
@@ -131,7 +131,7 @@ export function useUrlListManager(
             .catch(function (error) {
                 dispatch({type: 'list/readFailure'});
                 console && console.error(error);
-                MessageDisplayerUtility.error('An error occurred while loading the ' + modelName + ' list.');
+                MessageDisplayerUtility.error(`An error occurred while loading the ${modelName} list.`);
             });
     }
 

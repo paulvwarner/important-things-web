@@ -4,7 +4,7 @@ export let Modal = function (props) {
     return (
         <div className="common-modal">
             <div className="common-modal-overlay">
-                <div className={"common-modal-box " + (props.boxClass || '')}>
+                <div className={`common-modal-box ${props.boxClass || ''}`}>
                     <div className="common-modal-header">
                         <div className="common-modal-header-content">
                             <div className="common-modal-header-text-container">

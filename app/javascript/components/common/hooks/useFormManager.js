@@ -1,9 +1,9 @@
 import {useContext, useEffect, useReducer} from 'react';
 import {MessageDisplayerUtility} from "../MessageDisplayerUtility";
 import {LeaveWithoutSavingWarningUtility} from "../LeaveWithoutSavingWarningUtility";
-import _ from "underscore";
 import {GlobalContext} from "../../admin-frame/AdminFrame";
 import {useDebouncedFunction} from "./useDebouncedFunction";
+import _ from "underscore";
 
 function reducer(state, action) {
     switch (action.type) {
@@ -51,7 +51,7 @@ function reducer(state, action) {
                 saved: false
             }
     }
-    throw Error('Unknown action: ' + action.type);
+    throw Error(`Unknown action: ${action.type}`);
 }
 
 export function useFormManager(
@@ -117,7 +117,7 @@ export function useFormManager(
         if (validationErrors.length > 0) {
             let invalidFields = {};
             for (let y = 0; y < invalidFields.length; y++) {
-                invalidFields['' + invalidFields[y] + '_invalid'] = true;
+                invalidFields[`${invalidFields[y]}_invalid`] = true;
             }
             dispatch({
                 type: 'form/validationFailure',
@@ -140,7 +140,7 @@ export function useFormManager(
         if (Array.isArray(fieldName)) {
             let allValid = true;
             for (let f = 0; f < fieldName.length; f++) {
-                if (state.invalidFields[fieldName[f]] + '_invalid') {
+                if (state.invalidFields[`${fieldName[f]}_invalid`]) {
                     allValid = false;
                     break;
                 }
@@ -149,7 +149,7 @@ export function useFormManager(
                 returnClasses += ' invalid';
             }
         } else {
-            if (state.invalidFields[fieldName + '_invalid']) {
+            if (state.invalidFields[`${fieldName}_invalid`]) {
                 returnClasses += ' invalid';
             }
         }

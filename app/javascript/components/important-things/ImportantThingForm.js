@@ -1,11 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {LoadingIndicator} from "../common/LoadingIndicator";
+import React, {useState} from 'react';
 import {PillButton} from "../common/PillButton";
 import {Modal} from "../common/Modal";
 import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
 import {ApiUtility} from "../common/ApiUtility";
 import {useFormManager} from "../common/hooks/useFormManager";
-import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
 import {CommonFormOptions} from "../common/CommonFormOptions";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";

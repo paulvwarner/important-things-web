@@ -1,38 +1,28 @@
-import React, {useContext} from "react";
+import React, {Fragment} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {CommitmentForm} from "./CommitmentForm";
-import {MessageDisplayerUtility} from "../common/MessageDisplayerUtility";
-import {LeaveWithoutSavingWarningUtility} from "../common/LeaveWithoutSavingWarningUtility";
-import {GlobalContext} from "../admin-frame/AdminFrame";
+import {useModelCreateManager} from "../common/hooks/useModelCreateManager";
+import {ConditionalRenderer} from "../common/ConditionalRenderer";
+import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 
 export let CreateCommitment = function (props) {
-    const context = useContext(GlobalContext);
-
-    function createCommitment(commitmentData, callback) {
-        ApiUtility.createCommitment(commitmentData)
-            .then((response) => {
-                LeaveWithoutSavingWarningUtility.disableLeaveWithoutSavingWarnings(context);
-                MessageDisplayerUtility.success("Successfully created commitment.");
-
-                if (callback) {
-                    callback();
-                }
-                if (props.afterSuccessfulSave) {
-                    props.afterSuccessfulSave();
-                }
-            })
-            .catch((error) => {
-                console && console.log(error);
-                MessageDisplayerUtility.error('An error occurred while creating the commitment.');
-            })
-    }
+    const modelCreateManager = useModelCreateManager(
+        ApiUtility.createCommitment,
+        'commitment',
+        props.afterSuccessfulSave
+    );
 
     return (
-        <CommitmentForm
-            cancel={props.cancel}
-            save={createCommitment}
-            isNew={true}
-            headerText="New Commitment"
-        />
+        <Fragment>
+            <ConditionalRenderer if={modelCreateManager.state.loading} renderer={() => (
+                <OverlayLoadingIndicator/>
+            )}/>
+            <CommitmentForm
+                cancel={props.cancel}
+                save={modelCreateManager.createModel}
+                isNew={true}
+                headerText="New Commitment"
+            />
+        </Fragment>
     );
 };
