@@ -3,9 +3,9 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {AdminFrame} from "./components/admin-frame/AdminFrame";
 import {AdminFrameRoot} from "./components/admin-frame/AdminFrameRoot";
 import {Login} from "./components/login/Login";
-import {ImportantThingsListPage} from "./components/important-things/ImportantThingsListPage";
+import {InsightsListPage} from "./components/insights/InsightsListPage";
 import {UsersListPage} from "./components/users/UsersListPage";
-import {CommitmentsListPage} from "./components/commitments/CommitmentsListPage";
+import {SelfCareToolsListPage} from "./components/self-care-tools/SelfCareToolsListPage";
 import {AffirmationsListPage} from "./components/affirmations/AffirmationsListPage";
 
 // placeholder BrowserRouter confirmation function to be overwritten by AdminFrame
@@ -29,12 +29,12 @@ export default (
             }}>
                 <Route exact path="/" component={AdminFrameRoot}/>
                 <Switch>
-                    <Route exact path="/important-things" component={ImportantThingsListPage}/>
-                    <Route exact path="/important-things/add"
+                    <Route exact path="/insights" component={InsightsListPage}/>
+                    <Route exact path="/insights/add"
                            render={
                                function (props) {
                                    return (
-                                       <ImportantThingsListPage
+                                       <InsightsListPage
                                            {...props}
                                            showCreateModal={true}
                                        />
@@ -42,11 +42,11 @@ export default (
                                }
                            }
                     />
-                    <Route exact path="/important-things/notification-config"
+                    <Route exact path="/insights/notification-config"
                            render={
                                function (props) {
                                    return (
-                                       <ImportantThingsListPage
+                                       <InsightsListPage
                                            {...props}
                                            showNotificationConfigModal={true}
                                        />
@@ -54,14 +54,14 @@ export default (
                                }
                            }
                     />
-                    <Route exact path="/important-things/:importantThingId" component={ImportantThingsListPage}/>
+                    <Route exact path="/insights/:insightId" component={InsightsListPage}/>
 
-                    <Route exact path="/commitments" component={CommitmentsListPage}/>
-                    <Route exact path="/commitments/add"
+                    <Route exact path="/self-care-tools" component={SelfCareToolsListPage}/>
+                    <Route exact path="/self-care-tools/add"
                            render={
                                function (props) {
                                    return (
-                                       <CommitmentsListPage
+                                       <SelfCareToolsListPage
                                            {...props}
                                            showCreateModal={true}
                                        />
@@ -69,7 +69,7 @@ export default (
                                }
                            }
                     />
-                    <Route exact path="/commitments/:commitmentId" component={CommitmentsListPage}/>
+                    <Route exact path="/self-care-tools/:selfCareToolId" component={SelfCareToolsListPage}/>
 
 
                     <Route exact path="/affirmations" component={AffirmationsListPage}/>

@@ -57,14 +57,14 @@ export let AdminHeader = function (props) {
                         path="/users"
                     />
                     <AdminHeaderTab
-                        label="IMPORTANT THINGS"
-                        selected={selectedPagePathSegment === Constants.pagePathSegments.importantThings}
-                        path="/important-things"
+                        label="INSIGHTS"
+                        selected={selectedPagePathSegment === Constants.pagePathSegments.insights}
+                        path="/insights"
                     />
                     <AdminHeaderTab
-                        label="COMMITMENTS"
-                        selected={selectedPagePathSegment === Constants.pagePathSegments.commitments}
-                        path="/commitments"
+                        label="SELF-CARE TOOLS"
+                        selected={selectedPagePathSegment === Constants.pagePathSegments.selfCareTools}
+                        path="/self-care-tools"
                     />
                     <AdminHeaderTab
                         label="AFFIRMATIONS"

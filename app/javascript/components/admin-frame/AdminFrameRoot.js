@@ -8,7 +8,7 @@ export let AdminFrameRoot = function (props) {
     }, []);
 
     function goToDefaultPage() {
-        window.location.assign('/important-things');
+        window.location.assign('/insights');
     }
 
     return null;

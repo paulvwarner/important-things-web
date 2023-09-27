@@ -1,2 +1,0 @@
-class ImportantThing < ApplicationRecord
-end

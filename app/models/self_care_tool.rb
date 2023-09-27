@@ -1,0 +1,2 @@
+class SelfCareTool < ApplicationRecord
+end

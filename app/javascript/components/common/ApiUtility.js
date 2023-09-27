@@ -73,7 +73,7 @@ export let ApiUtility = {
         })
     },
 
-    getImportantThingsList: function (pageNumber, searchText) {
+    getInsightsList: function (pageNumber, searchText) {
         let argumentsArray = [];
 
         if (pageNumber) {
@@ -85,43 +85,43 @@ export let ApiUtility = {
         }
 
         return ApiUtility.apiRequest(
-            `/api/important-things${UrlUtility.getUrlQueryString(argumentsArray)}`
+            `/api/insights${UrlUtility.getUrlQueryString(argumentsArray)}`
         );
     },
 
-    getImportantThing: function (importantThingId) {
-        return ApiUtility.apiRequest(`/api/important-things/${importantThingId}`);
+    getInsight: function (insightId) {
+        return ApiUtility.apiRequest(`/api/insights/${insightId}`);
     },
 
-    createImportantThing: function (importantThingData) {
+    createInsight: function (insightData) {
         return ApiUtility.apiRequest(
-            '/api/important-things/',
+            '/api/insights/',
             {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: JSON.stringify(importantThingData),
+                data: JSON.stringify(insightData),
             }
         );
     },
 
-    updateImportantThing: function (importantThingData) {
+    updateInsight: function (insightData) {
         return ApiUtility.apiRequest(
-            `/api/important-things/${importantThingData.id}`,
+            `/api/insights/${insightData.id}`,
             {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: JSON.stringify(importantThingData)
+                data: JSON.stringify(insightData)
             }
         );
     },
 
-    notifyImportantThingNow: function (importantThingId) {
+    notifyInsightNow: function (insightId) {
         return ApiUtility.apiRequest(
-            `/api/important-things/${importantThingId}/notify-now`,
+            `/api/insights/${insightId}/notify-now`,
             {
                 method: 'POST',
                 headers: {
@@ -131,7 +131,7 @@ export let ApiUtility = {
         );
     },
 
-    getCommitmentsList: function (pageNumber, searchText) {
+    getSelfCareToolsList: function (pageNumber, searchText) {
         let argumentsArray = [];
 
         if (pageNumber) {
@@ -143,36 +143,36 @@ export let ApiUtility = {
         }
 
         return ApiUtility.apiRequest(
-            `/api/commitments${UrlUtility.getUrlQueryString(argumentsArray)}`
+            `/api/self-care-tools${UrlUtility.getUrlQueryString(argumentsArray)}`
         );
     },
 
-    getCommitment: function (commitmentId) {
-        return ApiUtility.apiRequest(`/api/commitments/${commitmentId}`);
+    getSelfCareTool: function (selfCareToolId) {
+        return ApiUtility.apiRequest(`/api/self-care-tools/${selfCareToolId}`);
     },
 
-    createCommitment: function (commitmentData) {
+    createSelfCareTool: function (selfCareToolData) {
         return ApiUtility.apiRequest(
-            '/api/commitments/',
+            '/api/self-care-tools/',
             {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: JSON.stringify(commitmentData),
+                data: JSON.stringify(selfCareToolData),
             }
         );
     },
 
-    updateCommitment: function (commitmentData) {
+    updateSelfCareTool: function (selfCareToolData) {
         return ApiUtility.apiRequest(
-            `/api/commitments/${commitmentData.id}`,
+            `/api/self-care-tools/${selfCareToolData.id}`,
             {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: JSON.stringify(commitmentData)
+                data: JSON.stringify(selfCareToolData)
             }
         );
     },

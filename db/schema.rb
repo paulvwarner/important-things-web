@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_01_27_022838) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_27_004637) do
   create_table "affirmations", charset: "utf8mb4", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "message", null: false
     t.text "notes"
@@ -19,15 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_01_27_022838) do
     t.boolean "active", default: true
   end
 
-  create_table "commitments", charset: "utf8mb4", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "notes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "active", default: true
-  end
-
-  create_table "important_things", charset: "utf8mb4", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+  create_table "insights", charset: "utf8mb4", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "message", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -75,6 +67,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_01_27_022838) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "self_care_tools", charset: "utf8mb4", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true
   end
 
   create_table "user_roles", charset: "utf8mb4", options: "ENGINE=InnoDB ROW_FORMAT=DYNAMIC", force: :cascade do |t|

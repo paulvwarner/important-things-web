@@ -6,8 +6,18 @@ task :setup_example_data => :environment do
 
   puts 'generating example data...'
   ActiveRecord::Base.transaction do
-    ImportantThing.delete_all
-    ImportantThing.create(
+    Insight.delete_all
+    Insight.create(
+      [
+        {
+          message: 'People need human interaction.',
+          notes: "That includes you!"
+        }
+      ]
+    )
+
+    SelfCareTool.delete_all
+    SelfCareTool.create(
       [
         {
           message: 'Drink enough water.',
@@ -21,14 +31,6 @@ task :setup_example_data => :environment do
           message: 'Look at an animal every day.',
           notes: "It makes you happy!"
         },
-      ]
-    )
-
-    Commitment.delete_all
-    Commitment.create(
-      [
-        {title: "Finish building the Important Things MVP.", },
-        {title: "Fix bugs in Important Things.", },
       ]
     )
 

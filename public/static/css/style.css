@@ -342,7 +342,7 @@ body {
   width: 100%;
 }
 
-.commitments-list-page .commitments-list-row-cell.title {
+.self-care-tools-list-page .self-care-tools-list-row-cell.title {
   width: 100%;
 }
 
@@ -630,8 +630,8 @@ body {
 }
 .common-list-pagination-options .pagination-element .pagination-nav-button-container .pagination-nav-button-icon {
   padding: 5px;
-  width: calc(28px - (5px * 2));
-  height: calc(28px - (5px * 2));
+  width: calc(28px - 5px * 2);
+  height: calc(28px - 5px * 2);
 }
 
 .loading-indicator-overlay {
@@ -857,23 +857,23 @@ body {
   padding-left: 6px;
 }
 
-.important-things-list-page .important-things-header-left {
+.insights-list-page .insights-header-left {
   display: flex;
   flex-direction: column;
 }
-.important-things-list-page .important-things-header-left .important-things-notification-info {
+.insights-list-page .insights-header-left .insights-notification-info {
   display: flex;
   flex-direction: column;
 }
-.important-things-list-page .important-things-header-left .important-things-notification-info .notification-info-wrapper {
+.insights-list-page .insights-header-left .insights-notification-info .notification-info-wrapper {
   display: flex;
   flex-direction: row;
   align-items: baseline;
 }
-.important-things-list-page .important-things-header-left .important-things-notification-info .notification-info-wrapper .notification-info-details {
+.insights-list-page .insights-header-left .insights-notification-info .notification-info-wrapper .notification-info-details {
   font-size: 14px;
 }
-.important-things-list-page .important-things-header-left .important-things-notification-info .notification-info-wrapper .notification-info-link {
+.insights-list-page .insights-header-left .insights-notification-info .notification-info-wrapper .notification-info-link {
   margin-left: 4px;
   color: #bb342d;
   font-size: 14px;
@@ -882,21 +882,21 @@ body {
   border-bottom: 1px solid #bb342d;
   cursor: pointer;
 }
-.important-things-list-page .important-things-header-left .important-things-notification-info .notification-info-wrapper .notification-info-link:hover {
+.insights-list-page .insights-header-left .insights-notification-info .notification-info-wrapper .notification-info-link:hover {
   opacity: 0.75;
 }
-.important-things-list-page .important-things-list-row-cell.message {
+.insights-list-page .insights-list-row-cell.message {
   width: calc(100% - 50px);
 }
-.important-things-list-page .important-things-list-row-cell.weight {
+.insights-list-page .insights-list-row-cell.weight {
   width: 50px;
 }
 
-.important-thing-form .important-thing-weight-input {
+.insight-form .insight-weight-input {
   width: 100px;
   text-align: center;
 }
-.important-thing-form .notify-now-button {
+.insight-form .notify-now-button {
   margin-left: 20px;
 }
 

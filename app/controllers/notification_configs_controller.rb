@@ -1,5 +1,5 @@
 include ApplicationHelper
-include ImportantThingsHelper
+include InsightsHelper
 
 class NotificationConfigsController < ApplicationController
   def show

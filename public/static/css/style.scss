@@ -65,7 +65,7 @@ $common-form-input-border-radius: 25px;
 
 $pill-button-height: 50px;
 
-$important-things-list-weight-column-width: 50px;
+$insights-list-weight-column-width: 50px;
 
 $pagination-option-dim: 28px;
 $pagination-nav-option-padding: 5px;
@@ -314,8 +314,8 @@ body {
 @import "admin-frame/admin-header.scss";
 @import "affirmations/affirmations-list.scss";
 @import "affirmations/affirmation-form.scss";
-@import "commitments/commitments-list.scss";
-@import "commitments/commitment-form.scss";
+@import "self-care-tools/self-care-tools-list.scss";
+@import "self-care-tools/self-care-tool-form.scss";
 @import "common/common-list.scss";
 @import "common/confirm-delete-modal.scss";
 @import "common/delayed-search-bar.scss";
@@ -325,8 +325,8 @@ body {
 @import "common/modal.scss";
 @import "common/pill-button.scss";
 @import "common/radio-option-set.scss";
-@import "important-things/important-things-list.scss";
-@import "important-things/important-thing-form.scss";
+@import "insights/insights-list.scss";
+@import "insights/insight-form.scss";
 @import "login/login.scss";
 @import "notification-config/notification-config-form.scss";
 @import "users/users-list.scss";

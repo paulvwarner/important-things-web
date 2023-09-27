@@ -1,6 +1,6 @@
 # Important Things web app
 
-The purpose of Important Things is to track and remind myself of things I think are important. Right now that means insights, commitments, and affirmations I want to remember. I also built this to 1) demonstrate that I know how to build web/mobile applications like this and 2) to get more experience using React hooks.
+The purpose of Important Things is to track and remind myself of things I think are important. Right now that means insights, self-care tools, and affirmations I want to remember. I also built this to 1) demonstrate that I know how to build web/mobile applications like this and 2) to get more experience using React hooks.
 
 Important Things consists of a Rails/React web application and a React Native mobile application that uses an API exposed by the web application. The web application lets you manage users and important things, and the mobile app lets you browse important things and get reminders of important things (push notifications).
 
@@ -50,7 +50,7 @@ This runs webpack to bundle the client JavaScript code into one JS file, then ru
 This project includes an end-to-end test suite using Rspec, Selenium, and Capybara.
 
 #### Example command to run an individual RSpec test (from project root directory):
-`RAILS_ENV=e2e_test rspec --format documentation spec/features/important-things/important_thing_crud_spec.rb`
+`RAILS_ENV=e2e_test rspec --format documentation spec/features/insights/insight_crud_spec.rb`
 
 #### Run all RSpec tests (from project root directory):
 `RAILS_ENV=e2e_test rspec --format documentation`

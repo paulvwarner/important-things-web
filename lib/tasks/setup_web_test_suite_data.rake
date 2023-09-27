@@ -7,11 +7,11 @@ task :setup_web_test_suite_data => :environment do
 
   puts 'generating web test suite data...'
   ActiveRecord::Base.transaction do
-    ImportantThing.delete_all
-    ImportantThing.create(get_common_pagination_test_records('message', 'notes'))
+    Insight.delete_all
+    Insight.create(get_common_pagination_test_records('message', 'notes'))
 
-    Commitment.delete_all
-    Commitment.create(get_common_pagination_test_records('title', 'notes'))
+    SelfCareTool.delete_all
+    SelfCareTool.create(get_common_pagination_test_records('title', 'notes'))
 
     Affirmation.delete_all
     Affirmation.create(get_common_pagination_test_records('message', 'notes'))

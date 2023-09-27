@@ -1,5 +1,5 @@
 include ApplicationHelper
-include ImportantThingsHelper
+include InsightsHelper
 include NotificationConfigsHelper
 
 class ImportantThingNotificationJob < ApplicationJob

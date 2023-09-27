@@ -1,2 +1,0 @@
-class Commitment < ApplicationRecord
-end

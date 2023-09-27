@@ -4,8 +4,8 @@ export let Constants = {
     },
 
     pagePathSegments: {
-        importantThings: 'important-things',
-        commitments: 'commitments',
+        insights: 'insights',
+        selfCareTools: 'self-care-tools',
         affirmations: 'affirmations',
         users: 'users'
     },

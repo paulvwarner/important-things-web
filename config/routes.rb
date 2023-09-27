@@ -2,12 +2,12 @@ Rails.application.routes.draw do
   root 'web_client#index'
 
   get '/login', to: 'web_client#index'
-  get '/important-things', to: 'web_client#index'
-  get '/important-things/add', to: 'web_client#index'
-  get '/important-things/:id', to: 'web_client#index'
-  get '/commitments', to: 'web_client#index'
-  get '/commitments/add', to: 'web_client#index'
-  get '/commitments/:id', to: 'web_client#index'
+  get '/insights', to: 'web_client#index'
+  get '/insights/add', to: 'web_client#index'
+  get '/insights/:id', to: 'web_client#index'
+  get '/self-care-tools', to: 'web_client#index'
+  get '/self-care-tools/add', to: 'web_client#index'
+  get '/self-care-tools/:id', to: 'web_client#index'
   get '/affirmations', to: 'web_client#index'
   get '/affirmations/add', to: 'web_client#index'
   get '/affirmations/:id', to: 'web_client#index'
@@ -24,17 +24,17 @@ Rails.application.routes.draw do
     resources :users
     resources :roles
 
-    post '/important-things/:id/notify-now', to: 'important_things#notify_now'
-    get '/important-things/for-app', to: 'important_things#index_for_app'
-    resources :important_things, :path => 'important-things'
+    post '/insights/:id/notify-now', to: 'insights#notify_now'
+    get '/insights/for-app', to: 'insights#index_for_app'
+    resources :insights
 
-    get '/commitments/for-app', to: 'commitments#index_for_app'
-    resources :commitments
+    get '/self-care-tools/for-app', to: 'self_care_tools#index_for_app'
+    resources :self_care_tools, :path => 'self-care-tools'
 
     get '/affirmations/for-app', to: 'affirmations#index_for_app'
     resources :affirmations
 
-    get '/notification-config', to:'notification_configs#show'
-    put '/notification-config', to:'notification_configs#update'
+    get '/notification-config', to: 'notification_configs#show'
+    put '/notification-config', to: 'notification_configs#update'
   end
 end
