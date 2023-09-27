@@ -2,7 +2,7 @@ include ApplicationHelper
 include InsightsHelper
 include NotificationConfigsHelper
 
-class ImportantThingNotificationJob < ApplicationJob
+class InsightNotificationJob < ApplicationJob
   queue_as :default
 
   include SuckerPunch::Job

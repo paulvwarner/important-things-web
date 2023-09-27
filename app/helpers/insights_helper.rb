@@ -34,11 +34,11 @@ module InsightsHelper
     max_minutes = notification_config[:max_notify_interval_hours] * 60
     wait_mins = rand(min_minutes..max_minutes)
 
-    Rails.logger.info "Scheduling next important thing notification in " +
+    Rails.logger.info "Scheduling next insight notification in " +
                         (wait_mins / 60).to_s + " hours " +
                         (wait_mins % 60).to_s + " minutes."
 
-    ImportantThingNotificationJob.set(wait: wait_mins.minute).perform_later(notification_config[:active_job_key])
+    InsightNotificationJob.set(wait: wait_mins.minute).perform_later(notification_config[:active_job_key])
   end
 
   def send_notification_for(insight)
