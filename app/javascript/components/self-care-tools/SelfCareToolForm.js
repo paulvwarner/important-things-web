@@ -2,7 +2,7 @@ import React from 'react';
 import {LoadingIndicator} from "../common/LoadingIndicator";
 import {PillButton} from "../common/PillButton";
 import {Modal} from "../common/Modal";
-import {useFormManager} from "../common/hooks/useFormManager";
+import {useModelFormEngine} from "../common/hooks/useModelFormEngine";
 import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
 import {CommonFormOptions} from "../common/CommonFormOptions";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
@@ -16,14 +16,14 @@ export let SelfCareToolForm = function (props) {
         title: (selfCareTool && selfCareTool.title) || '',
         notes: (selfCareTool && selfCareTool.notes) || '',
     };
-    const formManager = useFormManager(initialModelState, selfCareTool, null, validateForm, null, props.save);
+    const formEngine = useModelFormEngine(initialModelState, selfCareTool, null, validateForm, null, props.save);
 
     function validateForm(handleValidationResult) {
         return new Promise(function (resolve, reject) {
             let validationErrors = [];
             let invalidFields = [];
 
-            if (!formManager.state.title) {
+            if (!formEngine.state.title) {
                 validationErrors.push('Please enter a title.');
                 invalidFields.push('title');
             }
@@ -37,13 +37,13 @@ export let SelfCareToolForm = function (props) {
             headerText={props.headerText}
             onClickCloseOption={props.cancel}
         >
-            <ConditionalRenderer if={formManager.state.showOverlayLoadingIndicator} renderer={()=>(
+            <ConditionalRenderer if={formEngine.state.showOverlayLoadingIndicator} renderer={()=>(
                 <OverlayLoadingIndicator/>
             )}/>
             <div className="common-form self-care-tool-form">
                 <div className="common-form-body">
                     <div className="common-form-body-row">
-                        <div className={formManager.getFormFieldClasses("common-form-field", "title")}>
+                        <div className={formEngine.getFormFieldClasses("common-form-field", "title")}>
                             <div className="common-form-field-label">
                                 Title
                             </div>
@@ -52,15 +52,15 @@ export let SelfCareToolForm = function (props) {
                                     id="title"
                                     type="text"
                                     className="common-form-input"
-                                    value={formManager.state.title}
-                                    onChange={(event) => formManager.handleTextFieldChange("title", event)}
+                                    value={formEngine.state.title}
+                                    onChange={(event) => formEngine.handleTextFieldChange("title", event)}
                                 />
                             </div>
                         </div>
                     </div>
 
                     <div className="common-form-body-row">
-                        <div className={formManager.getFormFieldClasses("common-form-field", "notes")}>
+                        <div className={formEngine.getFormFieldClasses("common-form-field", "notes")}>
                             <div className="common-form-field-label">
                                 Notes
                             </div>
@@ -68,8 +68,8 @@ export let SelfCareToolForm = function (props) {
                                 <textarea
                                     id="notes"
                                     className="common-form-textarea"
-                                    value={formManager.state.notes}
-                                    onChange={(event) => formManager.handleTextFieldChange("notes", event)}
+                                    value={formEngine.state.notes}
+                                    onChange={(event) => formEngine.handleTextFieldChange("notes", event)}
                                 />
                             </div>
                         </div>
@@ -79,7 +79,7 @@ export let SelfCareToolForm = function (props) {
                         <CommonFormOptions
                             allowDelete={!props.isNew}
                             onClickCancel={props.cancel}
-                            onClickSave={formManager.onClickSave}
+                            onClickSave={formEngine.onClickSave}
                             onClickDeactivate={props.onClickDeactivate}
                         />
                     </div>

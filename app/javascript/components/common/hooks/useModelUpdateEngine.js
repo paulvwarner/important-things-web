@@ -39,7 +39,8 @@ function reducer(state, action) {
     throw Error(`Unknown action: ${action.type}`);
 }
 
-export function useModelUpdateManager(
+// Engine for a wrapper component for a form, where wrapper is in charge of updating models defined by the form. Updating includes "deleting" which is really just deactivating.
+export function useModelUpdateEngine(
     modelFetchApiFunction, modelUpdateApiFunction, modelId, modelName, updateCallback
 ) {
     const context = useContext(GlobalContext);

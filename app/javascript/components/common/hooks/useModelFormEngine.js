@@ -54,7 +54,8 @@ function reducer(state, action) {
     throw Error(`Unknown action: ${action.type}`);
 }
 
-export function useFormManager(
+// Engine for a form component for a data model. Tracks state of form and exposes form event handler functions (for field updates, save operations). Can fetch supporting data for the form on mount.
+export function useModelFormEngine(
     initialModelSpecificState, initialModel, fetchSupportingData, validateForm, formStateToSaveData, save
 ) {
     const context = useContext(GlobalContext);

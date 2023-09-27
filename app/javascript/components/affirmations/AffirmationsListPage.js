@@ -5,14 +5,14 @@ import {ListPaginationOptions} from "../common/ListPaginationOptions";
 import {CreateAffirmation} from "./CreateAffirmation";
 import {UpdateAffirmation} from "./UpdateAffirmation";
 import {GlobalContext} from "../admin-frame/AdminFrame";
-import {useUrlListManager} from "../common/hooks/useUrlListManager";
+import {useModelListEngine} from "../common/hooks/useModelListEngine";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 
 export const AffirmationsListPage = function (props) {
     const context = useContext(GlobalContext);
 
-    const listPageManager = useUrlListManager(
+    const listEngine = useModelListEngine(
         props,
         'affirmationId',
         ApiUtility.getAffirmationsList,
@@ -31,7 +31,7 @@ export const AffirmationsListPage = function (props) {
                 <div
                     key={i + 1}
                     className="common-list-row common-list-values-row"
-                    onClick={() => listPageManager.goToUpdateModal(affirmation)}
+                    onClick={() => listEngine.goToUpdateModal(affirmation)}
                 >
                     <div
                         className="common-list-row-cell common-list-row-value-cell affirmations-list-row-cell message"
@@ -43,24 +43,24 @@ export const AffirmationsListPage = function (props) {
         return affirmationsListDisplay;
     }
 
-    if (listPageManager.state.modelList) {
+    if (listEngine.state.modelList) {
         return (
             <div className="common-list-page affirmations-list-page">
                 <CommonListPageHeader
                     headerText="Affirmations"
-                    performSearch={listPageManager.performSearch}
-                    searchText={listPageManager.state.searchText}
+                    performSearch={listEngine.performSearch}
+                    searchText={listEngine.state.searchText}
                     searchPlaceholderText="Search Affirmations"
-                    onClickAddButton={listPageManager.goToAddModal}
+                    onClickAddButton={listEngine.goToAddModal}
                 />
 
                 <div className="common-list-page-content">
                     <ConditionalRenderer
-                        if={listPageManager.state.loading}
+                        if={listEngine.state.loading}
                         renderer={() => <OverlayLoadingIndicator/>}
                     />
                     {(() => {
-                        if (listPageManager.state.modelList.length > 0) {
+                        if (listEngine.state.modelList.length > 0) {
                             return (
                                 <Fragment>
                                     <div className="common-list-header">
@@ -72,11 +72,11 @@ export const AffirmationsListPage = function (props) {
                                         </div>
                                     </div>
                                     <div className="common-list-content">
-                                        {renderAffirmationsListDisplay(listPageManager.state.modelList)}
+                                        {renderAffirmationsListDisplay(listEngine.state.modelList)}
                                     </div>
                                     <ListPaginationOptions
-                                        pageCount={listPageManager.state.pageCount}
-                                        selectedPage={listPageManager.state.selectedPage}
+                                        pageCount={listEngine.state.pageCount}
+                                        selectedPage={listEngine.state.selectedPage}
                                         urlBase="/affirmations"
                                     />
                                 </Fragment>
@@ -91,19 +91,19 @@ export const AffirmationsListPage = function (props) {
                     })()}
                 </div>
                 {(() => {
-                    if (listPageManager.state.showCreateModal) {
+                    if (listEngine.state.showCreateModal) {
                         return (
                             <CreateAffirmation
-                                cancel={listPageManager.closeModals}
-                                afterSuccessfulSave={listPageManager.afterSuccessfulSave}
+                                cancel={listEngine.closeModals}
+                                afterSuccessfulSave={listEngine.afterSuccessfulSave}
                             />
                         );
-                    } else if (listPageManager.state.showUpdateModal) {
+                    } else if (listEngine.state.showUpdateModal) {
                         return (
                             <UpdateAffirmation
-                                cancel={listPageManager.closeModals}
-                                afterSuccessfulSave={listPageManager.afterSuccessfulSave}
-                                affirmationId={listPageManager.state.updateModelId}
+                                cancel={listEngine.closeModals}
+                                afterSuccessfulSave={listEngine.afterSuccessfulSave}
+                                affirmationId={listEngine.state.updateModelId}
                             />
                         );
                     }

@@ -43,8 +43,8 @@ function reducer(state, action) {
     throw Error(`Unknown action: ${action.type}`);
 }
 
-// Use a list whose state is described by the URL. User actions trigger URL changes, and URL changes trigger list state updates. Certain state value changes can trigger a reload of the list. Returns a "list page manager" that exposes list operations and state.
-export function useUrlListManager(
+// Engine for a list whose state is described by the URL. User actions trigger URL changes, and URL changes trigger list state updates. Certain state value changes can trigger a reload of the list. Returns an object that exposes list engine operations and state.
+export function useModelListEngine(
     listPageProps, modelIdParamName, listFetchApiFunction, modelName, urlBase, navigator
 ) {
     const initialListState = {
@@ -104,7 +104,7 @@ export function useUrlListManager(
         })
     }
 
-    // Trigger reload of list data on mount and if certain values change in list state.
+    // Trigger reload of list data on mount and if certain values change in state.
     useEffect(
         function () {
             reloadList();

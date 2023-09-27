@@ -19,7 +19,8 @@ function reducer(state, action) {
     throw Error(`Unknown action: ${action.type}`);
 }
 
-export function useModelCreateManager(
+// Engine for a wrapper component for a form, where wrapper is in charge of creating models defined by the form
+export function useModelCreateEngine(
     modelCreateApiFunction, modelName, createCallback
 ) {
     const context = useContext(GlobalContext);

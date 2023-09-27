@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal} from "../common/Modal";
-import {useFormManager} from "../common/hooks/useFormManager";
+import {useModelFormEngine} from "../common/hooks/useModelFormEngine";
 import {CommonFormOptions} from "../common/CommonFormOptions";
 import {Constants} from "../common/Constants";
 import {ApiUtility} from "../common/ApiUtility";
@@ -46,7 +46,7 @@ export let UserForm = function (props) {
             })
     }
 
-    const formManager = useFormManager(
+    const formEngine = useModelFormEngine(
         initialModelState, user, fetchSupportingData, validateForm, formStateToSaveData, props.save
     );
 
@@ -57,8 +57,8 @@ export let UserForm = function (props) {
 
             Promise.resolve({})
                 .then(function () {
-                    if (formManager.state.email) {
-                        if (!EmailUtility.isValid(formManager.state.email)) {
+                    if (formEngine.state.email) {
+                        if (!EmailUtility.isValid(formEngine.state.email)) {
                             validationErrors.push('Please enter a valid email address.');
                             invalidFields.push('email');
                         }
@@ -67,13 +67,13 @@ export let UserForm = function (props) {
                             user &&
                             user.person &&
                             user.person.email &&
-                            formManager.state.email === user.person.email
+                            formEngine.state.email === user.person.email
                         ) {
                             // Don't validate email availability if it's an existing user being updated who already
                             // has that email address.
                             return Promise.resolve();
                         } else {
-                            return ApiUtility.getIsPersonEmailAvailable(formManager.state.email)
+                            return ApiUtility.getIsPersonEmailAvailable(formEngine.state.email)
                                 .then(function (emailIsAvailable) {
                                     if (!emailIsAvailable) {
                                         validationErrors.push('Another user is already using that email address - please enter a different email address.');
@@ -90,25 +90,25 @@ export let UserForm = function (props) {
                     }
                 })
                 .then(function () {
-                    if (!formManager.state.firstName) {
+                    if (!formEngine.state.firstName) {
                         validationErrors.push('Please enter a first name.');
                         invalidFields.push('firstName');
                     }
 
-                    if (!formManager.state.lastName) {
+                    if (!formEngine.state.lastName) {
                         validationErrors.push('Please enter a last name.');
                         invalidFields.push('lastName');
                     }
 
                     // new users must be given a password
-                    if (!user && !formManager.state.password) {
+                    if (!user && !formEngine.state.password) {
                         validationErrors.push('Please enter a password.');
                         invalidFields.push('password');
                         invalidFields.push('confirmPassword');
                     }
 
-                    if (formManager.state.password && formManager.state.password !== Constants.placeholderPassword) {
-                        if (formManager.state.password && formManager.state.password.length < Constants.minPasswordLength) {
+                    if (formEngine.state.password && formEngine.state.password !== Constants.placeholderPassword) {
+                        if (formEngine.state.password && formEngine.state.password.length < Constants.minPasswordLength) {
                             validationErrors.push(
                                 `Passwords must be at least ${Constants.minPasswordLength} characters long.`
                             );
@@ -116,19 +116,19 @@ export let UserForm = function (props) {
                             invalidFields.push('confirmPassword');
                         }
 
-                        if (!StringUtility.containsUpperCaseLetter(formManager.state.password)) {
+                        if (!StringUtility.containsUpperCaseLetter(formEngine.state.password)) {
                             validationErrors.push('Passwords must contain at least one upper case letter.');
                             invalidFields.push('password');
                             invalidFields.push('confirmPassword');
                         }
 
-                        if (!StringUtility.containsNumber(formManager.state.password)) {
+                        if (!StringUtility.containsNumber(formEngine.state.password)) {
                             validationErrors.push('Passwords must contain at least one number.');
                             invalidFields.push('password');
                             invalidFields.push('confirmPassword');
                         }
 
-                        if (!StringUtility.containsSpecialCharacter(formManager.state.password)) {
+                        if (!StringUtility.containsSpecialCharacter(formEngine.state.password)) {
                             validationErrors.push(
                                 'Passwords must contain at least one of these characters: ' +
                                 '!$%^&*()_+|~-=`{}[]:";\'<>?,./'
@@ -137,14 +137,14 @@ export let UserForm = function (props) {
                             invalidFields.push('confirmPassword');
                         }
 
-                        if (formManager.state.password !== formManager.state.confirmPassword) {
+                        if (formEngine.state.password !== formEngine.state.confirmPassword) {
                             validationErrors.push('Password does not match confirm password.');
                             invalidFields.push('password');
                             invalidFields.push('confirmPassword');
                         }
                     }
 
-                    if (!formManager.state.selectedRoleOption) {
+                    if (!formEngine.state.selectedRoleOption) {
                         validationErrors.push('Please select a role.');
                         invalidFields.push('selectedRoleOption');
                     }
@@ -165,14 +165,14 @@ export let UserForm = function (props) {
             headerText={props.headerText}
             onClickCloseOption={props.cancel}
         >
-            <ConditionalRenderer if={formManager.state.showOverlayLoadingIndicator} renderer={() => (
+            <ConditionalRenderer if={formEngine.state.showOverlayLoadingIndicator} renderer={() => (
                 <OverlayLoadingIndicator/>
             )}/>
-            <ConditionalRenderer if={formManager.state.supportingData} renderer={() => (
+            <ConditionalRenderer if={formEngine.state.supportingData} renderer={() => (
                 <div className="common-form user-form">
                     <div className="common-form-body">
                         <div className="common-form-body-row">
-                            <div className={formManager.getFormFieldClasses("common-form-field", "firstName")}>
+                            <div className={formEngine.getFormFieldClasses("common-form-field", "firstName")}>
                                 <div className="common-form-field-label">
                                     First Name
                                 </div>
@@ -181,15 +181,15 @@ export let UserForm = function (props) {
                                         id="firstName"
                                         type="text"
                                         className="common-form-input"
-                                        value={formManager.state.firstName}
-                                        onChange={(event) => formManager.handleTextFieldChange("firstName", event)}
+                                        value={formEngine.state.firstName}
+                                        onChange={(event) => formEngine.handleTextFieldChange("firstName", event)}
                                     />
                                 </div>
                             </div>
                         </div>
 
                         <div className="common-form-body-row">
-                            <div className={formManager.getFormFieldClasses("common-form-field", "lastName")}>
+                            <div className={formEngine.getFormFieldClasses("common-form-field", "lastName")}>
                                 <div className="common-form-field-label">
                                     Last Name
                                 </div>
@@ -198,15 +198,15 @@ export let UserForm = function (props) {
                                         id="lastName"
                                         type="text"
                                         className="common-form-input"
-                                        value={formManager.state.lastName}
-                                        onChange={(event) => formManager.handleTextFieldChange("lastName", event)}
+                                        value={formEngine.state.lastName}
+                                        onChange={(event) => formEngine.handleTextFieldChange("lastName", event)}
                                     />
                                 </div>
                             </div>
                         </div>
 
                         <div className="common-form-body-row">
-                            <div className={formManager.getFormFieldClasses("common-form-field", "email")}>
+                            <div className={formEngine.getFormFieldClasses("common-form-field", "email")}>
                                 <div className="common-form-field-label">
                                     Email (Username)
                                 </div>
@@ -215,8 +215,8 @@ export let UserForm = function (props) {
                                         id="email"
                                         type="text"
                                         className="common-form-input"
-                                        value={formManager.state.email}
-                                        onChange={(event) => formManager.handleTextFieldChange("email", event)}
+                                        value={formEngine.state.email}
+                                        onChange={(event) => formEngine.handleTextFieldChange("email", event)}
                                     />
                                 </div>
                             </div>
@@ -224,7 +224,7 @@ export let UserForm = function (props) {
 
 
                         <div className="common-form-body-row">
-                            <div className={formManager.getFormFieldClasses("common-form-field", "password")}>
+                            <div className={formEngine.getFormFieldClasses("common-form-field", "password")}>
                                 <div className="common-form-field-label">
                                     Password
                                 </div>
@@ -233,8 +233,8 @@ export let UserForm = function (props) {
                                         id="password"
                                         type="password"
                                         className="common-form-input"
-                                        value={formManager.state.password}
-                                        onChange={(event) => formManager.handleTextFieldChange("password", event)}
+                                        value={formEngine.state.password}
+                                        onChange={(event) => formEngine.handleTextFieldChange("password", event)}
                                     />
                                 </div>
                             </div>
@@ -242,7 +242,7 @@ export let UserForm = function (props) {
 
                         <div className="common-form-body-row">
                             <div
-                                className={formManager.getFormFieldClasses("common-form-field", "confirmPassword")}>
+                                className={formEngine.getFormFieldClasses("common-form-field", "confirmPassword")}>
                                 <div className="common-form-field-label">
                                     Confirm Password
                                 </div>
@@ -251,15 +251,15 @@ export let UserForm = function (props) {
                                         id="confirmPassword"
                                         type="password"
                                         className="common-form-input"
-                                        value={formManager.state.confirmPassword}
-                                        onChange={(event) => formManager.handleTextFieldChange("confirmPassword", event)}
+                                        value={formEngine.state.confirmPassword}
+                                        onChange={(event) => formEngine.handleTextFieldChange("confirmPassword", event)}
                                     />
                                 </div>
                             </div>
                         </div>
 
                         <div className="common-form-body-row">
-                            <div className={formManager.getFormFieldClasses(
+                            <div className={formEngine.getFormFieldClasses(
                                 "common-form-field common-radio-option-set-form-field role-selector",
                                 "selectedRoleOption"
                             )}>
@@ -268,9 +268,9 @@ export let UserForm = function (props) {
                                 </div>
                                 <div className="common-form-field-input-container">
                                     <RadioOptionSet
-                                        options={formManager.state.supportingData.roleOptions}
-                                        onSelectRadioOption={formManager.handleRadioOptionChange}
-                                        selectedOption={formManager.state.selectedRoleOption}
+                                        options={formEngine.state.supportingData.roleOptions}
+                                        onSelectRadioOption={formEngine.handleRadioOptionChange}
+                                        selectedOption={formEngine.state.selectedRoleOption}
                                         fieldName="selectedRoleOption"
                                     />
                                 </div>
@@ -281,7 +281,7 @@ export let UserForm = function (props) {
                             <CommonFormOptions
                                 allowDelete={!props.isNew}
                                 onClickCancel={props.cancel}
-                                onClickSave={formManager.onClickSave}
+                                onClickSave={formEngine.onClickSave}
                                 onClickDeactivate={props.onClickDeactivate}
                             />
                         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal} from "../common/Modal";
-import {useFormManager} from "../common/hooks/useFormManager";
+import {useModelFormEngine} from "../common/hooks/useModelFormEngine";
 import {CommonFormOptions} from "../common/CommonFormOptions";
 import {CheckBox} from "../common/CheckBox";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
@@ -16,24 +16,24 @@ export let NotificationConfigForm = function (props) {
         min_notify_interval_hours: (notificationConfig && notificationConfig.min_notify_interval_hours) || 0,
         max_notify_interval_hours: (notificationConfig && notificationConfig.max_notify_interval_hours) || 0,
     };
-    const formManager = useFormManager(initialModelState, notificationConfig, null, validateForm, null, props.save);
+    const formEngine = useModelFormEngine(initialModelState, notificationConfig, null, validateForm, null, props.save);
 
     function validateForm(handleValidationResult) {
         return new Promise(function (resolve, reject) {
             let validationErrors = [];
             let invalidFields = [];
 
-            if (!formManager.state.min_notify_interval_hours) {
+            if (!formEngine.state.min_notify_interval_hours) {
                 validationErrors.push('Please enter a minimum notifications interval.');
                 invalidFields.push('min_notify_interval_hours');
             }
 
-            if (!formManager.state.max_notify_interval_hours) {
+            if (!formEngine.state.max_notify_interval_hours) {
                 validationErrors.push('Please enter a maximum notifications interval.');
                 invalidFields.push('max_notify_interval_hours');
             }
 
-            if (!formManager.state.min_notify_interval_hours > formManager.state.max_notify_interval_hours) {
+            if (!formEngine.state.min_notify_interval_hours > formEngine.state.max_notify_interval_hours) {
                 validationErrors.push('Minimum notifications interval must be less than maximum notifications interval.');
                 invalidFields.push('min_notify_interval_hours');
                 invalidFields.push('max_notify_interval_hours');
@@ -49,14 +49,14 @@ export let NotificationConfigForm = function (props) {
             headerText={props.headerText}
             onClickCloseOption={props.cancel}
         >
-            <ConditionalRenderer if={formManager.state.showOverlayLoadingIndicator} renderer={()=>(
+            <ConditionalRenderer if={formEngine.state.showOverlayLoadingIndicator} renderer={()=>(
                 <OverlayLoadingIndicator/>
             )}/>
             <div className="common-form notification-config-form">
                 <div className="common-form-body">
                     <div className="common-form-body-row">
                         <div
-                            className={formManager.getFormFieldClasses("common-form-field checkbox-form-field", "notifications_enabled")}>
+                            className={formEngine.getFormFieldClasses("common-form-field checkbox-form-field", "notifications_enabled")}>
                             <div
                                 className="common-form-field-label"
                             >Notifications enabled
@@ -65,8 +65,8 @@ export let NotificationConfigForm = function (props) {
                                 <CheckBox
                                     testId="notifications_enabled"
                                     fieldName="notifications_enabled"
-                                    checked={formManager.state.notifications_enabled}
-                                    onChange={formManager.handleCheckboxChange}
+                                    checked={formEngine.state.notifications_enabled}
+                                    onChange={formEngine.handleCheckboxChange}
                                 />
                             </div>
                         </div>
@@ -74,7 +74,7 @@ export let NotificationConfigForm = function (props) {
 
                     <div className="common-form-body-row">
                         <div
-                            className={formManager.getFormFieldClasses("common-form-field", "min_notify_interval_hours")}>
+                            className={formEngine.getFormFieldClasses("common-form-field", "min_notify_interval_hours")}>
                             <div
                                 className="common-form-field-label"
                                 title="Minimum interval between notifications in hours."
@@ -85,9 +85,9 @@ export let NotificationConfigForm = function (props) {
                                     id="min_notify_interval_hours"
                                     type="text"
                                     className="common-form-input"
-                                    value={formManager.state.min_notify_interval_hours}
-                                    onChange={(event) => formManager.handleTextFieldChange("min_notify_interval_hours", event)}
-                                    onBlur={() => formManager.forceValueToNumeric('min_notify_interval_hours')}
+                                    value={formEngine.state.min_notify_interval_hours}
+                                    onChange={(event) => formEngine.handleTextFieldChange("min_notify_interval_hours", event)}
+                                    onBlur={() => formEngine.forceValueToNumeric('min_notify_interval_hours')}
                                 />
                             </div>
                         </div>
@@ -95,7 +95,7 @@ export let NotificationConfigForm = function (props) {
 
                     <div className="common-form-body-row">
                         <div
-                            className={formManager.getFormFieldClasses("common-form-field", "max_notify_interval_hours")}>
+                            className={formEngine.getFormFieldClasses("common-form-field", "max_notify_interval_hours")}>
                             <div
                                 className="common-form-field-label"
                                 title="Maximum interval between notifications in hours."
@@ -106,9 +106,9 @@ export let NotificationConfigForm = function (props) {
                                     id="max_notify_interval_hours"
                                     type="text"
                                     className="common-form-input"
-                                    value={formManager.state.max_notify_interval_hours}
-                                    onChange={(event) => formManager.handleTextFieldChange("max_notify_interval_hours", event)}
-                                    onBlur={() => formManager.forceValueToNumeric('max_notify_interval_hours')}
+                                    value={formEngine.state.max_notify_interval_hours}
+                                    onChange={(event) => formEngine.handleTextFieldChange("max_notify_interval_hours", event)}
+                                    onBlur={() => formEngine.forceValueToNumeric('max_notify_interval_hours')}
                                 />
                             </div>
                         </div>
@@ -118,7 +118,7 @@ export let NotificationConfigForm = function (props) {
                         <CommonFormOptions
                             allowDelete={false}
                             onClickCancel={props.cancel}
-                            onClickSave={formManager.onClickSave}
+                            onClickSave={formEngine.onClickSave}
                         />
                     </div>
                 </div>

@@ -1,13 +1,13 @@
 import React, {Fragment} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {NotificationConfigForm} from "./NotificationConfigForm";
-import {useModelUpdateManager} from "../common/hooks/useModelUpdateManager";
+import {useModelUpdateEngine} from "../common/hooks/useModelUpdateEngine";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
 
 export let UpdateNotificationConfig = function (props) {
-    const modelUpdateManager = useModelUpdateManager(
+    const modelUpdateEngine = useModelUpdateEngine(
         ApiUtility.getNotificationConfig,
         ApiUtility.updateNotificationConfig,
         null,
@@ -17,15 +17,15 @@ export let UpdateNotificationConfig = function (props) {
 
     return (
         <Fragment>
-            <ConditionalRenderer if={modelUpdateManager.state.loading} renderer={() => (
+            <ConditionalRenderer if={modelUpdateEngine.state.loading} renderer={() => (
                 <OverlayLoadingIndicator/>
             )}/>
-            <ConditionalRenderer if={modelUpdateManager.state.model} renderer={() => (
+            <ConditionalRenderer if={modelUpdateEngine.state.model} renderer={() => (
                 <NotificationConfigForm
                     cancel={props.cancel}
-                    save={modelUpdateManager.updateModel}
-                    onClickDeactivate={modelUpdateManager.showConfirmDeactivateModal}
-                    notificationConfig={modelUpdateManager.state.model}
+                    save={modelUpdateEngine.updateModel}
+                    onClickDeactivate={modelUpdateEngine.showConfirmDeactivateModal}
+                    notificationConfig={modelUpdateEngine.state.model}
                     isNew={false}
                     headerText="Update Notification Config"
                 />

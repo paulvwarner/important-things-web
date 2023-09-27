@@ -6,7 +6,7 @@ import {CreateInsight} from "./CreateInsight";
 import {UpdateInsight} from "./UpdateInsight";
 import {GlobalContext} from "../admin-frame/AdminFrame";
 import {useLocation} from "react-router-dom";
-import {useUrlListManager} from "../common/hooks/useUrlListManager";
+import {useModelListEngine} from "../common/hooks/useModelListEngine";
 import {CommonListPageHeader} from "../common/CommonListPageHeader";
 import {NotificationConfigDisplay} from "../notification-config/NotificationConfigDisplay";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
@@ -15,7 +15,7 @@ export const InsightsListPage = function (props) {
     const context = useContext(GlobalContext);
     let location = useLocation();
 
-    const listPageManager = useUrlListManager(
+    const listEngine = useModelListEngine(
         props,
         'insightId',
         ApiUtility.getInsightsList,
@@ -38,7 +38,7 @@ export const InsightsListPage = function (props) {
                 <div
                     key={i + 1}
                     className="common-list-row common-list-values-row"
-                    onClick={() => listPageManager.goToUpdateModal(insight)}
+                    onClick={() => listEngine.goToUpdateModal(insight)}
                 >
                     <div
                         className="common-list-row-cell common-list-row-value-cell insights-list-row-cell message"
@@ -53,7 +53,7 @@ export const InsightsListPage = function (props) {
         return insightsListDisplay;
     }
 
-    if (listPageManager.state.modelList) {
+    if (listEngine.state.modelList) {
         return (
             <div className="common-list-page insights-list-page">
                 <CommonListPageHeader
@@ -67,26 +67,26 @@ export const InsightsListPage = function (props) {
                                         <NotificationConfigDisplay
                                             goToNotificationConfigModal={goToNotificationConfigModal}
                                             showNotificationConfigModal={props.showNotificationConfigModal}
-                                            close={listPageManager.closeModals}
+                                            close={listEngine.closeModals}
                                         />
                                     </div>
                                 </div>
                             </Fragment>
                         )
                     }}
-                    performSearch={listPageManager.performSearch}
-                    searchText={listPageManager.state.searchText}
+                    performSearch={listEngine.performSearch}
+                    searchText={listEngine.state.searchText}
                     searchPlaceholderText="Search Insights"
-                    onClickAddButton={listPageManager.goToAddModal}
+                    onClickAddButton={listEngine.goToAddModal}
                 />
 
                 <div className="common-list-page-content">
                     <ConditionalRenderer
-                        if={listPageManager.state.loading}
+                        if={listEngine.state.loading}
                         renderer={() => <OverlayLoadingIndicator/>}
                     />
                     {(() => {
-                        if (listPageManager.state.modelList.length > 0) {
+                        if (listEngine.state.modelList.length > 0) {
                             return (
                                 <Fragment>
                                     <div className="common-list-header">
@@ -102,11 +102,11 @@ export const InsightsListPage = function (props) {
                                         </div>
                                     </div>
                                     <div className="common-list-content">
-                                        {renderInsightsListDisplay(listPageManager.state.modelList)}
+                                        {renderInsightsListDisplay(listEngine.state.modelList)}
                                     </div>
                                     <ListPaginationOptions
-                                        pageCount={listPageManager.state.pageCount}
-                                        selectedPage={listPageManager.state.selectedPage}
+                                        pageCount={listEngine.state.pageCount}
+                                        selectedPage={listEngine.state.selectedPage}
                                         urlBase="/insights"
                                     />
                                 </Fragment>
@@ -124,19 +124,19 @@ export const InsightsListPage = function (props) {
                     })()}
                 </div>
                 {(() => {
-                    if (listPageManager.state.showCreateModal) {
+                    if (listEngine.state.showCreateModal) {
                         return (
                             <CreateInsight
-                                cancel={listPageManager.closeModals}
-                                afterSuccessfulSave={listPageManager.afterSuccessfulSave}
+                                cancel={listEngine.closeModals}
+                                afterSuccessfulSave={listEngine.afterSuccessfulSave}
                             />
                         );
-                    } else if (listPageManager.state.showUpdateModal) {
+                    } else if (listEngine.state.showUpdateModal) {
                         return (
                             <UpdateInsight
-                                cancel={listPageManager.closeModals}
-                                afterSuccessfulSave={listPageManager.afterSuccessfulSave}
-                                insightId={listPageManager.state.updateModelId}
+                                cancel={listEngine.closeModals}
+                                afterSuccessfulSave={listEngine.afterSuccessfulSave}
+                                insightId={listEngine.state.updateModelId}
                             />
                         );
                     }

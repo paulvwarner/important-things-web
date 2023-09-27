@@ -1,13 +1,13 @@
 import React, {Fragment} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {SelfCareToolForm} from "./SelfCareToolForm";
-import {useModelUpdateManager} from "../common/hooks/useModelUpdateManager";
+import {useModelUpdateEngine} from "../common/hooks/useModelUpdateEngine";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
 
 export let UpdateSelfCareTool = function (props) {
-    const modelUpdateManager = useModelUpdateManager(
+    const modelUpdateEngine = useModelUpdateEngine(
         ApiUtility.getSelfCareTool,
         ApiUtility.updateSelfCareTool,
         props.selfCareToolId,
@@ -17,23 +17,23 @@ export let UpdateSelfCareTool = function (props) {
 
     return (
         <Fragment>
-            <ConditionalRenderer if={modelUpdateManager.state.loading} renderer={() => (
+            <ConditionalRenderer if={modelUpdateEngine.state.loading} renderer={() => (
                 <OverlayLoadingIndicator/>
             )}/>
-            <ConditionalRenderer if={modelUpdateManager.state.model} renderer={() => (
+            <ConditionalRenderer if={modelUpdateEngine.state.model} renderer={() => (
                 <SelfCareToolForm
                     cancel={props.cancel}
-                    save={modelUpdateManager.updateModel}
-                    onClickDeactivate={modelUpdateManager.showConfirmDeactivateModal}
-                    selfCareTool={modelUpdateManager.state.model}
+                    save={modelUpdateEngine.updateModel}
+                    onClickDeactivate={modelUpdateEngine.showConfirmDeactivateModal}
+                    selfCareTool={modelUpdateEngine.state.model}
                     isNew={false}
                     headerText="Update Self-Care Tool"
                 />
             )}/>
-            <ConditionalRenderer if={modelUpdateManager.state.showConfirmDeactivateModal} renderer={() => (
+            <ConditionalRenderer if={modelUpdateEngine.state.showConfirmDeactivateModal} renderer={() => (
                 <ConfirmDeleteModal
-                    cancel={modelUpdateManager.showConfirmDeactivateModal}
-                    deactivate={modelUpdateManager.deactivateModel}
+                    cancel={modelUpdateEngine.showConfirmDeactivateModal}
+                    deactivate={modelUpdateEngine.deactivateModel}
                     modelTypeName="self-care tool"
                 />
             )}/>

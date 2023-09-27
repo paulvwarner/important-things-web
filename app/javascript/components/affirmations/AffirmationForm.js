@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal} from "../common/Modal";
-import {useFormManager} from "../common/hooks/useFormManager";
+import {useModelFormEngine} from "../common/hooks/useModelFormEngine";
 import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
 import {CommonFormOptions} from "../common/CommonFormOptions";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
@@ -14,14 +14,14 @@ export let AffirmationForm = function (props) {
         message: (affirmation && affirmation.message) || '',
         notes: (affirmation && affirmation.notes) || '',
     };
-    const formManager = useFormManager(initialModelState, affirmation, null, validateForm, null, props.save);
+    const formEngine = useModelFormEngine(initialModelState, affirmation, null, validateForm, null, props.save);
 
     function validateForm(handleValidationResult) {
         return new Promise(function (resolve, reject) {
             let validationErrors = [];
             let invalidFields = [];
 
-            if (!formManager.state.message) {
+            if (!formEngine.state.message) {
                 validationErrors.push('Please enter a message.');
                 invalidFields.push('message');
             }
@@ -35,13 +35,13 @@ export let AffirmationForm = function (props) {
             headerText={props.headerText}
             onClickCloseOption={props.cancel}
         >
-            <ConditionalRenderer if={formManager.state.showOverlayLoadingIndicator} renderer={()=>(
+            <ConditionalRenderer if={formEngine.state.showOverlayLoadingIndicator} renderer={()=>(
                 <OverlayLoadingIndicator/>
             )}/>
             <div className="common-form affirmation-form">
                 <div className="common-form-body">
                     <div className="common-form-body-row">
-                        <div className={formManager.getFormFieldClasses("common-form-field", "message")}>
+                        <div className={formEngine.getFormFieldClasses("common-form-field", "message")}>
                             <div className="common-form-field-label">
                                 Message
                             </div>
@@ -50,15 +50,15 @@ export let AffirmationForm = function (props) {
                                     id="message"
                                     type="text"
                                     className="common-form-input"
-                                    value={formManager.state.message}
-                                    onChange={(event) => formManager.handleTextFieldChange("message", event)}
+                                    value={formEngine.state.message}
+                                    onChange={(event) => formEngine.handleTextFieldChange("message", event)}
                                 />
                             </div>
                         </div>
                     </div>
 
                     <div className="common-form-body-row">
-                        <div className={formManager.getFormFieldClasses("common-form-field", "notes")}>
+                        <div className={formEngine.getFormFieldClasses("common-form-field", "notes")}>
                             <div className="common-form-field-label">
                                 Notes
                             </div>
@@ -66,8 +66,8 @@ export let AffirmationForm = function (props) {
                                 <textarea
                                     id="notes"
                                     className="common-form-textarea"
-                                    value={formManager.state.notes}
-                                    onChange={(event) => formManager.handleTextFieldChange("notes", event)}
+                                    value={formEngine.state.notes}
+                                    onChange={(event) => formEngine.handleTextFieldChange("notes", event)}
                                 />
                             </div>
                         </div>
@@ -77,7 +77,7 @@ export let AffirmationForm = function (props) {
                         <CommonFormOptions
                             allowDelete={!props.isNew}
                             onClickCancel={props.cancel}
-                            onClickSave={formManager.onClickSave}
+                            onClickSave={formEngine.onClickSave}
                             onClickDeactivate={props.onClickDeactivate}
                         />
                     </div>

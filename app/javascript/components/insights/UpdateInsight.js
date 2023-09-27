@@ -1,13 +1,13 @@
 import React, {Fragment} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {InsightForm} from "./InsightForm";
-import {useModelUpdateManager} from "../common/hooks/useModelUpdateManager";
+import {useModelUpdateEngine} from "../common/hooks/useModelUpdateEngine";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 import {ConfirmDeleteModal} from "../common/ConfirmDeleteModal";
 
 export let UpdateInsight = function (props) {
-    const modelUpdateManager = useModelUpdateManager(
+    const modelUpdateEngine = useModelUpdateEngine(
         ApiUtility.getInsight,
         ApiUtility.updateInsight,
         props.insightId,
@@ -17,23 +17,23 @@ export let UpdateInsight = function (props) {
 
     return (
         <Fragment>
-            <ConditionalRenderer if={modelUpdateManager.state.loading} renderer={() => (
+            <ConditionalRenderer if={modelUpdateEngine.state.loading} renderer={() => (
                 <OverlayLoadingIndicator/>
             )}/>
-            <ConditionalRenderer if={modelUpdateManager.state.model} renderer={() => (
+            <ConditionalRenderer if={modelUpdateEngine.state.model} renderer={() => (
                 <InsightForm
                     cancel={props.cancel}
-                    save={modelUpdateManager.updateModel}
-                    onClickDeactivate={modelUpdateManager.showConfirmDeactivateModal}
-                    insight={modelUpdateManager.state.model}
+                    save={modelUpdateEngine.updateModel}
+                    onClickDeactivate={modelUpdateEngine.showConfirmDeactivateModal}
+                    insight={modelUpdateEngine.state.model}
                     isNew={false}
                     headerText="Update Insight"
                 />
             )}/>
-            <ConditionalRenderer if={modelUpdateManager.state.showConfirmDeactivateModal} renderer={() => (
+            <ConditionalRenderer if={modelUpdateEngine.state.showConfirmDeactivateModal} renderer={() => (
                 <ConfirmDeleteModal
-                    cancel={modelUpdateManager.showConfirmDeactivateModal}
-                    deactivate={modelUpdateManager.deactivateModel}
+                    cancel={modelUpdateEngine.showConfirmDeactivateModal}
+                    deactivate={modelUpdateEngine.deactivateModel}
                     modelTypeName="insight"
                 />
             )}/>

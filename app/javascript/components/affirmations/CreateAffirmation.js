@@ -1,12 +1,12 @@
 import React, {Fragment} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {AffirmationForm} from "./AffirmationForm";
-import {useModelCreateManager} from "../common/hooks/useModelCreateManager";
+import {useModelCreateEngine} from "../common/hooks/useModelCreateEngine";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 
 export let CreateAffirmation = function (props) {
-    const modelCreateManager = useModelCreateManager(
+    const modelCreateEngine = useModelCreateEngine(
         ApiUtility.createAffirmation,
         'affirmation',
         props.afterSuccessfulSave
@@ -14,12 +14,12 @@ export let CreateAffirmation = function (props) {
 
     return (
         <Fragment>
-            <ConditionalRenderer if={modelCreateManager.state.loading} renderer={() => (
+            <ConditionalRenderer if={modelCreateEngine.state.loading} renderer={() => (
                 <OverlayLoadingIndicator/>
             )}/>
             <AffirmationForm
                 cancel={props.cancel}
-                save={modelCreateManager.createModel}
+                save={modelCreateEngine.createModel}
                 isNew={true}
                 headerText="New Affirmation"
             />

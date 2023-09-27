@@ -1,12 +1,12 @@
 import React, {Fragment} from "react";
 import {ApiUtility} from "../common/ApiUtility";
 import {UserForm} from "./UserForm";
-import {useModelCreateManager} from "../common/hooks/useModelCreateManager";
+import {useModelCreateEngine} from "../common/hooks/useModelCreateEngine";
 import {ConditionalRenderer} from "../common/ConditionalRenderer";
 import {OverlayLoadingIndicator} from "../common/OverlayLoadingIndicator";
 
 export let CreateUser = function (props) {
-    const modelCreateManager = useModelCreateManager(
+    const modelCreateEngine = useModelCreateEngine(
         ApiUtility.createUser,
         'user',
         props.afterSuccessfulSave
@@ -14,12 +14,12 @@ export let CreateUser = function (props) {
 
     return (
         <Fragment>
-            <ConditionalRenderer if={modelCreateManager.state.loading} renderer={() => (
+            <ConditionalRenderer if={modelCreateEngine.state.loading} renderer={() => (
                 <OverlayLoadingIndicator/>
             )}/>
             <UserForm
                 cancel={props.cancel}
-                save={modelCreateManager.createModel}
+                save={modelCreateEngine.createModel}
                 isNew={true}
                 headerText="New User"
             />
