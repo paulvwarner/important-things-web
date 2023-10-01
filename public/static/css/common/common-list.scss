@@ -11,7 +11,7 @@
     max-width: $max-admin-page-content-width;
     padding-top: 30px;
     padding-bottom: 20px;
-    border-bottom: $common-divider-height solid $gray;
+    border-bottom: $common-divider-height solid $stone;
 
     .common-list-page-header-content {
       display: flex;
@@ -26,8 +26,9 @@
         flex: 1;
 
         .common-list-page-header-text {
+          font-family: $header-fonts;
           font-weight: $bold;
-          font-size: 26px;
+          font-size: 30px;
         }
       }
 
@@ -105,7 +106,8 @@
           padding-right: 20px;
 
           &.common-list-row-label-cell {
-            font-size: 14px;
+            font-family: $header-fonts;
+            font-size: 18px;
             font-weight: $bold;
           }
 

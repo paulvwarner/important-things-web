@@ -58,6 +58,7 @@
             align-items: center;
             justify-content: flex-start;
             padding-left: 20px;
+            font-family: $header-fonts;
 
             .common-modal-header-text {
               font-size: 30px;
@@ -109,7 +110,7 @@
           flex-direction: column;
           width: 100%;
           height: $common-divider-height;
-          background-color: $border-gray;
+          background-color: $stone;
         }
       }
 

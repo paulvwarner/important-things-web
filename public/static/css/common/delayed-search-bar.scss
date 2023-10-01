@@ -18,7 +18,7 @@
 
   .search-bar-container {
     display: flex;
-    border: 1px solid $border-gray;
+    border: 1px solid $stone;
     height: $pill-button-height;
     border-radius: calc(#{$pill-button-height} / 2);
     padding-left: 10px;
@@ -54,6 +54,22 @@
         font-weight: $normal;
         min-width: 200px;
         outline: none;
+
+        &::-webkit-input-placeholder {
+          font-family: $header-fonts;
+        }
+
+        &:-ms-input-placeholder {
+          font-family: $header-fonts;
+        }
+
+        &:-moz-placeholder {
+          font-family: $header-fonts;
+        }
+
+        &::-moz-placeholder {
+          font-family: $header-fonts;
+        }
       }
     }
   }

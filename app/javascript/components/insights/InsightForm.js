@@ -130,7 +130,7 @@ export let InsightForm = function (props) {
                                     return (
                                         <PillButton
                                             containerClasses="common-form-button-container"
-                                            buttonClasses="common-form-button red-button notify-now-button"
+                                            buttonClasses="common-form-button grass-button notify-now-button"
                                             onClick={notifyAppUsersNow}
                                             buttonText={"NOTIFY APP USERS NOW"}
                                         />

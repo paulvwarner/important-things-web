@@ -31,9 +31,11 @@
 
         .login-header {
           font-weight: $bold;
-          font-size: 40px;
+          font-size: 50px;
           margin-bottom: 40px;
           transform: $default-text-transform;
+          font-family: $header-fonts;
+          text-align: center;
         }
 
         .login-field {

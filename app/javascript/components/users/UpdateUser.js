@@ -32,7 +32,7 @@ export let UpdateUser = function (props) {
             )}/>
             <ConditionalRenderer if={modelUpdateEngine.state.showConfirmDeactivateModal} renderer={() => (
                 <ConfirmDeleteModal
-                    cancel={modelUpdateEngine.showConfirmDeactivateModal}
+                    cancel={modelUpdateEngine.hideConfirmDeactivateModal}
                     deactivate={modelUpdateEngine.deactivateModel}
                     modelTypeName="user"
                 />

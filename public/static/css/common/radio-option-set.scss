@@ -24,11 +24,11 @@
       width: 25px;
       height: 25px;
       border-radius: 50%;
-      border: 1px solid $black;
+      border: 1px solid $border-color;
       margin: 1px;
 
       .common-radio-option-dot {
-        background-color: $black;
+        background-color: $border-color;
         width: 15px;
         height: 15px;
         border-radius: 50%;

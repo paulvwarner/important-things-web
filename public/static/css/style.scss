@@ -1,48 +1,43 @@
 // colors
 $red: #bb342d;
-$green: #61bb2d;
+$moss: #486c54;
+$grass: #6ea27f;
 $lighter-red: #e13f36;
 $black: #000000;
+$cave: #2b2f2a;
+$stone: #cfdec7;
 $white: #ffffff;
-$gray: #ececec;
-$border-gray: $gray;
-$bg-alt-color: $gray;
-$cancel-gray: #bbbbbb;
+$bg-alt-color: #ebf1eb;
+$cancel-gray: #aaaaaa;
 $dark-gray: #aaaaaa;
-
+$border-color: $cave;
 
 // font setup
 @font-face {
-  font-family: 'OxygenSansSansBold';
-  src: url('../fonts/OxygenSansBold.otf') format('opentype');
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'OxygenSansSansBoldOblique';
-  src: url('../fonts/OxygenSansBoldOblique.otf') format('opentype');
-  font-weight: bold;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: 'OxygenSansSansBook';
-  src: url('../fonts/OxygenSansBook.otf') format('opentype');
+  font-family: 'Nunito';
+  src: url('../fonts/Nunito-VariableFont_wght.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'OxygenSansSansBookOblique';
-  src: url('../fonts/OxygenSansBookOblique.otf') format('opentype');
+  font-family: 'Oswald';
+  src: url('../fonts/Oswald-VariableFont_wght.ttf') format('truetype');
   font-weight: normal;
-  font-style: italic;
+  font-style: normal;
 }
 
-$default-fonts: OxygenSansSansBook, Verdana, Arial, Helvetica, sans-serif;
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../fonts/OpenSans-Variable.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
-$default-text-transform: scale(1, 1.5);
+$default-fonts: Nunito, 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+$header-fonts: Oswald, 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+
+$default-text-transform: scale(1, 1);
 
 // numeric values
 $login-box-width: 400px;
@@ -84,7 +79,7 @@ body {
   overflow-x: hidden;
   font-family: $default-fonts !important;
   font-weight: $normal;
-  color: $black;
+  color: $cave;
   padding: 0;
   margin: 0;
 }
@@ -97,10 +92,10 @@ body {
   background-color: $white;
   height: $common-form-input-height;
   border-radius: $common-form-input-border-radius;
-  border: 1px solid $black;
+  border: 1px solid $border-color;
   padding: 0 12px;
   font-weight: $normal;
-  color: $black;
+  color: $cave;
   width: 100%;
   -webkit-appearance: none;
   box-sizing: border-box;
@@ -112,10 +107,10 @@ body {
   background-color: $white;
   height: $common-form-textarea-height;
   border-radius: $common-form-input-border-radius;
-  border: 1px solid $black;
+  border: 1px solid $border-color;
   padding: 12px;
   font-weight: $normal;
-  color: $black;
+  color: $cave;
   width: 100%;
   box-sizing: border-box;
   font-family: $default-fonts;
@@ -126,7 +121,7 @@ body {
 .common-form-checkbox {
   width: 20px;
   height: 20px;
-  border: 2px solid $black;
+  border: 1px solid $border-color;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -223,7 +218,7 @@ body {
           display: flex;
           flex-direction: row;
           font-size: 16px;
-          color: $black;
+          color: $cave;
           font-weight: $bold;
           width: 100px;
           transform: $default-text-transform;
@@ -282,14 +277,14 @@ body {
 
         &.delete-button {
           background-color: $white;
-          color: $black;
+          color: $stone;
           min-width: 0;
           padding-left: 10px;
           padding-right: 10px;
         }
 
         &.save-button {
-          background-color: $black;
+          background-color: $cave;
         }
       }
     }

@@ -1,32 +1,26 @@
 @font-face {
-  font-family: "OxygenSansSansBold";
-  src: url("../fonts/OxygenSansBold.otf") format("opentype");
-  font-weight: bold;
-  font-style: normal;
-}
-@font-face {
-  font-family: "OxygenSansSansBoldOblique";
-  src: url("../fonts/OxygenSansBoldOblique.otf") format("opentype");
-  font-weight: bold;
-  font-style: italic;
-}
-@font-face {
-  font-family: "OxygenSansSansBook";
-  src: url("../fonts/OxygenSansBook.otf") format("opentype");
+  font-family: "Nunito";
+  src: url("../fonts/Nunito-VariableFont_wght.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
-  font-family: "OxygenSansSansBookOblique";
-  src: url("../fonts/OxygenSansBookOblique.otf") format("opentype");
+  font-family: "Oswald";
+  src: url("../fonts/Oswald-VariableFont_wght.ttf") format("truetype");
   font-weight: normal;
-  font-style: italic;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Open Sans";
+  src: url("../fonts/OpenSans-Variable.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 body {
   overflow-x: hidden;
-  font-family: OxygenSansSansBook, Verdana, Arial, Helvetica, sans-serif !important;
+  font-family: Nunito, "Open Sans", Verdana, Arial, Helvetica, sans-serif !important;
   font-weight: 400;
-  color: #000000;
+  color: #2b2f2a;
   padding: 0;
   margin: 0;
 }
@@ -39,14 +33,14 @@ body {
   background-color: #ffffff;
   height: 50px;
   border-radius: 25px;
-  border: 1px solid #000000;
+  border: 1px solid #2b2f2a;
   padding: 0 12px;
   font-weight: 400;
-  color: #000000;
+  color: #2b2f2a;
   width: 100%;
   -webkit-appearance: none;
   box-sizing: border-box;
-  font-family: OxygenSansSansBook, Verdana, Arial, Helvetica, sans-serif;
+  font-family: Nunito, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
   font-size: 14px;
 }
 
@@ -54,13 +48,13 @@ body {
   background-color: #ffffff;
   height: 200px;
   border-radius: 25px;
-  border: 1px solid #000000;
+  border: 1px solid #2b2f2a;
   padding: 12px;
   font-weight: 400;
-  color: #000000;
+  color: #2b2f2a;
   width: 100%;
   box-sizing: border-box;
-  font-family: OxygenSansSansBook, Verdana, Arial, Helvetica, sans-serif;
+  font-family: Nunito, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
   font-size: 14px;
   resize: none;
 }
@@ -68,7 +62,7 @@ body {
 .common-form-checkbox {
   width: 20px;
   height: 20px;
-  border: 2px solid #000000;
+  border: 1px solid #2b2f2a;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -152,10 +146,10 @@ body {
   display: flex;
   flex-direction: row;
   font-size: 16px;
-  color: #000000;
+  color: #2b2f2a;
   font-weight: 700;
   width: 100px;
-  transform: scale(1, 1.5);
+  transform: scale(1, 1);
 }
 .common-form .common-form-body .common-form-body-row .common-form-field .common-form-field-input-container {
   display: flex;
@@ -195,17 +189,17 @@ body {
   margin-right: 10px;
 }
 .common-form .common-form-options .common-form-button-container .common-form-button.cancel-button {
-  background-color: #bbbbbb;
+  background-color: #aaaaaa;
 }
 .common-form .common-form-options .common-form-button-container .common-form-button.delete-button {
   background-color: #ffffff;
-  color: #000000;
+  color: #cfdec7;
   min-width: 0;
   padding-left: 10px;
   padding-right: 10px;
 }
 .common-form .common-form-options .common-form-button-container .common-form-button.save-button {
-  background-color: #000000;
+  background-color: #2b2f2a;
 }
 
 .app-version {
@@ -228,7 +222,8 @@ body {
   box-sizing: border-box;
   padding-left: 30px;
   padding-right: 30px;
-  background-color: #000000;
+  background-color: #486c54;
+  font-family: Oswald, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
 }
 .admin-header .admin-header-content {
   display: flex;
@@ -261,8 +256,8 @@ body {
 .admin-header .admin-header-content .admin-header-title-container .admin-header-title {
   text-align: left;
   color: #ffffff;
-  transform: scale(1, 1.5);
-  font-size: 20px;
+  transform: scale(1, 1);
+  font-size: 26px;
   font-weight: 700;
 }
 .admin-header .admin-header-content .admin-header-tabs-container {
@@ -282,20 +277,20 @@ body {
   align-items: center;
   padding-left: 20px;
   padding-right: 20px;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
   cursor: pointer;
   height: 70px;
 }
 .admin-header .admin-header-content .admin-header-tabs-container .admin-header-tab .admin-header-tab-text {
   color: #ffffff;
-  transform: scale(1, 1.5);
+  transform: scale(1, 1);
 }
 .admin-header .admin-header-content .admin-header-tabs-container .admin-header-tab:hover {
   opacity: 0.75;
 }
 .admin-header .admin-header-content .admin-header-tabs-container .admin-header-tab.selected {
-  background-color: #bb342d;
+  background-color: #6ea27f;
 }
 .admin-header .admin-header-content .admin-header-account-info-container {
   display: flex;
@@ -315,12 +310,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  transform: scale(1, 1.5);
   color: #ffffff;
   font-size: 12px;
+  font-weight: normal;
+  font-family: Nunito, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
 }
 .admin-header .admin-header-content .admin-header-account-info-container .admin-header-account-info .logout-option-container {
-  margin-top: 5px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -328,9 +323,9 @@ body {
 .admin-header .admin-header-content .admin-header-account-info-container .admin-header-account-info .logout-option-container .logout-option {
   display: flex;
   flex: 0;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 700;
-  transform: scale(1, 1.5);
+  transform: scale(1, 1);
   cursor: pointer;
   color: #ffffff;
 }
@@ -359,7 +354,7 @@ body {
   max-width: 1024px;
   padding-top: 30px;
   padding-bottom: 20px;
-  border-bottom: 3px solid #ececec;
+  border-bottom: 3px solid #cfdec7;
 }
 .common-list-page .common-list-page-header .common-list-page-header-content {
   display: flex;
@@ -374,8 +369,9 @@ body {
   flex: 1;
 }
 .common-list-page .common-list-page-header .common-list-page-header-content .common-list-page-header-content-left .common-list-page-header-text {
+  font-family: Oswald, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
   font-weight: 700;
-  font-size: 26px;
+  font-size: 30px;
 }
 .common-list-page .common-list-page-header .common-list-page-header-content .common-list-page-header-content-right {
   display: flex;
@@ -427,7 +423,7 @@ body {
   opacity: 0.75;
 }
 .common-list-page .common-list-page-content .common-list-content .common-list-row.common-list-values-row:nth-child(odd), .common-list-page .common-list-page-content .common-list-header .common-list-row.common-list-values-row:nth-child(odd) {
-  background-color: #ececec;
+  background-color: #ebf1eb;
 }
 .common-list-page .common-list-page-content .common-list-content .common-list-row .common-list-row-cell, .common-list-page .common-list-page-content .common-list-header .common-list-row .common-list-row-cell {
   display: table-cell;
@@ -436,7 +432,8 @@ body {
   padding-right: 20px;
 }
 .common-list-page .common-list-page-content .common-list-content .common-list-row .common-list-row-cell.common-list-row-label-cell, .common-list-page .common-list-page-content .common-list-header .common-list-row .common-list-row-cell.common-list-row-label-cell {
-  font-size: 14px;
+  font-family: Oswald, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
+  font-size: 18px;
   font-weight: 700;
 }
 .common-list-page .common-list-page-content .common-list-content .common-list-row .common-list-row-cell.common-list-row-value-cell, .common-list-page .common-list-page-content .common-list-header .common-list-row .common-list-row-cell.common-list-row-value-cell {
@@ -467,10 +464,10 @@ body {
   margin-right: 10px;
 }
 .confirm-delete-modal-button.confirm-delete-modal-cancel-button {
-  background-color: #bbbbbb !important;
+  background-color: #aaaaaa !important;
 }
 .confirm-delete-modal-button.confirm-delete-modal-delete-button {
-  background-color: #000000;
+  background-color: #cfdec7;
 }
 
 .search-bar-outer-container {
@@ -491,7 +488,7 @@ body {
 }
 .search-bar-outer-container .search-bar-container {
   display: flex;
-  border: 1px solid #ececec;
+  border: 1px solid #cfdec7;
   height: 50px;
   border-radius: calc(50px / 2);
   padding-left: 10px;
@@ -526,6 +523,18 @@ body {
   min-width: 200px;
   outline: none;
 }
+.search-bar-outer-container .search-bar-container .search-bar-field-container .search-bar-field::-webkit-input-placeholder {
+  font-family: Oswald, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
+}
+.search-bar-outer-container .search-bar-container .search-bar-field-container .search-bar-field:-ms-input-placeholder {
+  font-family: Oswald, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
+}
+.search-bar-outer-container .search-bar-container .search-bar-field-container .search-bar-field:-moz-placeholder {
+  font-family: Oswald, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
+}
+.search-bar-outer-container .search-bar-container .search-bar-field-container .search-bar-field::-moz-placeholder {
+  font-family: Oswald, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
+}
 
 .leave-without-saving-warning-modal {
   width: 600px !important;
@@ -555,10 +564,10 @@ body {
   margin-right: 10px;
 }
 .leave-without-saving-warning-modal-button.leave-without-saving-warning-modal-cancel-button {
-  background-color: #bbbbbb !important;
+  background-color: #aaaaaa !important;
 }
 .leave-without-saving-warning-modal-button.leave-without-saving-warning-modal-leave-button {
-  background-color: #000000;
+  background-color: #2b2f2a;
 }
 
 .common-list-pagination-options {
@@ -606,7 +615,7 @@ body {
   cursor: pointer;
 }
 .common-list-pagination-options .pagination-element.pagination-link.pagination-link-selected {
-  background-color: #000000;
+  background-color: #2b2f2a;
   color: #ffffff;
 }
 .common-list-pagination-options .pagination-element.pagination-link:hover {
@@ -721,6 +730,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   padding-left: 20px;
+  font-family: Oswald, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
 }
 .common-modal .common-modal-overlay .common-modal-box .common-modal-header .common-modal-header-content .common-modal-header-text-container .common-modal-header-text {
   font-size: 30px;
@@ -764,7 +774,7 @@ body {
   flex-direction: column;
   width: 100%;
   height: 3px;
-  background-color: #ececec;
+  background-color: #cfdec7;
 }
 .common-modal .common-modal-overlay .common-modal-box .common-modal-body {
   display: flex;
@@ -793,7 +803,7 @@ body {
   border-radius: 25px;
   cursor: pointer;
   color: #ffffff;
-  background-color: #000000;
+  background-color: #2b2f2a;
   min-width: 150px;
   padding-left: 20px;
   padding-right: 20px;
@@ -803,14 +813,14 @@ body {
   opacity: 0.75 !important;
 }
 .pill-button-container .pill-button .pill-button-text {
-  font-family: OxygenSansSansBook, Verdana, Arial, Helvetica, sans-serif;
-  font-size: 14px;
+  font-family: Oswald, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
+  font-size: 20px;
   text-align: center;
   font-weight: 700;
-  transform: scale(1, 1.5);
+  transform: scale(1, 1);
 }
-.pill-button-container .pill-button.red-button {
-  background-color: #bb342d;
+.pill-button-container .pill-button.grass-button {
+  background-color: #6ea27f;
 }
 .pill-button-container .pill-button.white-button {
   background-color: #ffffff;
@@ -842,11 +852,11 @@ body {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  border: 1px solid #000000;
+  border: 1px solid #2b2f2a;
   margin: 1px;
 }
 .radio-option-set .common-radio-option .common-radio-option-circle .common-radio-option-dot {
-  background-color: #000000;
+  background-color: #2b2f2a;
   width: 15px;
   height: 15px;
   border-radius: 50%;
@@ -864,6 +874,7 @@ body {
 .insights-list-page .insights-header-left .insights-notification-info {
   display: flex;
   flex-direction: column;
+  font-family: Oswald, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
 }
 .insights-list-page .insights-header-left .insights-notification-info .notification-info-wrapper {
   display: flex;
@@ -875,11 +886,10 @@ body {
 }
 .insights-list-page .insights-header-left .insights-notification-info .notification-info-wrapper .notification-info-link {
   margin-left: 4px;
-  color: #bb342d;
+  color: #6ea27f;
   font-size: 14px;
   height: 16px;
   font-weight: 700;
-  border-bottom: 1px solid #bb342d;
   cursor: pointer;
 }
 .insights-list-page .insights-header-left .insights-notification-info .notification-info-wrapper .notification-info-link:hover {
@@ -930,9 +940,11 @@ body {
 }
 .login-page .login-page-content .login-form .login-box .login-header {
   font-weight: 700;
-  font-size: 40px;
+  font-size: 50px;
   margin-bottom: 40px;
-  transform: scale(1, 1.5);
+  transform: scale(1, 1);
+  font-family: Oswald, "Open Sans", Verdana, Arial, Helvetica, sans-serif;
+  text-align: center;
 }
 .login-page .login-page-content .login-form .login-box .login-field {
   width: 100%;

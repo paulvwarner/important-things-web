@@ -5,7 +5,8 @@
   box-sizing: border-box;
   padding-left: $admin-header-left-padding;
   padding-right: $admin-header-right-padding;
-  background-color: $black;
+  background-color: $moss;
+  font-family: $header-fonts;
 
   .admin-header-content {
     display: flex;
@@ -41,7 +42,7 @@
         text-align: left;
         color: $white;
         transform: $default-text-transform;
-        font-size: 20px;
+        font-size: 26px;
         font-weight: $bold;
       }
     }
@@ -63,7 +64,7 @@
         align-items: center;
         padding-left: 20px;
         padding-right: 20px;
-        font-size: 16px;
+        font-size: 20px;
         font-weight: $bold;
         cursor: pointer;
         height: $admin-header-height;
@@ -78,7 +79,7 @@
         }
 
         &.selected {
-          background-color: $red;
+          background-color: $grass;
         }
       }
     }
@@ -101,13 +102,13 @@
           display: flex;
           flex-direction: column;
           justify-content: flex-end;
-          transform: $default-text-transform;
           color: $white;
           font-size: 12px;
+          font-weight: normal;
+          font-family: $default-fonts;
         }
 
         .logout-option-container {
-          margin-top: 5px;
           display: flex;
           flex-direction: column;
           align-items: flex-end;
@@ -115,7 +116,7 @@
           .logout-option {
             display: flex;
             flex: 0;
-            font-size: 10px;
+            font-size: 14px;
             font-weight: $bold;
             transform: $default-text-transform;
             cursor: pointer;

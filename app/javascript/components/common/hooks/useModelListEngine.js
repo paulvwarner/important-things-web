@@ -57,9 +57,9 @@ export function useModelListEngine(
         pageCount: 0,
         loading: false,
 
-        prevSearch: listPageProps.location && listPageProps.location.search,
-        prevParams: listPageProps.match && listPageProps.match.params,
-        prevShowCreateModal: listPageProps.showCreateModal
+        prevSearch: null,
+        prevParams: null,
+        prevShowCreateModal: null
     }
 
     const [state, dispatch] = useReducer(reducer, initialListState);

@@ -14,7 +14,7 @@
     border-radius: $pill-button-height / 2;
     cursor: pointer;
     color: $white;
-    background-color: $black;
+    background-color: $cave;
     min-width: 150px;
     padding-left: 20px;
     padding-right: 20px;
@@ -25,15 +25,15 @@
     }
 
     .pill-button-text {
-      font-family: $default-fonts;
-      font-size: 14px;
+      font-family: $header-fonts;
+      font-size: 20px;
       text-align: center;
       font-weight: $bold;
       transform: $default-text-transform;
     }
 
-    &.red-button {
-      background-color: $red;
+    &.grass-button {
+      background-color: $grass;
     }
 
     &.white-button {

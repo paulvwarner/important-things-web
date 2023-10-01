@@ -6,6 +6,7 @@
     .insights-notification-info {
       display: flex;
       flex-direction: column;
+      font-family: $header-fonts;
 
       .notification-info-wrapper {
         display: flex;
@@ -18,11 +19,10 @@
 
         .notification-info-link {
           margin-left: 4px;
-          color: $red;
+          color: $grass;
           font-size: 14px;
           height: 16px;
           font-weight: $bold;
-          border-bottom: 1px solid $red;
           cursor: pointer;
 
           &:hover {
