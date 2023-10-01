@@ -13,7 +13,7 @@ export let CheckBox = function (props) {
                 if (props.checked) {
                     return (
                          <img
-                            src="/static/images/check.svg"
+                            src="/static/images/check-textcolor.svg"
                             className="common-form-checkbox-check"
                         />
                     )

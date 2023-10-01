@@ -82,9 +82,9 @@ export let ListPaginationOptions = function (props) {
                                 onClick={() => changePage(parseInt(props.selectedPage) - 1)}
                             >
                                 <img
-                                    src="/static/images/chevron-left-black.svg"
+                                    src="/static/images/chevron-left-textcolor.svg"
                                     onMouseOver={e => (e.currentTarget.src = "/static/images/chevron-left-white.svg")}
-                                    onMouseOut={e => (e.currentTarget.src = "/static/images/chevron-left-black.svg")}
+                                    onMouseOut={e => (e.currentTarget.src = "/static/images/chevron-left-textcolor.svg")}
                                     className="pagination-nav-button-icon"
                                 />
                             </div>
@@ -122,9 +122,9 @@ export let ListPaginationOptions = function (props) {
                                 onClick={() => changePage(parseInt(props.selectedPage) + 1)}
                             >
                                 <img
-                                    src="/static/images/chevron-right-black.svg"
+                                    src="/static/images/chevron-right-textcolor.svg"
                                     onMouseOver={e => (e.currentTarget.src = "/static/images/chevron-right-white.svg")}
-                                    onMouseOut={e => (e.currentTarget.src = "/static/images/chevron-right-black.svg")}
+                                    onMouseOut={e => (e.currentTarget.src = "/static/images/chevron-right-textcolor.svg")}
                                     className="pagination-nav-button-icon"
                                 />
                             </div>

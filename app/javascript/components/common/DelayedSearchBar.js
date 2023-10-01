@@ -44,7 +44,7 @@ export let DelayedSearchBar = function (props) {
             <div className="search-bar-container">
                 <div className="search-bar-icon-container">
                     <img
-                        src="/static/images/search-black.svg"
+                        src="/static/images/search-textcolor.svg"
                         className="search-bar-icon"
                     />
                 </div>

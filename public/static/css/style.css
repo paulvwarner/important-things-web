@@ -423,7 +423,7 @@ body {
   opacity: 0.75;
 }
 .common-list-page .common-list-page-content .common-list-content .common-list-row.common-list-values-row:nth-child(odd), .common-list-page .common-list-page-content .common-list-header .common-list-row.common-list-values-row:nth-child(odd) {
-  background-color: #ebf1eb;
+  background-color: #eff5ef;
 }
 .common-list-page .common-list-page-content .common-list-content .common-list-row .common-list-row-cell, .common-list-page .common-list-page-content .common-list-header .common-list-row .common-list-row-cell {
   display: table-cell;
